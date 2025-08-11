@@ -52,32 +52,11 @@ Returns a paginated list of products.
 ]
 ```
 ### 2.2 Get a product by ID
+**GET** `/api/products/{id}`  
+Returns details of a specific product.
+
+**Response (200)**
 ```json
-[
-{
-  "id": "f3a87e94-24d0-4b8b-bc8e-f5b5aaf34dcd",
-  "name": "Wireless Mouse",
-  "description": "Ergonomic mouse with USB receiver",
-  "category_id": "b4a4f1a0-5b41-4d89-a810-2f6735df0f14",
-  "price": 15.99,
-  "quantity": 100,
-  "low_stock_threshold": 10,
-  "created_at": "2025-08-11T14:30:00Z",
-  "updated_at": "2025-08-11T14:30:00Z"
-}
-]
-```
-### 2.3 Create a new product
-```json
-[
-{
-  "name": "Wireless Mouse",
-  "description": "Ergonomic mouse with USB receiver",
-  "category_id": "b4a4f1a0-5b41-4d89-a810-2f6735df0f14",
-  "price": 15.99,
-  "quantity": 100,
-  "low_stock_threshold": 10
-}
 
 {
   "id": "f3a87e94-24d0-4b8b-bc8e-f5b5aaf34dcd",
@@ -90,17 +69,55 @@ Returns a paginated list of products.
   "created_at": "2025-08-11T14:30:00Z",
   "updated_at": "2025-08-11T14:30:00Z"
 }
-]
+
+```
+### 2.3 Create a new product
+**POST** `/api/products`  
+Creates a new product with the provided data.
+
+**Request**
+```json
+
+{
+  "name": "Wireless Mouse",
+  "description": "Ergonomic mouse with USB receiver",
+  "category_id": "b4a4f1a0-5b41-4d89-a810-2f6735df0f14",
+  "price": 15.99,
+  "quantity": 100,
+  "low_stock_threshold": 10
+}
+```
+**Response (201)**
+```json
+{
+  "id": "f3a87e94-24d0-4b8b-bc8e-f5b5aaf34dcd",
+  "name": "Wireless Mouse",
+  "description": "Ergonomic mouse with USB receiver",
+  "category_id": "b4a4f1a0-5b41-4d89-a810-2f6735df0f14",
+  "price": 15.99,
+  "quantity": 100,
+  "low_stock_threshold": 10,
+  "created_at": "2025-08-11T14:30:00Z",
+  "updated_at": "2025-08-11T14:30:00Z"
+}
+
 ```
 ### 2.4 Update a product
+**PUT** `/api/products/{id}`  
+Updates the details of an existing product.
+
+**Request**
 ```json
-[
+
 {
   "name": "Wireless Mouse Pro",
   "price": 17.99,
   "quantity": 120,
   "low_stock_threshold": 15
 }
+```
+**Response (201)**
+```json
 {
   "id": "f3a87e94-24d0-4b8b-bc8e-f5b5aaf34dcd",
   "name": "Wireless Mouse Pro",
@@ -112,7 +129,6 @@ Returns a paginated list of products.
   "created_at": "2025-08-11T14:30:00Z",
   "updated_at": "2025-08-11T15:00:00Z"
 }
-]
 ```
 ### 2.5 Delete a product
 *DELETE* /api/products/{id}
@@ -120,6 +136,6 @@ Returns a paginated list of products.
 *Response (204)* — No content
 
 ## 3. Low Stock Rule
-
+A product is considered low stock if:
 quantity <= low_stock_threshold
 
