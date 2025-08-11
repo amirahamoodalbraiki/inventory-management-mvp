@@ -116,7 +116,7 @@ Updates the details of an existing product.
   "low_stock_threshold": 15
 }
 ```
-**Response (201)**
+**Response (200)**
 ```json
 {
   "id": "f3a87e94-24d0-4b8b-bc8e-f5b5aaf34dcd",
@@ -130,12 +130,15 @@ Updates the details of an existing product.
   "updated_at": "2025-08-11T15:00:00Z"
 }
 ```
-### 2.5 Delete a product
-*DELETE* /api/products/{id}
 
-*Response (204)* — No content
+### 2.5 Delete a product
+**DELETE** `/api/products/{id}`  
+Deletes the specified product.
+
+**Response (204)** — No content
 
 ## 3. Low Stock Rule
+```text
 A product is considered low stock if:
 quantity <= low_stock_threshold
-
+```
