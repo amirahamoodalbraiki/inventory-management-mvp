@@ -52,7 +52,6 @@ Returns a paginated list of products.
   }
 ]
 
-
 ### 2.2 Get a product by ID
 {
   "id": "f3a87e94-24d0-4b8b-bc8e-f5b5aaf34dcd",
