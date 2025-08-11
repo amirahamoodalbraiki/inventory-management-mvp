@@ -52,7 +52,6 @@ Returns a paginated list of products.
   }
 ]
 
-### 2.2 Get a product by ID
 {
   "id": "f3a87e94-24d0-4b8b-bc8e-f5b5aaf34dcd",
   "name": "Wireless Mouse",
@@ -65,7 +64,6 @@ Returns a paginated list of products.
   "updated_at": "2025-08-11T14:30:00Z"
 }
 
-### 2.3 Create a new product
 {
   "name": "Wireless Mouse",
   "description": "Ergonomic mouse with USB receiver",
@@ -87,13 +85,13 @@ Returns a paginated list of products.
   "updated_at": "2025-08-11T14:30:00Z"
 }
 
-### 2.4 Update a product
 {
   "name": "Wireless Mouse Pro",
   "price": 17.99,
   "quantity": 120,
   "low_stock_threshold": 15
 }
+
 {
   "id": "f3a87e94-24d0-4b8b-bc8e-f5b5aaf34dcd",
   "name": "Wireless Mouse Pro",
@@ -106,18 +104,10 @@ Returns a paginated list of products.
   "updated_at": "2025-08-11T15:00:00Z"
 }
 
-### 2.5 Delete a product
-**DELETE** `/api/products/{id}`
-
-**Response (204)** — No content
-
-## 3. Low Stock Rule
-A product is considered low stock if
+quantity <= low_stock_threshold
 
 
 
-If you replace your file with this version, it will be **fully correct** for Day 1.  
 
-Do you want me to go ahead and adjust your uploaded file to match this so you can commit it directly without editing manually?
 
 
