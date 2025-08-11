@@ -52,6 +52,8 @@ Returns a paginated list of products.
 ]
 ```
 ### 2.2 Get a product by ID
+```json
+[
 {
   "id": "f3a87e94-24d0-4b8b-bc8e-f5b5aaf34dcd",
   "name": "Wireless Mouse",
@@ -63,8 +65,11 @@ Returns a paginated list of products.
   "created_at": "2025-08-11T14:30:00Z",
   "updated_at": "2025-08-11T14:30:00Z"
 }
-
+]
+```
 ### 2.3 Create a new product
+```json
+[
 {
   "name": "Wireless Mouse",
   "description": "Ergonomic mouse with USB receiver",
@@ -85,8 +90,11 @@ Returns a paginated list of products.
   "created_at": "2025-08-11T14:30:00Z",
   "updated_at": "2025-08-11T14:30:00Z"
 }
-
+]
+```
 ### 2.4 Update a product
+```json
+[
 {
   "name": "Wireless Mouse Pro",
   "price": 17.99,
@@ -104,7 +112,8 @@ Returns a paginated list of products.
   "created_at": "2025-08-11T14:30:00Z",
   "updated_at": "2025-08-11T15:00:00Z"
 }
-
+]
+```
 ### 2.5 Delete a product
 *DELETE* /api/products/{id}
 
