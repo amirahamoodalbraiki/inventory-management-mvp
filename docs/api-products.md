@@ -4,7 +4,6 @@ This document defines the API contract for the **Product** module.
 All endpoints are under the base path: **`/api/products`**.  
 Authentication: **JWT (Bearer token)** unless specified otherwise.
 
----
 
 ## 1. Data Model
 
@@ -51,7 +50,7 @@ Returns a paginated list of products.
     "updated_at": "2025-08-11T14:30:00Z"
   }
 ]
-
+```
 ### 2.2 Get a product by ID
 {
   "id": "f3a87e94-24d0-4b8b-bc8e-f5b5aaf34dcd",
@@ -113,4 +112,5 @@ Returns a paginated list of products.
 
 ## 3. Low Stock Rule
 
+quantity <= low_stock_threshold
 
