@@ -10,33 +10,33 @@ Authentication: **JWT (Bearer token)** unless specified otherwise.
 
 | Field                | Type       | Required | Description |
 |----------------------|------------|----------|-------------|
-| `id`                 | UUID       | No       | Auto-generated unique product ID |
-| `name`               | string     | Yes      | Name of the product |
-| `description`        | string     | No       | Detailed description of the product |
-| `category_id`        | UUID       | Yes      | Linked category ID |
-| `price`              | decimal    | Yes      | Product price |
-| `quantity`           | integer    | Yes      | Current stock quantity |
-| `low_stock_threshold`| integer    | No       | Minimum quantity before alert |
-| `created_at`         | datetime   | No       | Auto-generated creation timestamp |
-| `updated_at`         | datetime   | No       | Auto-generated update timestamp |
+| id                 | UUID       | No       | Auto-generated unique product ID |
+| name               | string     | Yes      | Name of the product |
+| description        | string     | No       | Detailed description of the product |
+| category_id        | UUID       | Yes      | Linked category ID |
+| price              | decimal    | Yes      | Product price |
+| quantity           | integer    | Yes      | Current stock quantity |
+| low_stock_threshold| integer    | No       | Minimum quantity before alert |
+| created_at         | datetime   | No       | Auto-generated creation timestamp |
+| updated_at         | datetime   | No       | Auto-generated update timestamp |
 
 ---
 
 ## 2. Endpoints
 
-- **GET** `/api/products` — List all products.
-- **GET** `/api/products/{id}` — Get a single product by ID.
-- **POST** `/api/products` — Create a new product.
-- **PUT** `/api/products/{id}` — Update an existing product.
-- **DELETE** `/api/products/{id}` — Delete a product.
+- *GET* /api/products — List all products.
+- *GET* /api/products/{id} — Get a single product by ID.
+- *POST* /api/products — Create a new product.
+- *PUT* /api/products/{id} — Update an existing product.
+- *DELETE* /api/products/{id} — Delete a product.
 
 ---
 
 ### 2.1 List all products
-**GET** `/api/products`  
+*GET* /api/products  
 Returns a paginated list of products.
 
-**Response (200)**
+*Response (200)*
 ```json
 [
   {
@@ -52,6 +52,7 @@ Returns a paginated list of products.
   }
 ]
 
+### 2.2 Get a product by ID
 {
   "id": "f3a87e94-24d0-4b8b-bc8e-f5b5aaf34dcd",
   "name": "Wireless Mouse",
@@ -64,6 +65,7 @@ Returns a paginated list of products.
   "updated_at": "2025-08-11T14:30:00Z"
 }
 
+### 2.3 Create a new product
 {
   "name": "Wireless Mouse",
   "description": "Ergonomic mouse with USB receiver",
@@ -85,13 +87,13 @@ Returns a paginated list of products.
   "updated_at": "2025-08-11T14:30:00Z"
 }
 
+### 2.4 Update a product
 {
   "name": "Wireless Mouse Pro",
   "price": 17.99,
   "quantity": 120,
   "low_stock_threshold": 15
 }
-
 {
   "id": "f3a87e94-24d0-4b8b-bc8e-f5b5aaf34dcd",
   "name": "Wireless Mouse Pro",
@@ -104,10 +106,11 @@ Returns a paginated list of products.
   "updated_at": "2025-08-11T15:00:00Z"
 }
 
-quantity <= low_stock_threshold
+### 2.5 Delete a product
+*DELETE* /api/products/{id}
 
+*Response (204)* — No content
 
-
-
+## 3. Low Stock Rule
 
 
