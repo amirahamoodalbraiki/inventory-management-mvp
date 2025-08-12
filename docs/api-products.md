@@ -37,7 +37,7 @@ Returns a paginated list of products.
 
 *Response (200)*
 ```json
-[
+
   {
     "id": "f3a87e94-24d0-4b8b-bc8e-f5b5aaf34dcd",
     "name": "Wireless Mouse",
@@ -49,7 +49,47 @@ Returns a paginated list of products.
     "created_at": "2025-08-11T14:30:00Z",
     "updated_at": "2025-08-11T14:30:00Z"
   }
-]
+
+```
+```json
+
+  {
+    "id": "f3a87e94-24d0-4b8b-bc8e-f5b5aaf34dcd",
+    "name": "Wireless Mouse",
+    "description": "Ergonomic mouse with USB receiver",
+    "category_id": "b4a4f1a0-5b41-4d89-a810-2f6735df0f14",
+    "price": 15.99,
+    "quantity": 100,
+    "low_stock_threshold": 10,
+    "created_at": "2025-08-11T14:30:00Z",
+    "updated_at": "2025-08-11T14:30:00Z"
+  }
+```
+```json
+  {
+    "id": "2c1b15a8-7d0a-4c4e-9d7c-3d9b2f112233",
+    "name": "Mechanical Keyboard",
+    "description": "Blue switches, LED backlight",
+    "category_id": "e3b2c4d5-6f78-49ab-9cde-1234567890ab",
+    "price": 45.5,
+    "quantity": 50,
+    "low_stock_threshold": 8,
+    "created_at": "2025-08-11T14:30:00Z",
+    "updated_at": "2025-08-11T14:30:00Z"
+  }
+```
+```json
+  {
+    "id": "9a8b7c6d-5e4f-3210-9abc-def012345678",
+    "name": "USB-C Charger",
+    "description": "65W fast charger",
+    "category_id": "aa11bb22-cc33-dd44-ee55-ff6677889900",
+    "price": 20.0,
+    "quantity": 200,
+    "low_stock_threshold": 15,
+    "created_at": "2025-08-11T14:30:00Z",
+    "updated_at": "2025-08-11T14:30:00Z"
+  }
 ```
 ### 2.2 Get a product by ID
 **GET** `/api/products/{id}`  
