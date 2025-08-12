@@ -7,7 +7,7 @@ in an inventory management system. It includes pseudocode, a flowchart, Java imp
 
 ## **Files Overview**
 
-### 1. `low_stock_alert_pseudocode.md`
+### 1. `pseudoCode.md`
 - **Purpose**: Contains the pseudocode for low-stock detection logic.
 - **Details**:
   - Covers two triggers:
@@ -21,7 +21,7 @@ in an inventory management system. It includes pseudocode, a flowchart, Java imp
 
 ---
 
-### 2. `low_stock_flowchart.mmd`
+### 2. `flowChart.md`
 - **Purpose**: Mermaid syntax flowchart showing low-stock detection process.
 - **Details**:
   - Visual representation of both real-time checks and scheduled checks.
@@ -30,7 +30,7 @@ in an inventory management system. It includes pseudocode, a flowchart, Java imp
 
 ---
 
-### 3. `low_stock_test_cases.md`
+### 3. `testCases.md`
 - **Purpose**: Defines test cases for low-stock detection, including **edge cases**.
 - **Details**:
   - Covers normal scenarios and edge cases:
