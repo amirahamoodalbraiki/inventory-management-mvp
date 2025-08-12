@@ -129,7 +129,8 @@ As a manager, I can view low-stock alerts so that I can reorder products in time
 - Manager can adjust threshold for alerts.
 - Clicking alert navigates to product details.
 
-**Estimation:** backend, feature, inventory,priority:Medium, size: S, week1
+**Estimation:** S
+**Lables** backend, feature, inventory,priority:Medium, size: S, week1
 
 ## STOCK-01 — Record Stock Changes
 **User Story:**
@@ -140,7 +141,8 @@ As a staff member, I can record stock changes so that inventory history remains 
 - System records date, quantity change, and staff name.
 - Changes are visible in product history.
 
-**Estimation:** backend, feature, inventory,priority:high, size: M, week1
+**Estimation:** M
+**Lables** backend, feature, inventory,priority:high, size: M, week1
 
 ## UI-01 — Responsive Inventory page
 **User Story:**
@@ -151,7 +153,8 @@ As a user, I can view the inventory page on mobile and desktop so that I can wor
 - All table columns remain readable on small screens.
 - Mobile view allows vertical scrolling.
 
-**Estimation:** feature, frontend, priority:medium, ui, size: M, week1
+**Estimation:** M
+**Lables** feature, frontend, priority:medium, ui, size: M, week1
 
 # Week 2 — MVP Development
 
@@ -165,7 +168,8 @@ As a new user, I want to register an account with a role so that I can access th
 - If email already exists, system returns an error message.  
 - On success, system returns a success message and user details (excluding password).  
 
-**Estimate:** api, auth, backend, priority, size:M, week2
+**Estimate:** M
+**Lables** api, auth, backend, priority, size:M, week2
 
 ### AUTH-02 — Implement User Login Endpoint
 **User Story:**  
@@ -177,7 +181,8 @@ As a registered user, I want to log in so that I can securely access my account 
 - On success, system returns a JWT token.  
 - On failure, system returns an error message.  
 
-**Estimate:** api, auth, backend, priority:high,size:M, week2 
+**Estimate:** M
+**Lables** api, auth, backend, priority:high,size:M, week2 
 
 ### AUTH-03 — Get Current User Endpoint
 **User Story:**  
@@ -188,7 +193,8 @@ As a logged-in user, I want to get my profile information so that I can verify m
 - Requires a valid JWT token.  
 - Unauthorized users receive a 401 error.  
 
-**Estimate:** api, auth, backend, priority:medium, size:S, week2
+**Estimate:** S
+**Lables** api, auth, backend, priority:medium, size:S, week2
 
 ### DB-01 — Create Database Schema
 **User Story:**  
@@ -199,7 +205,8 @@ As a developer, I want a complete database schema so that all entities and relat
 - All relationships match the finalized ERD.  
 - Schema is stored in `schema.sql` file.  
 
-**Estimate:** backend,db, priority:high, size: L, week2 
+**Estimate:** L
+**Lables** backend,db, priority:high, size: L, week2 
 
 ### DB-02 — Add Initial Seed Data
 **User Story:**  
@@ -210,7 +217,8 @@ As a developer, I want seed data for the database so that the system can be test
 - Data is stored in SQL insert scripts.  
 - Can be imported easily into the database.  
 
-**Estimate:**backend, db, priority:medium, size:M ,week2
+**Estimate:** M
+**Lables** backend, db, priority:medium, size:M ,week2
 
 
 ### PROD-01 — Create Product API (POST)
@@ -222,7 +230,8 @@ As a staff member, I want to create a new product so that it can be added to the
 - Returns created product details on success.  
 - Validates required fields and returns errors if missing.  
 
-**Estimate:** api, backend, priority:high, size:M, week2 
+**Estimate:** M
+**Lables** api, backend, priority:high, size:M, week2 
 
 ### PROD-02 — Get Products API (GET)
 **User Story:**  
@@ -233,7 +242,8 @@ As a staff member, I want to view all products so that I can manage the inventor
 - Supports search by product name.  
 - Accessible to logged-in users only.  
 
-**Estimate:** api, backend,priority:high, size:M, week2 
+**Estimate:** M
+**Lables** api, backend,priority:high, size:M, week2 
 
 ### PROD-03 — Update Product API (PUT)
 **User Story:**  
@@ -244,7 +254,8 @@ As a staff member, I want to update product details so that stock information st
 - Returns updated product on success.  
 - Validates input and returns errors if invalid.  
 
-**Estimate:** api, backend, priority:medium,size:M, week2   
+**Estimate:** M
+**Lables** api, backend, priority:medium,size:M, week2   
 
 
 ### PROD-04 — Delete Product API (DELETE)
@@ -256,7 +267,8 @@ As a staff member, I want to delete a product so that outdated or incorrect item
 - Returns confirmation message.  
 - Prevent deletion if product is linked to existing transactions.  
 
-**Estimate:** api, backend, priority:low size:S, week2 
+**Estimate:** S
+**Lables** api, backend, priority:low size:S, week2 
 
 
 ### LOW-01 — Implement Low-Stock Alert Logic
@@ -268,7 +280,8 @@ As a manager, I want to be notified when products reach low stock so that I can 
 - Alerts are flagged in the database.  
 - Triggered on stock update and daily scheduled job.  
 
-**Estimate:**backend, low-stock, priority:high, size:M, week2 
+**Estimate:** M
+**Lables** backend, low-stock, priority:high, size:M, week2 
 
 ### LOW-02 — Low-Stock Alert UI
 **User Story:**  
@@ -279,7 +292,8 @@ As a manager, I want to see low-stock alerts in the UI so that I can quickly ide
 - Shows product name, quantity, and threshold.  
 - Updates in real-time after stock changes.  
 
-**Estimate:**frontend, low-stock, priority:high, size:M, week2   
+**Estimate:** M
+**Lables** frontend, low-stock, priority:high, size:M, week2   
 
 
 ### TRANS-01 — Create Transaction History Entity
@@ -290,7 +304,8 @@ As a manager, I want a transaction history so that I can track stock changes ove
 - Entity records date, product ID, change type (add/remove), quantity, and user ID.  
 - Linked to products and users.  
 
-**Estimate:** backend, priority:high, size:M, trandactions, week2
+**Estimate:** M
+**Lables** backend, priority:high, size:M, trandactions, week2
 
 
 ### TRANS-02 — Display Transaction History UI
@@ -301,7 +316,8 @@ As a manager, I want to view transaction history in the UI so that I can monitor
 - Displays table with product name, change type, quantity, date, and user.  
 - Supports date range filtering.  
 
-**Estimate:** frontend, priority:medium,size:M, transactions, week2  
+**Estimate:** M
+**Lables** frontend, priority:medium,size:M, transactions, week2  
 
 
 ### DEPLOY-01 — Prepare Deployment Environment
@@ -312,7 +328,8 @@ As a developer, I want a `.env.example` file so that others can configure their 
 - Includes keys for database connection, JWT secret, and cloud storage.  
 - Documented in README.  
 
-**Estimate:** deployment, decumentation, priority:high, size: S, week2
+**Estimate:** S
+**Lables** deployment, decumentation, priority:high, size: S, week2
 
 
 ### DOCS-01 — Update README with Run Instructions
@@ -323,7 +340,8 @@ As a new contributor, I want clear run instructions so that I can set up the pro
 - Steps for backend and frontend included.  
 - Includes prerequisites and installation commands.  
 
-**Estimate:**documentation, priority:medium, size:S, week2  
+**Estimate:** S
+**Lables** documentation, priority:medium, size:S, week2  
 
 
 ### CI-01 — Add Basic GitHub Actions Workflow
@@ -335,4 +353,5 @@ As a developer, I want CI to run on pull requests so that code is automatically 
 - Builds frontend with npm.  
 - Runs on all pull requests to `develop`.  
 
-**Estimate:**backend, frontend, priority:medium, size:M, week2  
+**Estimate:** M
+**Lables** backend, frontend, priority:medium, size:M, week2  
