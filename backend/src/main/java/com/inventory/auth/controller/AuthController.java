@@ -1,22 +1,22 @@
 package com.inventory.auth.controller;
 
-import com.inventory.auth.model.User;
-import com.inventory.auth.service.AuthService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/auth")
 public class AuthController {
 
-    private AuthService authService = new AuthService();
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> loginData) {
+        String email = loginData.get("email");
+        String password = loginData.get("password");
 
-    public String login(String email, String password) {
-        boolean success = authService.login(email, password);
-        if (success) {
-            return "Login successful";
-        } else {
-            return "Invalid credentials";
-        }
-    }
+        // Mock token for testing frontend flow
+        String mockJwt = "mock-jwt-token-for-" + email;
 
-    public User register(User user) {
-        return authService.register(user);
+        return ResponseEntity.ok(Map.of("token", mockJwt));
     }
 }
