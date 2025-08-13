@@ -1,94 +1,218 @@
-// Inventory API service - can be easily replaced with real backend calls
-const MOCK_DATA = [
-  { id: 1, name: "USB-C Cable", sku: "EL-001", category: "Electronics", quantity: 12 },
-  { id: 2, name: "HDMI Cable", sku: "EL-002", category: "Electronics", quantity: 3 },
-  { id: 3, name: "Plain T-Shirt", sku: "CL-001", category: "Clothing", quantity: 0 },
-  { id: 4, name: "Office Chair", sku: "OF-010", category: "Office", quantity: 7 },
-  { id: 5, name: "Notebook", sku: "ST-101", category: "Stationery", quantity: 25 },
-];
+// Product API service - connects to real backend
+const API_BASE_URL = '/api/products';
 
-// Simulate API delay
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
-// Helper function to determine stock status
-const getStockStatus = (quantity) => {
+// Helper function to determine stock status based on backend rules
+const getStockStatus = (quantity, lowStockThreshold = 10) => {
   if (quantity === 0) return 'out';
-  if (quantity < 10) return 'low';
+  if (quantity <= lowStockThreshold) return 'low';
   return 'in';
 };
 
 export const inventoryService = {
   // Main method: get filtered inventory items with all params
   async getInventoryItems(params = {}) {
-    await delay(300); // Simulate network delay
-    
-    const { search = '', category = 'all', stockStatus = 'all' } = params;
-    let filtered = MOCK_DATA;
+    try {
+      const queryParams = new URLSearchParams();
+      
+      // Add search parameter if provided
+      if (params.search?.trim()) {
+        queryParams.append('search', params.search.trim());
+      }
+      
+      // Add category filter if provided
+      if (params.category && params.category !== 'all') {
+        queryParams.append('category', params.category);
+      }
+      
+      // Add stock status filter if provided
+      if (params.stockStatus && params.stockStatus !== 'all') {
+        queryParams.append('stock_status', params.stockStatus);
+      }
 
-    // Apply search filter
-    if (search.trim()) {
-      const searchTerm = search.trim().toLowerCase();
-      filtered = filtered.filter(item => 
-        item.name.toLowerCase().includes(searchTerm) ||
-        item.sku.toLowerCase().includes(searchTerm)
-      );
-    }
-
-    // Apply category filter
-    if (category !== 'all') {
-      filtered = filtered.filter(item => item.category === category);
-    }
-
-    // Apply stock status filter
-    if (stockStatus !== 'all') {
-      filtered = filtered.filter(item => {
-        const status = getStockStatus(item.quantity);
-        return status === stockStatus;
+      const url = `${API_BASE_URL}?${queryParams.toString()}`;
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          // Add JWT token when authentication is implemented
+          // 'Authorization': `Bearer ${token}`
+        }
       });
-    }
 
-    return filtered;
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const products = await response.json();
+      
+      // Transform backend data to match frontend expectations
+      return products.map(product => ({
+        id: product.id,
+        name: product.name,
+        sku: product.id.slice(0, 8).toUpperCase(), // Use first 8 chars of UUID as SKU
+        category: product.category_id, // Will need category name lookup
+        quantity: product.quantity,
+        price: product.price,
+        description: product.description,
+        lowStockThreshold: product.low_stock_threshold,
+        createdAt: product.created_at,
+        updatedAt: product.updated_at
+      }));
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      throw error;
+    }
   },
 
   // Get unique categories for filter dropdown
   async getCategories() {
-    await delay(100);
-    const categories = [...new Set(MOCK_DATA.map(item => item.category))];
-    return categories;
+    try {
+      // For now, return hardcoded categories since category API isn't provided
+      // In a real app, you'd fetch from /api/categories
+      return ['Electronics', 'Clothing', 'Office', 'Stationery'];
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+      throw error;
+    }
   },
 
-  // Add new inventory item (for future use)
-  async addInventoryItem(item) {
-    await delay(500);
-    const newItem = {
-      id: Date.now(),
-      ...item,
-      quantity: parseInt(item.quantity) || 0
-    };
-    MOCK_DATA.push(newItem);
-    return newItem;
+  // Create new product
+  async addInventoryItem(productData) {
+    try {
+      const response = await fetch(API_BASE_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // 'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          name: productData.name,
+          description: productData.description || '',
+          category_id: productData.category_id,
+          price: parseFloat(productData.price),
+          quantity: parseInt(productData.quantity),
+          low_stock_threshold: parseInt(productData.low_stock_threshold) || 10
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const product = await response.json();
+      return {
+        id: product.id,
+        name: product.name,
+        sku: product.id.slice(0, 8).toUpperCase(),
+        category: product.category_id,
+        quantity: product.quantity,
+        price: product.price,
+        description: product.description,
+        lowStockThreshold: product.low_stock_threshold,
+        createdAt: product.created_at,
+        updatedAt: product.updated_at
+      };
+    } catch (error) {
+      console.error('Error creating product:', error);
+      throw error;
+    }
   },
 
-  // Update inventory item (for future use)
+  // Update existing product
   async updateInventoryItem(id, updates) {
-    await delay(400);
-    const index = MOCK_DATA.findIndex(item => item.id === id);
-    if (index !== -1) {
-      MOCK_DATA[index] = { ...MOCK_DATA[index], ...updates };
-      return MOCK_DATA[index];
+    try {
+      const response = await fetch(`${API_BASE_URL}/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          // 'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          name: updates.name,
+          description: updates.description,
+          category_id: updates.category_id,
+          price: parseFloat(updates.price),
+          quantity: parseInt(updates.quantity),
+          low_stock_threshold: parseInt(updates.low_stock_threshold)
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const product = await response.json();
+      return {
+        id: product.id,
+        name: product.name,
+        sku: product.id.slice(0, 8).toUpperCase(),
+        category: product.category_id,
+        quantity: product.quantity,
+        price: product.price,
+        description: product.description,
+        lowStockThreshold: product.low_stock_threshold,
+        createdAt: product.created_at,
+        updatedAt: product.updated_at
+      };
+    } catch (error) {
+      console.error('Error updating product:', error);
+      throw error;
     }
-    throw new Error('Item not found');
   },
 
-  // Delete inventory item (for future use)
+  // Delete product
   async deleteInventoryItem(id) {
-    await delay(300);
-    const index = MOCK_DATA.findIndex(item => item.id === id);
-    if (index !== -1) {
-      MOCK_DATA.splice(index, 1);
+    try {
+      const response = await fetch(`${API_BASE_URL}/${id}`, {
+        method: 'DELETE',
+        headers: {
+          // 'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       return true;
+    } catch (error) {
+      console.error('Error deleting product:', error);
+      throw error;
     }
-    throw new Error('Item not found');
+  },
+
+  // Get single product by ID
+  async getProductById(id) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          // 'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const product = await response.json();
+      return {
+        id: product.id,
+        name: product.name,
+        sku: product.id.slice(0, 8).toUpperCase(),
+        category: product.category_id,
+        quantity: product.quantity,
+        price: product.price,
+        description: product.description,
+        lowStockThreshold: product.low_stock_threshold,
+        createdAt: product.created_at,
+        updatedAt: product.updated_at
+      };
+    } catch (error) {
+      console.error('Error fetching product:', error);
+      throw error;
+    }
   }
 };
 
