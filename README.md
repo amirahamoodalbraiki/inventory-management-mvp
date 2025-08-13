@@ -36,8 +36,8 @@ cd backend
 mvn spring-boot:run
 ```
 ### Frontend
-1.Install Node.js (v18+)
-2.
+1. Install Node.js (v18+)
+2. 
 
 ```bash
 cd frontend
@@ -63,8 +63,32 @@ design/    # Wireframes
 .github/   # PR/Issue templates, CODEOWNERS, CI later
 ```
 ## Roles & Access
-**STAFF:** View inventory, add/update products, adjust stock
-**ADMIN:** All staff permissions + manage users
+- **STAFF:** View inventory, add/update products, adjust stock
+- **ADMIN:** All staff permissions + manage users
+
+## Demo Data Setup
+This project includes scripts to populate the database with demo data for testing.
+
+### 1. Start the Backend
+Make sure the backend server is running locally:
+```bash
+./mvnw spring-boot:run
+It should be available at: https://localhost:8080
+```
+### 2. Seed Demo Data
+Navigate to the docs/api folder and run the seeding scripts in this order:
+
+```bash
+./seed_users.sh
+./seed_products.sh
+./seed_stock_changes_simple.sh
+```
+### 3. Verify Data
+Use curl or your browser to check the seeded data:
+- [Users](http://localhost:8080/users)
+- [Products](http://localhost:8080/products)
+- [Stock Changes](http://localhost:8080/stock-changes)
+- You should see JSON output containing the demo records.
 
 ## Contributing
 - **Default branch:** develop
@@ -73,10 +97,12 @@ design/    # Wireframes
 - Create a feature branch → Open PR into develop
 
 ## Contacts
-**Scrum Master:** Amira — GitHub: [@amirahamoodalbraiki](https://github.com/amirahamoodalbraiki) — Email: albraikiam2@gmail.com
-**Team:** Team7
+- **Scrum Master:** Amira 
+- GitHub: [@amirahamoodalbraiki](https://github.com/amirahamoodalbraiki) 
+- Email: albraikiam2@gmail.com
+- **Team:** Team7
 
 ## Roadmap (3 Weeks)
-**Week 1:** Auth & roles, product CRUD (BE: user/product/category entities; FE: login, product form, basic list)
-**Week 2:** Stock management, transaction history, low-stock highlighting
-**Week 3:** Notifications, UI polish, deployment + demo checklist
+- **Week 1:** Auth & roles, product CRUD (BE: user/product/category entities; FE: login, product form, basic list)
+- **Week 2:** Stock management, transaction history, low-stock highlighting
+- **Week 3:** Notifications, UI polish, deployment + demo checklist
