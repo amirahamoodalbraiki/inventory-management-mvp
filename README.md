@@ -106,3 +106,31 @@ Use curl or your browser to check the seeded data:
 - **Week 1:** Auth & roles, product CRUD (BE: user/product/category entities; FE: login, product form, basic list)
 - **Week 2:** Stock management, transaction history, low-stock highlighting
 - **Week 3:** Notifications, UI polish, deployment + demo checklist
+
+
+## Demo Checklist
+
+1. **Login as Admin**  
+   - Open the application.  
+   - Enter admin username and password.  
+   - Click **Login** to access the dashboard.  
+
+2. **Add a Product**  
+   - Navigate to the **Products** page.  
+   - Click **Add Product**.  
+   - Fill in product details (name, description, price, stock).  
+   - Save the new product.  
+
+3. **Change Stock**  
+   - Go to the **Stock Management** page.  
+   - Select a product.  
+   - Perform a stock change (e.g., restock or sale).  
+   - Save changes and verify stock update.  
+
+4. **Show Low-Stock Highlight**  
+   - Navigate to the **Products** page.  
+   - Verify that products with low stock are highlighted.  
+
+5. **View Transaction History**  
+   - Open the **Transaction History** page.  
+   - Verify the latest stock changes are listed with correct details (date, quantity, type).
