@@ -23,7 +23,7 @@ A lightweight web application for small businesses to track stock levels, manage
 ## Getting Started (Local) — Placeholder
 > Will be updated in Week 1 as modules are implemented.
 
-### Backend
+## Backend
 The backend is implemented as a Spring Boot application.  
 To run locally:
 1. Install Java 17+ and Maven  
@@ -32,20 +32,21 @@ To run locally:
 cd backend
 mvn spring-boot:run
 ```
-###Frontend
-Install Node.js (v18+), then run:
+## Frontend
+1.Install Node.js (v18+), then run:
+2.
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-###Environment Variables (to be finalized)
+## Environment Variables (to be finalized)
 ```ini
 DATABASE_URL=<connection-string>
 ```
 Other keys (email provider / S3) if notifications/images are enabled.
 
-###Project Structure
+## Project Structure
 ```bash
 backend/   # Spring Boot app
 frontend/  # React app
@@ -53,21 +54,21 @@ docs/      # ERD, API contracts, deployment notes
 design/    # Wireframes
 .github/   # PR/Issue templates, CODEOWNERS, CI later
 ```
-###Roles & Access
+## Roles & Access
 **STAFF:** View inventory, add/update products, adjust stock
 **ADMIN:** All staff permissions + manage users
 
-###Contributing
+## Contributing
 - **Default branch:** develop
 - Protect main branch (PRs only, ≥1 approval, passing CI)
 - Commit style: Conventional Commits (feat:, fix:, docs:, chore:)
 - Create a feature branch → Open PR into develop
 
-###Contacts
+## Contacts
 **Scrum Master:** Amira — GitHub: [@amirahamoodalbraiki](https://github.com/amirahamoodalbraiki) — Email: albraikiam2@gmail.com
 **Team:** Team7
 
-###Roadmap (3 Weeks)
+## Roadmap (3 Weeks)
 **Week 1:** Auth & roles, product CRUD (BE: user/product/category entities; FE: login, product form, basic list)
 **Week 2:** Stock management, transaction history, low-stock highlighting
 **Week 3:** Notifications, UI polish, deployment + demo checklist
