@@ -23,7 +23,10 @@ A lightweight web application for small businesses to track stock levels, manage
 ## Getting Started (Local) — Placeholder
 > Will be updated in Week 1 as modules are implemented.
 
-## Backend
+
+## How to Run Locally
+
+### Backend
 The backend is implemented as a Spring Boot application.  
 To run locally:
 1. Install Java 17+ and Maven  
@@ -32,9 +35,10 @@ To run locally:
 cd backend
 mvn spring-boot:run
 ```
-## Frontend
+### Frontend
 1.Install Node.js (v18+)
 2.
+
 ```bash
 cd frontend
 npm install
