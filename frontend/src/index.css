@@ -24,10 +24,15 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  /* Removed flex centering so app layout controls centering */
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 100svh;
+}
+
+/* Ensure the app root spans the viewport so internal grids can center content */
+#root {
+  width: 100%;
+  min-height: 100svh;
 }
 
 h1 {
