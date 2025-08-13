@@ -1,10 +1,25 @@
 // Inventory API service - can be easily replaced with real backend calls
 const MOCK_DATA = [
-  { id: 1, name: "USB-C Cable", sku: "EL-001", category: "Electronics", quantity: 12 },
-  { id: 2, name: "HDMI Cable", sku: "EL-002", category: "Electronics", quantity: 3 },
-  { id: 3, name: "Plain T-Shirt", sku: "CL-001", category: "Clothing", quantity: 0 },
-  { id: 4, name: "Office Chair", sku: "OF-010", category: "Office", quantity: 7 },
-  { id: 5, name: "Notebook", sku: "ST-101", category: "Stationery", quantity: 25 },
+  { id: 1, name: "Eco-Friendly Bamboo Toothbrush", sku: "TB-001", category: "Personal Care", quantity: 150 },
+  { id: 2, name: "Organic Cotton Reusable Shopping Bag", sku: "RB-002", category: "Home Goods", quantity: 25 },
+  { id: 3, name: "Stainless Steel Water Bottle", sku: "WB-003", category: "Outdoor Gear", quantity: 50 },
+  { id: 4, name: "Recycled Paper Notebook", sku: "NB-004", category: "Stationery", quantity: 100 },
+  { id: 5, name: "Solar-Powered Garden Lights", sku: "GL-005", category: "Home & Garden", quantity: 10 },
+  { id: 6, name: "Biodegradable Phone Case", sku: "PC-006", category: "Electronics", quantity: 75 },
+  { id: 7, name: "Upcycled Denim Tote Bag", sku: "TB-007", category: "Fashion", quantity: 5 },
+  { id: 8, name: "Natural Beeswax Food Wraps", sku: "FW-008", category: "Kitchen", quantity: 30 },
+  { id: 9, name: "Bamboo Cutting Board", sku: "CB-009", category: "Kitchen", quantity: 20 },
+  { id: 10, name: "Reusable Silicone Straws", sku: "SS-010", category: "Kitchen", quantity: 40 },
+  { id: 11, name: "Organic Cotton Face Mask", sku: "FM-011", category: "Personal Care", quantity: 15, lowStockStatus: "Low-stock" },
+  { id: 12, name: "LED Desk Lamp", sku: "DL-012", category: "Office", quantity: 60, lowStockStatus: "In-stock" },
+  { id: 13, name: "Handmade Ceramic Mug", sku: "CM-013", category: "Kitchen", quantity: 12, lowStockStatus: "Low-stock" },
+  { id: 14, name: "Wireless Mouse", sku: "WM-014", category: "Electronics", quantity: 80, lowStockStatus: "In-stock" },
+  { id: 15, name: "Portable Power Bank", sku: "PB-015", category: "Electronics", quantity: 5, lowStockStatus: "Out-of-stock" },
+  { id: 16, name: "Wooden Salad Bowl", sku: "SB-016", category: "Kitchen", quantity: 22, lowStockStatus: "Low-stock" },
+  { id: 17, name: "Stainless Steel Lunch Box", sku: "LB-017", category: "Kitchen", quantity: 95, lowStockStatus: "In-stock" },
+  { id: 18, name: "Cotton Bath Towel", sku: "BT-018", category: "Home Goods", quantity: 35, lowStockStatus: "In-stock" },
+  { id: 19, name: "Yoga Mat", sku: "YM-019", category: "Fitness", quantity: 8, lowStockStatus: "Low-stock" },
+  { id: 20, name: "Bluetooth Headphones", sku: "BH-020", category: "Electronics", quantity: 0, lowStockStatus: "Out-of-stock" }
 ];
 
 // Simulate API delay
