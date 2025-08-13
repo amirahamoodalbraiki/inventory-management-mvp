@@ -1,5 +1,3 @@
-# Inventory Management System (Project 7) — Team7
-
 A lightweight web application for small businesses to track stock levels, manage products, and get alerts for low-stock items. The system helps maintain optimal inventory, reduce overstocking/stockouts, and keep product data organized in one place.
 
 ## Tech Stack
@@ -33,53 +31,43 @@ To run locally:
 ```bash
 cd backend
 mvn spring-boot:run
-Frontend
+```
+###Frontend
 Install Node.js (v18+), then run:
-
-bash
-Copy
-Edit
+```bash
 cd frontend
 npm install
 npm run dev
-Environment Variables (to be finalized)
-ini
-Copy
-Edit
+```
+###Environment Variables (to be finalized)
+```ini
 DATABASE_URL=<connection-string>
+```
 Other keys (email provider / S3) if notifications/images are enabled.
 
-Project Structure
-bash
-Copy
-Edit
+###Project Structure
+```bash
 backend/   # Spring Boot app
 frontend/  # React app
 docs/      # ERD, API contracts, deployment notes
 design/    # Wireframes
 .github/   # PR/Issue templates, CODEOWNERS, CI later
-Roles & Access
-STAFF: View inventory, add/update products, adjust stock
+```
+###Roles & Access
+**STAFF:** View inventory, add/update products, adjust stock
+**ADMIN:** All staff permissions + manage users
 
-ADMIN: All staff permissions + manage users
+###Contributing
+- **Default branch:** develop
+- Protect main branch (PRs only, ≥1 approval, passing CI)
+- Commit style: Conventional Commits (feat:, fix:, docs:, chore:)
+- Create a feature branch → Open PR into develop
 
-Contributing
-Default branch: develop
+###Contacts
+**Scrum Master:** Amira — GitHub: [@amirahamoodalbraiki](https://github.com/amirahamoodalbraiki) — Email: albraikiam2@gmail.com
+**Team:** Team7
 
-Protect main branch (PRs only, ≥1 approval, passing CI)
-
-Commit style: Conventional Commits (feat:, fix:, docs:, chore:)
-
-Create a feature branch → Open PR into develop
-
-Contacts
-Scrum Master: Amira — GitHub: @amirahamoodalbraiki — Email: albraikiam2@gmail.com
-
-Team: Team7
-
-Roadmap (3 Weeks)
-Week 1: Auth & roles, product CRUD (BE: user/product/category entities; FE: login, product form, basic list)
-
-Week 2: Stock management, transaction history, low-stock highlighting
-
-Week 3: Notifications, UI polish, deployment + demo checklist
+###Roadmap (3 Weeks)
+**Week 1:** Auth & roles, product CRUD (BE: user/product/category entities; FE: login, product form, basic list)
+**Week 2:** Stock management, transaction history, low-stock highlighting
+**Week 3:** Notifications, UI polish, deployment + demo checklist
