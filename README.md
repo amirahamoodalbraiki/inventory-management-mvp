@@ -44,6 +44,10 @@ cd frontend
 npm install
 npm run dev
 ```
+## Project Links
+- **GitHub Issues:** [View all issues](https://github.com/amirahamoodalbraiki/inventory-management-mvp/issues)
+- **ClickUp Board:** [View tasks on ClickUp](https://app.clickup.com/90181582807/v/l/li/901810440494)
+
 ## Environment Variables (to be finalized)
 ```ini
 DATABASE_URL=<connection-string>
