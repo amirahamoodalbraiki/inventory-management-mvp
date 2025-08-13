@@ -36,7 +36,7 @@ cd backend
 mvn spring-boot:run
 ```
 ### Frontend
-1.Install Node.js (v18+)
+1. Install Node.js (v18+)
 2.
 
 ```bash
