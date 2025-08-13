@@ -91,13 +91,15 @@ Navigate to the docs/api folder and run the seeding scripts in this order:
 ```
 ### 3. Verify Data
 Use curl or your browser to check the seeded data:
-[Users](http://localhost:8080/users)
-[Products](https://localhost:8080/products)
-[Stock Changes](https://localhost:8080/stock-changes)
+- [Users](http://localhost:8080/users)
+- [Products](http://localhost:8080/products)
+- [Stock Changes](http://localhost:8080/stock-changes)
 You should see JSON output containing the demo records.
 
 ## Contacts
-**Scrum Master:** Amira — GitHub: [@amirahamoodalbraiki](https://github.com/amirahamoodalbraiki) — Email: albraikiam2@gmail.com
+**Scrum Master:** Amira
+— GitHub: [@amirahamoodalbraiki](https://github.com/amirahamoodalbraiki)
+— Email: albraikiam2@gmail.com
 **Team:** Team7
 
 ## Roadmap (3 Weeks)
