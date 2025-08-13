@@ -72,6 +72,30 @@ design/    # Wireframes
 - Commit style: Conventional Commits (feat:, fix:, docs:, chore:)
 - Create a feature branch → Open PR into develop
 
+## Demo Data Setup
+This project includes scripts to populate the database with demo data for testing.
+
+### 1. Start the Backend
+Make sure the backend server is running locally:
+```bash
+./mvnw spring-boot:run
+It should be available at: https://localhost:8080
+```
+### 2. Seed Demo Data
+Navigate to the docs/api folder and run the seeding scripts in this order:
+
+```bash
+./seed_users.sh
+./seed_products.sh
+./seed_stock_changes_simple.sh
+```
+### 3. Verify Data
+Use curl or your browser to check the seeded data:
+[Users](http://localhost:8080/users)
+[Products](https://localhost:8080/products)
+[Stock Changes](https://localhost:8080/stock-changes)
+You should see JSON output containing the demo records.
+
 ## Contacts
 **Scrum Master:** Amira — GitHub: [@amirahamoodalbraiki](https://github.com/amirahamoodalbraiki) — Email: albraikiam2@gmail.com
 **Team:** Team7
