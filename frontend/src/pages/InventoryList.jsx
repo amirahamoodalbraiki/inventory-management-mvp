@@ -81,8 +81,8 @@ export default function InventoryList() {
   }, [search, categoryFilter, stockFilter]);
 
   // Render status badge
-  const renderStatusBadge = (quantity) => {
-    const status = getStockStatus(quantity);
+  const renderStatusBadge = (quantity, lowStockThreshold = 10) => {
+    const status = getStockStatus(quantity, lowStockThreshold);
     const badgeData = getStatusBadgeData(status);
     
     return (
@@ -309,7 +309,7 @@ export default function InventoryList() {
                   <td style={tdStyle}>{item.sku}</td>
                   <td style={tdStyle}>{item.category}</td>
                   <td style={tdStyle}>{item.quantity}</td>
-                  <td style={tdStyle}>{renderStatusBadge(item.quantity)}</td>
+                  <td style={tdStyle}>{renderStatusBadge(item.quantity, item.lowStockThreshold)}</td>
                 </tr>
               ))}
             </tbody>
