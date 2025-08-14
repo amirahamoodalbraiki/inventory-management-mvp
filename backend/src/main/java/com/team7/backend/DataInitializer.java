@@ -7,6 +7,7 @@ import com.team7.backend.repositories.ProductRepository;
 import com.team7.backend.repositories.StockChangeRepository;
 import com.team7.backend.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -17,13 +18,16 @@ public class DataInitializer implements CommandLineRunner {
   private final UserRepository userRepository;
   private final ProductRepository productRepository;
   private final StockChangeRepository stockChangeRepository;
+  private final PasswordEncoder passwordEncoder;
 
   public DataInitializer(UserRepository userRepository,
                          ProductRepository productRepository,
-                         StockChangeRepository stockChangeRepository) {
+                         StockChangeRepository stockChangeRepository,
+                         PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
     this.productRepository = productRepository;
     this.stockChangeRepository = stockChangeRepository;
+    this.passwordEncoder = passwordEncoder;
   }
 
   @Override
@@ -31,8 +35,22 @@ public class DataInitializer implements CommandLineRunner {
 
     // ---------- Users ----------
     if (userRepository.count() == 0) {
-      User admin = new User("admin@example.com", "hashedpassword", "Admin User", "ADMIN", "1234567890");
-      User user = new User("user@example.com", "hashedpassword", "Normal User", "USER", "0987654321");
+      User admin = new User(
+        "admin@example.com",
+        passwordEncoder.encode("admin123"), // store hashed password
+        "Admin User",
+        "ADMIN",
+        "1234567890"
+      );
+
+      User user = new User(
+        "user@example.com",
+        passwordEncoder.encode("user123"), // store hashed password
+        "Normal User",
+        "USER",
+        "0987654321"
+      );
+
       userRepository.save(admin);
       userRepository.save(user);
     }
