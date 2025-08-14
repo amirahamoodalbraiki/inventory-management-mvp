@@ -1,4 +1,4 @@
-package com.team7.backend.controller;
+package com.team7.backend.controllers;
 
 import com.team7.backend.dtos.AuthResponse;
 import com.team7.backend.dtos.LoginRequest;
