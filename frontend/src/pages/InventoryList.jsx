@@ -4,40 +4,16 @@ import { useNavigate } from "react-router-dom";
 
 function TopBar() {
   return (
-    <div
-      style={{
-        height: 56,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "0 20px",
-        background: "#fafafa",
-        borderBottom: "1px solid #d1d5db",
-        position: "sticky",
-        top: 0,
-        zIndex: 100,
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        <div
-          aria-hidden
-          style={{
-            width: 14,
-            height: 14,
-            background: "#111827",
-            borderRadius: 3,
-            transform: "rotate(90deg)",
-          }}
-        />
-        <span style={{ fontSize: 18, fontWeight: 700, color: "#111827" }}>
-          Inventory Manager
-        </span>
+    <div className="h-14 flex items-center justify-between px-5 bg-[#fafafa] border-b border-gray-300 sticky top-0 z-50">
+      <div className="flex items-center gap-[10px]">
+        <div aria-hidden className="w-[14px] h-[14px] bg-[#111827] rounded-[3px] rotate-90" />
+        <span className="text-[18px] font-bold text-[#111827]">Inventory Manager</span>
       </div>
 
       <img
         src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIG34_9Mgmzn08YzxUu5iB-u5k-yElEiTnzEQKUcYjStBLFBG0SGsj-DGk4fWOuAe7lbX9YTdEAWY_URfDFRoMV_jqYIHR8ZTBeOIi_hPIXY7OtGw0_Y0h8AB4Uz8OniBEKKGnS4ja5m7F3dtMu5-uUS7uIgNfAehnVlp-g0ZbEDJIjeof7OTq_k-EgpiU1T_9HfcWikIBzNy03GiKhnWWb6QtSjSjcDZXG53WDMs0RoZIn6tuke561tXXz8jynIFy-a1HdSznRRSr"
         alt="User avatar"
-        style={{ width: 32, height: 32, borderRadius: "50%", objectFit: "cover" }}
+        className="w-8 h-8 rounded-full object-cover"
       />
     </div>
   );
@@ -55,13 +31,6 @@ function getDisplayPages(current, total) {
   out.push(total);
   return out;
 }
-const pagBarStyle = { display: "flex", alignItems: "center", justifyContent: "center", gap: 15, padding: "10px", marginTop: "auto" };
-const arrowBtnStyle = (disabled) => ({ border: "none", background: "transparent", fontSize: 22, lineHeight: 1, cursor: disabled ? "not-allowed" : "pointer", color: "#111827", opacity: disabled ? 0.35 : 1 });
-const pageDotStyle = { fontSize: 24, color: "#111827" };
-const pageNumBtnStyle = (active) => ({ width: 48, height: 48, borderRadius: "50%", border: "none", background: active ? "#f1f1f1" : "transparent", color: "#111827", fontSize: 15, fontWeight: 500, cursor: "pointer" });
-
-const thStyle = { textAlign: "left", padding: "12px 16px", borderBottom: "1px solid #d1d5db", fontWeight: 600, fontSize: 13, color: "#111827" };
-const tdStyle = { padding: "14px 16px", borderBottom: "1px solid #d1d5db", color: "#111827", fontSize: 14 };
 
 export default function InventoryList() {
   const navigate = useNavigate();
@@ -139,24 +108,11 @@ export default function InventoryList() {
   };
 
   function renderStatusBadge(quantity) {
-    const status = getStockStatus(quantity); // uses your helper
-    const text = status === "out" ? "Out-of-stock" : status === "low" ? "Low-stock" : "In-stock";
+    const status = getStockStatus(quantity);
+    const text =
+      status === "out" ? "Out-of-stock" : status === "low" ? "Low-stock" : "In-stock";
     return (
-      <span
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "6px 12px",
-          borderRadius: 8,
-          width: 100,
-          fontSize: 12,
-          fontWeight: 500,
-          color: "#000",
-          background: "#dddddd",
-          border: "1px solid #e5e7eb",
-        }}
-      >
+      <span className="flex items-center justify-center px-3 py-1.5 rounded-lg w-[100px] text-[12px] font-medium text-black bg-[#dddddd] border border-gray-200">
         {text}
       </span>
     );
@@ -164,20 +120,20 @@ export default function InventoryList() {
 
   if (loading && items.length === 0) {
     return (
-      <div style={{ padding: 24, maxWidth: 1200, margin: "0 auto" }}>
-        <div style={{ textAlign: "center", padding: "40px 20px", color: "#667085" }}>Loading inventory…</div>
+      <div className="p-6 max-w-[1200px] mx-auto">
+        <div className="text-center py-10 text-[#667085]">Loading inventory…</div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div style={{ padding: 24, maxWidth: 1200, margin: "0 auto" }}>
-        <div style={{ textAlign: "center", padding: "40px 20px" }}>
-          <div style={{ color: "#B42318", marginBottom: 12 }}>{error}</div>
+      <div className="p-6 max-w-[1200px] mx-auto">
+        <div className="text-center py-10">
+          <div className="text-[#B42318] mb-3">{error}</div>
           <button
             onClick={loadData}
-            style={{ padding: "8px 16px", borderRadius: 6, background: "#646cff", color: "#fff", border: "none", cursor: "pointer" }}
+            className="px-4 py-2 rounded-md bg-[#646cff] text-white border-0 cursor-pointer"
           >
             Retry
           </button>
@@ -187,50 +143,28 @@ export default function InventoryList() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: "#fff" }}>
+    <div className="min-h-screen flex flex-col bg-white">
       <TopBar />
-      <div style={{ flex: 1, padding: "32px 24px", maxWidth: 1000, width: "100%", margin: "0 auto" }}>
-        <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <h1 style={{ margin: 0, color: "#111827", fontSize: 28, fontWeight: 800 }}>Products</h1>
+      <div className="flex-1 px-6 py-8 max-w-[1000px] w-full mx-auto">
+        <header className="flex items-center justify-between">
+          <h1 className="m-0 text-[#111827] text-[28px] font-extrabold">Products</h1>
           <button
             onClick={handleAddProduct}
-            style={{
-              borderRadius: 8,
-              background: "#dddddd",
-              color: "#111827",
-              border: "1px solid #e5e7eb",
-              fontSize: 13,
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
+            className="rounded-lg bg-[#dddddd] text-[#111827] border border-gray-200 text-[13px] font-semibold cursor-pointer px-4 py-2"
           >
             Add New Product
           </button>
         </header>
 
-        <div style={{ marginTop: 24 }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "flex-start" }}>
+        <div className="mt-6">
+          <div className="flex flex-col gap-3 items-start">
             <label>
               <select
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                style={{
-                  padding: "10px 14px",
-                  borderRadius: 10,
-                  background: "#dddddd",
-                  border: "none",
-                  color: "#111827",
-                  fontSize: 14,
-                  fontWeight: 600,
-                  appearance: "none",
-                  backgroundImage:
-                    "url(\"data:image/svg+xml;utf8,<svg fill='none' stroke='%236b7280' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/></svg>\")",
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "right 10px center",
-                  backgroundSize: "16px",
-                  paddingRight: 34,
-                  cursor: "pointer",
-                }}
+                className="py-[10px] px-[14px] rounded-[10px] bg-[#dddddd] border-0 text-[#111827] text-[14px] font-semibold cursor-pointer pr-9 appearance-none
+                  bg-no-repeat bg-[length:16px] [background-position:calc(100%-10px)_50%]
+                  [background-image:url(\"data:image/svg+xml;utf8,<svg fill='none' stroke='%236b7280' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/></svg>\")]"
               >
                 <option value="all">Category</option>
                 {categories.map((c) => (
@@ -245,23 +179,9 @@ export default function InventoryList() {
               <select
                 value={stockFilter}
                 onChange={(e) => setStockFilter(e.target.value)}
-                style={{
-                  padding: "10px 14px",
-                  borderRadius: 8,
-                  background: "#dddddd",
-                  border: "none",
-                  color: "#111827",
-                  fontSize: 14,
-                  fontWeight: 600,
-                  appearance: "none",
-                  backgroundImage:
-                    "url(\"data:image/svg+xml;utf8,<svg fill='none' stroke='%236b7280' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/></svg>\")",
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "right 10px center",
-                  backgroundSize: "16px",
-                  paddingRight: 34,
-                  cursor: "pointer",
-                }}
+                className="py-[10px] px-[14px] rounded-[8px] bg-[#dddddd] border-0 text-[#111827] text-[14px] font-semibold cursor-pointer pr-9 appearance-none
+                  bg-no-repeat bg-[length:16px] [background-position:calc(100%-10px)_50%]
+                  [background-image:url(\"data:image/svg+xml;utf8,<svg fill='none' stroke='%236b7280' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/></svg>\")]"
               >
                 <option value="all">Stock status</option>
                 <option value="in-stock">In-stock</option>
@@ -272,47 +192,53 @@ export default function InventoryList() {
           </div>
         </div>
 
-        <section style={{ marginTop: 16 }}>
-          <div
-            style={{
-              border: "1px solid #d1d5db",
-              borderRadius: 8,
-              background: "#ffffff",
-              boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
-              overflow: "hidden",
-            }}
-          >
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+        <section className="mt-4">
+          <div className="border border-gray-300 rounded-lg bg-white shadow-sm overflow-hidden">
+            <table className="w-full border-collapse">
               <thead>
-                <tr style={{ background: "#f9fafb" }}>
-                  <th style={thStyle}>Product Name</th>
-                  <th style={thStyle}>SKU</th>
-                  <th style={thStyle}>Category</th>
-                  <th style={thStyle}>Quantity</th>
-                  <th style={thStyle}>Low Stock Status</th>
-                  <th style={thStyle}>Actions</th>
+                <tr className="bg-[#f9fafb]">
+                  <th className="text-left px-4 py-3 border-b border-gray-300 font-semibold text-[13px] text-[#111827]">
+                    Product Name
+                  </th>
+                  <th className="text-left px-4 py-3 border-b border-gray-300 font-semibold text-[13px] text-[#111827]">
+                    SKU
+                  </th>
+                  <th className="text-left px-4 py-3 border-b border-gray-300 font-semibold text-[13px] text-[#111827]">
+                    Category
+                  </th>
+                  <th className="text-left px-4 py-3 border-b border-gray-300 font-semibold text-[13px] text-[#111827]">
+                    Quantity
+                  </th>
+                  <th className="text-left px-4 py-3 border-b border-gray-300 font-semibold text-[13px] text-[#111827]">
+                    Low Stock Status
+                  </th>
+                  <th className="text-left px-4 py-3 border-b border-gray-300 font-semibold text-[13px] text-[#111827]">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {pagedItems.map((item) => (
-                  <tr key={item.id} style={{ borderBottom: "1px solid #d1d5db" }}>
-                    <td style={tdStyle}>{item.name}</td>
-                    <td style={tdStyle}>{item.sku}</td>
-                    <td style={tdStyle}>{item.category}</td>
-                    <td style={tdStyle}>{item.quantity}</td>
-                    <td style={tdStyle}>{renderStatusBadge(item.quantity)}</td>
-                    <td style={tdStyle}>
-                      <div style={{ display: "flex", gap: 8 }}>
+                  <tr key={item.id} className="border-b border-gray-300">
+                    <td className="px-4 py-[14px] text-sm text-[#111827]">{item.name}</td>
+                    <td className="px-4 py-[14px] text-sm text-[#111827]">{item.sku}</td>
+                    <td className="px-4 py-[14px] text-sm text-[#111827]">{item.category}</td>
+                    <td className="px-4 py-[14px] text-sm text-[#111827]">{item.quantity}</td>
+                    <td className="px-4 py-[14px] text-sm text-[#111827]">
+                      {renderStatusBadge(item.quantity)}
+                    </td>
+                    <td className="px-4 py-[14px] text-sm text-[#111827]">
+                      <div className="flex gap-2">
                         <button
                           onClick={() => handleEdit(item)}
-                          style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "#6b7280", fontWeight: 700 }}
+                          className="bg-transparent border-0 p-0 cursor-pointer text-gray-500 font-bold"
                         >
                           Edit
                         </button>
-                        <span style={{ color: "#9ca3af" }}>|</span>
+                        <span className="text-gray-400">|</span>
                         <button
                           onClick={() => handleDelete(item.id)}
-                          style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "#6b7280", fontWeight: 700 }}
+                          className="bg-transparent border-0 p-0 cursor-pointer text-gray-500 font-bold"
                         >
                           Delete
                         </button>
@@ -322,7 +248,7 @@ export default function InventoryList() {
                 ))}
                 {pagedItems.length === 0 && (
                   <tr>
-                    <td colSpan={6} style={{ ...tdStyle, textAlign: "center", color: "#6b7280" }}>
+                    <td colSpan={6} className="px-4 py-[14px] text-center text-gray-500">
                       No items found
                     </td>
                   </tr>
@@ -332,23 +258,31 @@ export default function InventoryList() {
           </div>
 
           {total > 0 && (
-            <div style={pagBarStyle}>
+            <div className="flex items-center justify-center gap-4 p-2.5 mt-auto">
               <button
                 aria-label="Previous page"
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1}
-                style={arrowBtnStyle(page === 1)}
+                className={`border-0 bg-transparent text-[22px] leading-none ${
+                  page === 1 ? "opacity-35 cursor-not-allowed" : "cursor-pointer text-[#111827]"
+                }`}
               >
                 &lt;
               </button>
 
               {getDisplayPages(page, pageCount).map((p, idx) =>
                 p === "…" ? (
-                  <span key={`gap-${idx}`} style={pageDotStyle}>
+                  <span key={`gap-${idx}`} className="text-[24px] text-[#111827]">
                     …
                   </span>
                 ) : (
-                  <button key={p} onClick={() => setPage(p)} style={pageNumBtnStyle(p === page)}>
+                  <button
+                    key={p}
+                    onClick={() => setPage(p)}
+                    className={`w-12 h-12 rounded-full border-0 text-[15px] font-medium cursor-pointer ${
+                      p === page ? "bg-[#f1f1f1] text-[#111827]" : "bg-transparent text-[#111827]"
+                    }`}
+                  >
                     {p}
                   </button>
                 )
@@ -358,7 +292,9 @@ export default function InventoryList() {
                 aria-label="Next page"
                 onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
                 disabled={page === pageCount}
-                style={arrowBtnStyle(page === pageCount)}
+                className={`border-0 bg-transparent text-[22px] leading-none ${
+                  page === pageCount ? "opacity-35 cursor-not-allowed" : "cursor-pointer text-[#111827]"
+                }`}
               >
                 &gt;
               </button>
