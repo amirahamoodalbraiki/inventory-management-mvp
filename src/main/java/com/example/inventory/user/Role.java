@@ -1,4 +1,4 @@
-package com.inventory.auth.model;
+package com.example.inventory.user;
 
 public enum Role {
     ADMIN,
