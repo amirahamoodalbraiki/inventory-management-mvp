@@ -39,10 +39,6 @@ mvn spring-boot:run
 1. Install Node.js (v18+)
  docs/demo-data-and-readme
 2. 
-=======
-2.
-develop
-
 ```bash
 cd frontend
 npm install
@@ -69,7 +65,6 @@ design/    # Wireframes
 ## Roles & Access
 - **STAFF:** View inventory, add/update products, adjust stock
 - **ADMIN:** All staff permissions + manage users
- docs/demo-data-and-readme
 
 ## Demo Data Setup
 This project includes scripts to populate the database with demo data for testing.
@@ -94,11 +89,9 @@ Use curl or your browser to check the seeded data:
 - [Products](http://localhost:8080/products)
 - [Stock Changes](http://localhost:8080/stock-changes)
 - You should see JSON output containing the demo records.
-=======
- develop
 
 ## Contributing
-- **Default branch:** develop
+- **Default branch:**
 - Protect main branch (PRs only, ≥1 approval, passing CI)
 - Commit style: Conventional Commits (feat:, fix:, docs:, chore:)
 - Create a feature branch → Open PR into develop
@@ -131,10 +124,8 @@ Use curl or your browser to check the seeded data:
 docs/demo-data-and-readme
 - **Scrum Master:** Amira 
 - GitHub: [@amirahamoodalbraiki](https://github.com/amirahamoodalbraiki) 
-=======
 - **Scrum Master:** Amira
 - GitHub: [@amirahamoodalbraiki](https://github.com/amirahamoodalbraiki)
-develop
 - Email: albraikiam2@gmail.com
 - **Team:** Team7
 
