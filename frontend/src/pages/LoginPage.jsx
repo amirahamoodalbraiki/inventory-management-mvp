@@ -5,124 +5,55 @@ export default function LoginPage() {
   };
 
   return (
-    <div style={{ 
-      minHeight: "100vh", 
-      width: "100%", 
-      background: "#f5f5f5",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: "20px"
-    }}>
-      <div style={{
-        width: "100%",
-        maxWidth: 400,
-        padding: "32px",
-        borderRadius: "8px",
-        background: "#ffffff",
-        boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-      }}>
-        <h1 style={{ 
-          margin: 0, 
-          fontSize: "24px", 
-          fontWeight: "bold",
-          textAlign: "center",
-          marginBottom: "24px",
-          color: "#000000"
-        }}>
-          Login
-        </h1>
+    <div className="min-h-screen w-full bg-gray-100 flex items-center justify-center p-5">
+      <div className="w-full max-w-sm bg-white p-8 rounded-lg shadow-md">
+        <h1 className="text-2xl font-bold text-center mb-6 text-black">Login</h1>
 
-        <form onSubmit={handleSubmit} style={{ display: "grid", gap: "16px" }}>
-          <label style={{ display: "grid", gap: "8px" }}>
-            <span style={{ fontSize: "14px", fontWeight: "600", color: "#000000" }}>Email</span>
+        <form onSubmit={handleSubmit} className="grid gap-4">
+          {/* Email */}
+          <label className="grid gap-2">
+            <span className="text-sm font-semibold text-black">Email</span>
             <input
               type="email"
               name="email"
               required
               placeholder="Email"
-              style={{
-                padding: "12px",
-                borderRadius: "4px",
-                border: "1px solid #d1d5db",
-                background: "#ffffff",
-                color: "#000000",
-                outline: "none",
-                fontSize: "14px",
-              }}
+              className="p-3 rounded border border-gray-300 bg-white text-black text-sm outline-none w-full"
             />
           </label>
 
-          <label style={{ display: "grid", gap: "8px" }}>
-            <span style={{ fontSize: "14px", fontWeight: "600", color: "#000000" }}>Password</span>
+          {/* Password */}
+          <label className="grid gap-2">
+            <span className="text-sm font-semibold text-black">Password</span>
             <input
               type="password"
               name="password"
               required
               placeholder="••••••••"
-              style={{
-                padding: "12px",
-                borderRadius: "4px",
-                border: "1px solid #d1d5db",
-                background: "#ffffff",
-                color: "#000000",
-                outline: "none",
-                fontSize: "14px",
-              }}
+              className="p-3 rounded border border-gray-300 bg-white text-black text-sm outline-none w-full"
             />
           </label>
 
-          <label style={{ display: "grid", gap: "8px" }}>
-            <span style={{ fontSize: "14px", fontWeight: "600", color: "#000000" }}>Role</span>
-            <div style={{ position: "relative" }}>
-              <select
-                name="role"
-                required
-                style={{
-                  width: "100%",
-                  padding: "12px",
-                  borderRadius: "4px",
-                  border: "1px solid #d1d5db",
-                  background: "#ffffff",
-                  color: "#000000",
-                  outline: "none",
-                  cursor: "pointer",
-                  fontSize: "14px",
-                  appearance: "none",
-                  WebkitAppearance: "none",
-                  MozAppearance: "none",
-                }}
-              >
-                <option value="" disabled selected style={{ color: "#6b7280" }}>Role</option>
-                <option value="staff">Staff</option>
-                <option value="admin">Admin</option>
-              </select>
-              <div style={{
-                position: "absolute",
-                right: "12px",
-                top: "50%",
-                transform: "translateY(-50%)",
-                width: "12px",
-                height: "6px",
-                background: "#1e40af",
-                borderRadius: "3px 3px 0 0",
-                boxShadow: "0 1px 2px rgba(0,0,0,0.1)",
-                pointerEvents: "none",
-              }}></div>
-            </div>
+          {/* Role */}
+          <label className="grid gap-2">
+            <span className="text-sm font-semibold text-black">Role</span>
+            <select
+              name="role"
+              required
+              defaultValue=""
+              className="p-3 rounded border border-gray-300 bg-white text-black text-sm outline-none w-full cursor-pointer"
+            >
+              <option value="" disabled>Role</option>
+              <option value="staff">Staff</option>
+              <option value="admin">Admin</option>
+            </select>
           </label>
 
-          <button type="submit" style={{
-            marginTop: "8px",
-            padding: "12px",
-            borderRadius: "4px",
-            background: "#3b82f6",
-            color: "#ffffff",
-            border: "none",
-            cursor: "pointer",
-            fontSize: "14px",
-            fontWeight: "600",
-          }}>
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="mt-2 p-3 rounded bg-blue-500 text-white font-semibold hover:bg-blue-600 transition-colors w-full"
+          >
             Log in
           </button>
         </form>
