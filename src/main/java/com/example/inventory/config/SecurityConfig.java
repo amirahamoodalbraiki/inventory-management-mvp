@@ -19,22 +19,27 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
+            
+            // Configure authorization rules
             .authorizeHttpRequests(auth -> auth
-                // Public endpoints
+                // Public endpoints (e.g., login/register)
                 .requestMatchers("/auth/**").permitAll()
 
-                // Role-based restrictions
                 // Only ADMIN can delete products
                 .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
+                // If products are under user controllers, use:
+                //.requestMatchers(HttpMethod.DELETE, "/api/user/products/**").hasRole("ADMIN")
 
-                // Only STAFF or ADMIN can access stock update endpoints
+                // Only STAFF or ADMIN can adjust stock
                 .requestMatchers("/api/stock/**").hasAnyRole("STAFF", "ADMIN")
+                // If stock is under user controllers, use:
+                //.requestMatchers("/api/user/stock/**").hasAnyRole("STAFF", "ADMIN")
 
-                // Everything else: authenticated
+                // All other endpoints require authentication
                 .anyRequest().authenticated()
             )
-            .httpBasic(basic -> {})
-            .formLogin(form -> {});
+            .httpBasic(basic -> {})   // Enable basic auth
+            .formLogin(form -> {});   // Enable form login (optional)
 
         return http.build();
     }
