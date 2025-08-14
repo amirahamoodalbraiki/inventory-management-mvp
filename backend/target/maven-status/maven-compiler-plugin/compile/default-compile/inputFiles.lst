@@ -1,0 +1,10 @@
+C:\Users\RH\inventory-management-mvp\backend\src\main\java\com\inventory\auth\controller\AuthController.java
+C:\Users\RH\inventory-management-mvp\backend\src\main\java\com\inventory\auth\controller\Member7Controller.java
+C:\Users\RH\inventory-management-mvp\backend\src\main\java\com\inventory\auth\model\Member7.java
+C:\Users\RH\inventory-management-mvp\backend\src\main\java\com\inventory\auth\model\User.java
+C:\Users\RH\inventory-management-mvp\backend\src\main\java\com\inventory\auth\repo\Member7Repository.java
+C:\Users\RH\inventory-management-mvp\backend\src\main\java\com\inventory\auth\repo\UserRepository.java
+C:\Users\RH\inventory-management-mvp\backend\src\main\java\com\inventory\auth\security\SecurityConfig.java
+C:\Users\RH\inventory-management-mvp\backend\src\main\java\com\inventory\auth\service\AuthService.java
+C:\Users\RH\inventory-management-mvp\backend\src\main\java\com\inventory\auth\service\Member7Service.java
+C:\Users\RH\inventory-management-mvp\backend\src\main\java\com\inventory\auth\service\UserService.java
