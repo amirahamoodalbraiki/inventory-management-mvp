@@ -2,6 +2,13 @@ import { useState, useEffect } from "react";
 import { inventoryService, getStockStatus, getStatusBadgeData } from "../services/inventory.js";
 
 export default function InventoryList() {
+  const navigate = useNavigate();
+
+  const handleAddProduct = () => {
+
+    navigate("/products/new");
+  };
+
   // State management
   const [search, setSearch] = useState("");
   const [filtersOpen, setFiltersOpen] = useState(false);
