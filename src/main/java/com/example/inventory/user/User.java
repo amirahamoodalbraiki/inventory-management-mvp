@@ -2,6 +2,8 @@ package com.example.inventory.auth.model;
 
 import jakarta.persistence.*;
 import java.time.Instant;
+import com.inventory.auth.model.Role;
+
 
 @Entity
 @Table(name = "users")
