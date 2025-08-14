@@ -28,6 +28,22 @@ export default function AddProduct() {
   const [saving, setSaving] = useState(false);
   const fileInputRef = useRef(null);
 
+  const [errors, setErrors] = useState({});
+
+const validate = (f) => {
+  const e = {};
+  if (!f.name.trim()) e.name = "Name is required";
+  if (!f.sku.trim()) e.sku = "SKU is required";
+  if (!f.category) e.category = "Pick a category";
+  if (f.unitPrice === "" || Number.isNaN(Number(f.unitPrice)) || Number(f.unitPrice) < 0)
+    e.unitPrice = "Unit price must be a number ≥ 0";
+  if (f.quantity === "" || !Number.isInteger(Number(f.quantity)) || Number(f.quantity) < 0)
+    e.quantity = "Quantity must be an integer ≥ 0";
+  if (f.lowStockThreshold === "" || !Number.isInteger(Number(f.lowStockThreshold)) || Number(f.lowStockThreshold) < 0)
+    e.lowStockThreshold = "Low-stock threshold must be an integer ≥ 0";
+  return e;
+};
+
   const update = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
 
   const onDrop = (e) => {
@@ -57,44 +73,37 @@ export default function AddProduct() {
     form.category &&
     !saving;
 
-  const handleSave = async () => {
-    if (!canSave) return;
-    setSaving(true);
-    try {
-      // payload
-      const payload = {
-        name: form.name.trim(),
-        sku: form.sku.trim(),
-        category: form.category,
-        description: form.description.trim(),
-        unitPrice: parseFloat(form.unitPrice || "0") || 0,
-        quantity: parseInt(form.quantity || "0", 10) || 0,
-        lowStockThreshold: parseInt(form.lowStockThreshold || "0", 10) || 0,
-        imageName: imageFile?.name || null,
-      };
-
-      // If your service exists, use it; else just log.
-      if (inventoryService?.createProduct) {
+    const handleSave = async () => {
+      const e = validate(form);
+      setErrors(e);
+      if (Object.keys(e).length > 0) return; // stop if errors
+    
+      setSaving(true);
+      try {
+        const payload = {
+          name: form.name.trim(),
+          sku: form.sku.trim(),
+          category: form.category,
+          description: form.description.trim(),
+          unitPrice: Number(form.unitPrice || 0),
+          quantity: Number.parseInt(form.quantity || "0", 10),
+          lowStockThreshold: Number.parseInt(form.lowStockThreshold || "0", 10),
+        };
+    
         await inventoryService.createProduct(payload, imageFile);
-      } else {
-        console.log("Mock createProduct()", payload, imageFile);
+    
+        alert("Product created!");
+        // navigate("/")  <-- if you want to go back to list
+        setForm({ name:"", sku:"", category:"", description:"", unitPrice:"", quantity:"", lowStockThreshold:"" });
+        clearImage();
+      } catch (err) {
+        console.error(err);
+        alert("Save failed. Check fields and try again.");
+      } finally {
+        setSaving(false);
       }
+    };
 
-      alert("Product created!");
-      // Optional: navigate back to Products
-      // navigate("/products")
-      setForm({
-        name: "", sku: "", category: "", description: "",
-        unitPrice: "", quantity: "", lowStockThreshold: "",
-      });
-      clearImage();
-    } catch (e) {
-      console.error(e);
-      alert("Save failed. Try again.");
-    } finally {
-      setSaving(false);
-    }
-  };
 
   const handleCancel = () => {
     // If you have routing, navigate back; else just reset.
