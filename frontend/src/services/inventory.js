@@ -1,5 +1,7 @@
+
 // src/services/inventory.js
 import { api } from './api';
+
 
 export const inventoryService = {
   async getInventoryItems({ category = 'all', stockStatus = 'all', search = '' } = {}) {
