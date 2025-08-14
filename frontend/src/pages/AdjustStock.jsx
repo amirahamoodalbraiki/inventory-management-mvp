@@ -48,7 +48,7 @@ export default function AdjustStock() {
 
   return (
     <div className="min-h-screen bg-[#fafafa]">
-      {/* احتفظت بالـ Navbar كما هو مستورد */}
+      {/* Navbar */}
       <main className="max-w-[1180px] mx-auto py-[40px] px-[28px] pb-[64px] bg-[#fafafa]">
         <h1 className="text-[32px] font-extrabold text-[#111827] my-2 mb-7">
           {product ? product.name : "Product Name"}
