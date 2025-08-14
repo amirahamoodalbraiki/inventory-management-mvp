@@ -37,7 +37,11 @@ mvn spring-boot:run
 ```
 ### Frontend
 1. Install Node.js (v18+)
+ docs/demo-data-and-readme
 2. 
+=======
+2.
+develop
 
 ```bash
 cd frontend
@@ -65,6 +69,39 @@ design/    # Wireframes
 ## Roles & Access
 - **STAFF:** View inventory, add/update products, adjust stock
 - **ADMIN:** All staff permissions + manage users
+ docs/demo-data-and-readme
+
+## Demo Data Setup
+This project includes scripts to populate the database with demo data for testing.
+
+### 1. Start the Backend
+Make sure the backend server is running locally:
+```bash
+./mvnw spring-boot:run
+It should be available at: https://localhost:8080
+```
+### 2. Seed Demo Data
+Navigate to the docs/api folder and run the seeding scripts in this order:
+
+```bash
+./seed_users.sh
+./seed_products.sh
+./seed_stock_changes_simple.sh
+```
+### 3. Verify Data
+Use curl or your browser to check the seeded data:
+- [Users](http://localhost:8080/users)
+- [Products](http://localhost:8080/products)
+- [Stock Changes](http://localhost:8080/stock-changes)
+- You should see JSON output containing the demo records.
+=======
+ develop
+
+## Contributing
+- **Default branch:** develop
+- Protect main branch (PRs only, ≥1 approval, passing CI)
+- Commit style: Conventional Commits (feat:, fix:, docs:, chore:)
+- Create a feature branch → Open PR into develop
 
 ## Demo Data Setup
 This project includes scripts to populate the database with demo data for testing.
@@ -90,19 +127,19 @@ Use curl or your browser to check the seeded data:
 - [Stock Changes](http://localhost:8080/stock-changes)
 - You should see JSON output containing the demo records.
 
-## Contributing
-- **Default branch:** develop
-- Protect main branch (PRs only, ≥1 approval, passing CI)
-- Commit style: Conventional Commits (feat:, fix:, docs:, chore:)
-- Create a feature branch → Open PR into develop
-
 ## Contacts
+docs/demo-data-and-readme
 - **Scrum Master:** Amira 
 - GitHub: [@amirahamoodalbraiki](https://github.com/amirahamoodalbraiki) 
+=======
+- **Scrum Master:** Amira
+- GitHub: [@amirahamoodalbraiki](https://github.com/amirahamoodalbraiki)
+develop
 - Email: albraikiam2@gmail.com
 - **Team:** Team7
 
 ## Roadmap (3 Weeks)
+docs/demo-data-and-readme
 - **Week 1:** Auth & roles, product CRUD (BE: user/product/category entities; FE: login, product form, basic list)
 - **Week 2:** Stock management, transaction history, low-stock highlighting
 - **Week 3:** Notifications, UI polish, deployment + demo checklist
@@ -134,3 +171,8 @@ Use curl or your browser to check the seeded data:
 5. **View Transaction History**  
    - Open the **Transaction History** page.  
    - Verify the latest stock changes are listed with correct details (date, quantity, type).
+=======
+- **Week 1:** Auth & roles, product CRUD (BE: user/product/category entities; FE: login, product form, basic list).
+- **Week 2:** Stock management, transaction history, low-stock highlighting.
+- **Week 3:** Notifications, UI polish, deployment + demo checklist.
+ develop
