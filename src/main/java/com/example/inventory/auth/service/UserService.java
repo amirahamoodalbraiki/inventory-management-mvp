@@ -1,8 +1,8 @@
-package com.example.inventory.auth.service;
+package com.inventory.auth.service;
 
-import com.example.inventory.auth.model.Role;
-import com.example.inventory.auth.model.User;
-import com.example.inventory.auth.repo.UserRepository;
+import com.inventory.auth.model.Role;
+import com.inventory.auth.model.User;
+import com.inventory.auth.repo.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
