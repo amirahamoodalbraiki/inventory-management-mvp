@@ -197,6 +197,11 @@ const [rowsPerPage, setRowsPerPage] = useState(10); // change if you want 5/20/e
     }
   };
   // Render status badge
+
+  const renderStatusBadge = (quantity, lowStockThreshold = 10) => {
+    const status = getStockStatus(quantity, lowStockThreshold);
+    const badgeData = getStatusBadgeData(status);
+
   const renderStatusBadge = (quantity) => {
     const status = getStockStatus(quantity);
     let statusText = "In-stock";
@@ -462,6 +467,42 @@ const [rowsPerPage, setRowsPerPage] = useState(10); // change if you want 5/20/e
                   &lt;
                 </button>
 
+      <section style={{ marginTop: 20 }}>
+        <div style={{
+          overflow: "auto",
+          border: "1px solid rgba(0,0,0,0.08)",
+          borderRadius: 12,
+        }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 720 }}>
+            <thead>
+              <tr style={{ background: "rgba(0,0,0,0.03)" }}>
+                <th style={thStyle}>Name</th>
+                <th style={thStyle}>SKU</th>
+                <th style={thStyle}>Category</th>
+                <th style={thStyle}>Quantity</th>
+                <th style={thStyle}>Low-Stock Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {items.map((item) => (
+                <tr key={item.id}>
+                  <td style={tdStyle}>{item.name}</td>
+                  <td style={tdStyle}>{item.sku}</td>
+                  <td style={tdStyle}>{item.category}</td>
+                  <td style={tdStyle}>{item.quantity}</td>
+                  <td style={tdStyle}>{renderStatusBadge(item.quantity, item.lowStockThreshold)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {items.length === 0 && !loading && (
+          <div style={{ textAlign: "center", padding: "40px 20px", color: "#667085" }}>
+            No items found matching your criteria
+          </div>
+        )}
+      </section>
+=======
                 {getDisplayPages(page, pageCount).map((p, idx) =>
                   p === "..." ? (
                     <span key={`gap-${idx}`} style={pageDotStyle}>
