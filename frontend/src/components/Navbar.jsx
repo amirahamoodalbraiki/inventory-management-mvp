@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 const links = [
   { key: "dashboard",   label: "Dashboard",   path: "/dashboard" },
-  { key: "inventory",   label: "Inventory",   path: "/" },
+  { key: "inventory",   label: "Inventory",   path: "/Inventory" },
   { key: "transactions",label: "Transactions",path: "/transactions" },
   { key: "reports",     label: "Reports",     path: "/reports" },
 ];
