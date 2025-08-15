@@ -2,13 +2,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../services/api";
+
+
+
 export default function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
-  const [role, setRole] = useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -16,10 +18,10 @@ export default function LoginPage() {
     setLoading(true);
     try {
       // backend expects "username" (not email) — pass email in that field
-      const { token } = await api.login({ username: email, password });
+      const { token } = await api.login({ email: email, password: password });
       if (!token) throw new Error("No token in response");
       localStorage.setItem("token", token);
-      navigate("/"); // go to inventory
+      navigate("/transactions"); // go to inventory
     } catch (e2) {
       setErr("Invalid credentials");
       console.error(e2);
@@ -62,27 +64,6 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               className="p-3 rounded border border-gray-300 bg-white text-black outline-none text-sm w-full"
             />
-          </label>
-
-          {/* Role */}
-          <label className="grid gap-2">
-            <span className="text-sm font-semibold text-black">Role</span>
-            <div className="relative">
-              <select
-                name="role"
-                required
-                defaultValue=""
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                className="w-full p-3 rounded border border-gray-300 bg-white text-black outline-none cursor-pointer text-sm appearance-none"
-              >
-                <option value="" disabled>Role</option>
-                <option value="staff">Staff</option>
-                <option value="admin">Admin</option>
-              </select>
-              {/*  */}
-              <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-3 h-1.5 bg-blue-900 rounded-t shadow"></span>
-            </div>
           </label>
 
           {/* Submit */}

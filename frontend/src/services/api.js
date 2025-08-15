@@ -1,7 +1,3 @@
-//instead of login, for now you do this 
-//localStorage.setItem("token", ##replace this with token##);
-//this this api can run
-
 const BASE = import.meta.env.VITE_API_BASE ?? '';
 
 function authHeaders(extraHeaders = {}) {
@@ -13,21 +9,31 @@ function authHeaders(extraHeaders = {}) {
 }
 
 export const api = {
-// api.js
-async login({ username, password }) {
-  const res = await fetch(`/auth/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password }),
-    credentials: 'include'  // <-- remove for login
-  });
-  const text = await res.text();
-  if (!res.ok) {
-    console.error('Login failed body:', text);  // helps debug
-    throw new Error(`${res.status} ${res.statusText}`);
-  }
-  return JSON.parse(text); // expect { token: '...' }
-},
+  async login({ email, password }) {
+    const res = await fetch('/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error('Login failed body:', errorText);
+      throw new Error(`${res.status} ${res.statusText}`);
+    }
+    const data = await res.json();
+    localStorage.setItem('token', data.token);
+    return data;
+  },
+
+  async get(path) { // ✅ added this
+    const res = await fetch(`${BASE}${path}`, {
+      method: 'GET',
+      headers: authHeaders(),
+      credentials: 'include'
+    });
+    if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+    return res.json();
+  },
 
   async postJson(path, body) {
     const res = await fetch(`${BASE}${path}`, {
