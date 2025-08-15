@@ -25,15 +25,32 @@ public class AuthController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-    User user = userRepository.findByEmail(request.getUsername())
-      .orElse(null);
-
-    if (user != null && passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
-      String token = jwtService.generateToken(user.getEmail());
-      return ResponseEntity.ok(new AuthResponse(token));
+  public ResponseEntity<?> login(@RequestBody(required = false) LoginRequest request) {
+    // 1️⃣ Check if request body exists
+    if (request == null) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body("Request body is missing. Please send JSON with email and password.");
     }
 
-    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+    // 2️⃣ Validate email and password
+    String email = request.getEmail();
+    String password = request.getPassword();
+
+    if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body("Missing credentials. Both email and password are required.");
+    }
+
+    // 3️⃣ Fetch user safely
+    User user = userRepository.findByEmail(email).orElse(null);
+
+    if (user == null || !passwordEncoder.matches(password, user.getPasswordHash())) {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+        .body("Invalid credentials");
+    }
+
+    // 4️⃣ Generate token for valid user
+    String token = jwtService.generateToken(user.getEmail());
+    return ResponseEntity.ok(new AuthResponse(token));
   }
 }
