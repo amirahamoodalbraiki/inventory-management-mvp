@@ -1,9 +1,32 @@
 // LoginPage.jsx
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { api } from "../services/api";
 export default function LoginPage() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    alert("Login submitted (placeholder)");
-  };
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [err, setErr] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [role, setRole] = useState("");
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setErr("");
+    setLoading(true);
+    try {
+      // backend expects "username" (not email) — pass email in that field
+      const { token } = await api.login({ username: email, password });
+      if (!token) throw new Error("No token in response");
+      localStorage.setItem("token", token);
+      navigate("/"); // go to inventory
+    } catch (e2) {
+      setErr("Invalid credentials");
+      console.error(e2);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div className="min-h-screen w-full bg-[#f5f5f5] flex items-center justify-center p-5">
@@ -21,6 +44,8 @@ export default function LoginPage() {
               name="email"
               required
               placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="p-3 rounded border border-gray-300 bg-white text-black outline-none text-sm w-full"
             />
           </label>
@@ -33,6 +58,8 @@ export default function LoginPage() {
               name="password"
               required
               placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="p-3 rounded border border-gray-300 bg-white text-black outline-none text-sm w-full"
             />
           </label>
@@ -45,6 +72,8 @@ export default function LoginPage() {
                 name="role"
                 required
                 defaultValue=""
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
                 className="w-full p-3 rounded border border-gray-300 bg-white text-black outline-none cursor-pointer text-sm appearance-none"
               >
                 <option value="" disabled>Role</option>
