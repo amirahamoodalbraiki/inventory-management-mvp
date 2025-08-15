@@ -10,8 +10,8 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/" element={<InventoryList />} />
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/inventory" element={<InventoryList />} />
         <Route path="/products/new" element={<AddProduct />} />
         <Route path="/:id/adjust" element={<AdjustStock />} />
         <Route path="/transactions" element={<Transactions />} />
