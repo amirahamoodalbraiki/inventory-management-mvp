@@ -65,4 +65,18 @@ export const inventoryService = {
   async deleteProduct(id) {
     return api.del(`/products/${id}`);
   },
+
+  getProductById(id) {
+    return api.get(`/products/${id}`);
+  },
+
+  async adjustStock({ productId, delta, reason, userId }) {
+    const params = new URLSearchParams();
+    params.set("productId", String(productId));
+    params.set("changeAmount", String(delta)); // matches backend @RequestParam
+    params.set("reason", reason || "");
+    if (userId) params.set("userId", String(userId)); // optional
+    
+    return api.postUrlEncoded("/stock-changes", params);
+  },
 };

@@ -84,7 +84,10 @@ export default function InventoryList() {
   }
 
   const handleAddProduct = () => navigate("/products/new");
-  const handleEdit = (item) => alert(`Edit product: ${item.name} (SKU: ${item.sku ?? "n/a"})`);
+  //const handleEdit = (item) => alert(`Edit product: ${item.name} (SKU: ${item.sku ?? "n/a"})`);
+  function handleEdit(item) {
+    navigate(`/products/${item.id}/edit`);
+  }
   const handleDelete = async (id) => {
     const ok = window.confirm("Are you sure you want to delete this product?");
     if (!ok) return;
@@ -94,6 +97,11 @@ export default function InventoryList() {
     } catch {
       alert("Failed to delete. Try again.");
     }
+  };
+
+  const handleAdjust = (item) => {
+    // go to /products/:id/adjust
+    navigate(`/products/${item.id}/adjust`);
   };
 
   function renderStatusBadge(quantity) {
@@ -201,6 +209,12 @@ export default function InventoryList() {
                     <td className="px-4 py-[14px] text-sm text-[#111827]">{renderStatusBadge(item.quantity)}</td>
                     <td className="px-4 py-[14px] text-sm text-[#111827]">
                       <div className="flex gap-2">
+                        <button
+                          onClick={() => handleAdjust(item)}
+                          className="bg-transparent border-0 p-0 cursor-pointer text-gray-500 font-bold">
+                          Adjust
+                        </button>
+                        <span className="text-gray-400">|</span>
                         <button onClick={() => handleEdit(item)} className="bg-transparent border-0 p-0 cursor-pointer text-gray-500 font-bold">Edit</button>
                         <span className="text-gray-400">|</span>
                         <button onClick={() => handleDelete(item.id)} className="bg-transparent border-0 p-0 cursor-pointer text-gray-500 font-bold">Delete</button>

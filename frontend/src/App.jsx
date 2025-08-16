@@ -13,7 +13,8 @@ export default function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/inventory" element={<InventoryList />} />
         <Route path="/products/new" element={<AddProduct />} />
-        <Route path="/:id/adjust" element={<AdjustStock />} />
+        <Route path="/products/:id/edit" element={<AddProduct />} />   {/* <-- new */}
+        <Route path="/products/:id/adjust" element={<AdjustStock />} />
         <Route path="/transactions" element={<Transactions />} />
       </Routes>
     </BrowserRouter>
