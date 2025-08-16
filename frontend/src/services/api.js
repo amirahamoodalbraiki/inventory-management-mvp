@@ -77,4 +77,14 @@ export const api = {
     if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
     return res.json();
   },
+  async postUrlEncoded(path, urlSearchParams) {
+    const res = await fetch(`${BASE}${path}`, {
+      method: 'POST',
+      headers: authHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
+      body: urlSearchParams.toString(),
+      credentials: 'include',
+    });
+    if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+    return res.json();
+  },
 };

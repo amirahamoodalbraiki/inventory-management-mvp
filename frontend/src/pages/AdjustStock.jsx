@@ -36,8 +36,9 @@ export default function AdjustStock() {
         productId: product.id,
         delta: Number(qty),
         reason,
+        userId: 1,
       });
-      navigate("/");
+      navigate("/transactions");
     } catch (e) {
       console.error(e);
       setErr("Update failed. Try again.");
@@ -86,7 +87,7 @@ export default function AdjustStock() {
         {/* Buttons right */}
         <div className="flex gap-2.5 justify-end mt-7">
           <button
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/inventory")}
             className="px-[14px] py-[10px] rounded-lg border border-gray-200 bg-[#dddddd] text-[#111827] text-[13px] font-semibold cursor-pointer"
           >
             Cancel

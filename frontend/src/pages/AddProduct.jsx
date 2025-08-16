@@ -1,5 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState,useEffect } from "react";
 import Navbar from "../components/Navbar";
+import { useNavigate, useParams } from "react-router-dom";
 import { inventoryService } from "../services/inventory.js";
 
 const categories = [
@@ -14,6 +15,9 @@ const categories = [
 ];
 
 export default function AddProduct() {
+  const { id } = useParams();                 // <-- if present => edit mode
+  const isEdit = Boolean(id);
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
     sku: "",
@@ -28,6 +32,29 @@ export default function AddProduct() {
   const [saving, setSaving] = useState(false);
   const fileInputRef = useRef(null);
   const [errors, setErrors] = useState({});
+// Load existing product in edit mode
+useEffect(() => {
+  if (!isEdit) return;
+  (async () => {
+    try {
+      const p = await inventoryService.getProductById(id);
+      setForm({
+        name: p.name ?? "",
+        sku: p.sku ?? "",
+        category: p.category ?? "",
+        description: p.description ?? "",
+        unitPrice: p.unitPrice ?? "",
+        quantity: p.quantity ?? "",
+        lowStockThreshold: p.lowStockThreshold ?? "",
+      });
+      if (p.imageUrl) setImagePreview(p.imageUrl);
+    } catch (e) {
+      console.error(e);
+      alert("Failed to load product for editing.");
+      navigate("/inventory");
+    }
+  })();
+}, [id, isEdit, navigate]);
 
   const validate = (f) => {
     const e = {};
@@ -42,7 +69,7 @@ export default function AddProduct() {
       e.lowStockThreshold = "Low-stock threshold must be an integer ≥ 0";
     return e;
   };
-
+  
   const update = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
 
   const onDrop = (e) => {
@@ -89,11 +116,27 @@ export default function AddProduct() {
         lowStockThreshold: Number.parseInt(form.lowStockThreshold || "0", 10),
       };
 
-      await inventoryService.createProduct(payload, imageFile);
-
-      alert("Product created!");
-      setForm({ name:"", sku:"", category:"", description:"", unitPrice:"", quantity:"", lowStockThreshold:"" });
-      clearImage();
+      if (isEdit) {
+        // EDIT: update only fields (image update depends on your backend)
+        await inventoryService.updateProduct(id, payload);
+        alert("Product updated!");
+      } else {
+        // CREATE: supports optional image upload
+        await inventoryService.createProduct(payload, imageFile);
+        alert("Product created!");
+        // reset only after create
+        setForm({
+          name: "",
+          sku: "",
+          category: "",
+          description: "",
+          unitPrice: "",
+          quantity: "",
+          lowStockThreshold: "",
+        });
+        clearImage();
+      }
+      navigate("/inventory");
     } catch (err) {
       console.error(err);
       alert("Save failed. Check fields and try again.");
@@ -103,11 +146,12 @@ export default function AddProduct() {
   };
 
   const handleCancel = () => {
-    setForm({
+    /*setForm({
       name: "", sku: "", category: "", description: "",
       unitPrice: "", quantity: "", lowStockThreshold: "",
     });
-    clearImage();
+    clearImage();*/
+    navigate("/inventory");
   };
 
   return (
@@ -115,7 +159,7 @@ export default function AddProduct() {
       <Navbar active="products" />
       <main className="max-w-[900px] mx-auto py-6 px-5 pb-12">
         <h1 className="text-[28px] font-extrabold my-3 mb-5 text-[#111827]">
-          Add Product
+        {isEdit ? "Edit Product" : "Add Product"}
         </h1>
 
         <div className="grid gap-4">
