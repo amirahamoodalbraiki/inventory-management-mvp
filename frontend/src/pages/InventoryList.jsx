@@ -2,22 +2,6 @@ import { useState, useEffect } from "react";
 import { inventoryService, getStockStatus } from "../services/inventory.js";
 import { useNavigate } from "react-router-dom";
 
-function TopBar() {
-  return (
-    <div className="h-14 flex items-center justify-between px-5 bg-[#fafafa] border-b border-gray-300 sticky top-0 z-50">
-      <div className="flex items-center gap-[10px]">
-        <div aria-hidden className="w-[14px] h-[14px] bg-[#111827] rounded-[3px] rotate-90" />
-        <span className="text-[18px] font-bold text-[#111827]">Inventory Manager</span>
-      </div>
-      <img
-        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIG34_9Mgmzn08YzxUu5iB-u5k-yElEiTnzEQKUcYjStBLFBG0SGsj-DGk4fWOuAe7lbX9YTdEAWY_URfDFRoMV_jqYIHR8ZTBeOIi_hPIXY7OtGw0_Y0h8AB4Uz8OniBEKKGnS4ja5m7F3dtMu5-uUS7uIgNfAehnVlp-g0ZbEDJIjeof7OTq_k-EgpiU1T_9HfcWikIBzNy03GiKhnWWb6QtSjSjcDZXG53WDMs0RoZIn6tuke561tXXz8jynIFy-a1HdSznRRSr"
-        alt="User avatar"
-        className="w-8 h-8 rounded-full object-cover"
-      />
-    </div>
-  );
-}
-
 function getDisplayPages(current, total) {
   if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
   const out = [1];
@@ -140,18 +124,7 @@ export default function InventoryList() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      <TopBar />
       <div className="flex-1 px-6 py-8 max-w-[1000px] w-full mx-auto">
-        <header className="flex items-center justify-between">
-          <h1 className="m-0 text-[#111827] text-[28px] font-extrabold">Products</h1>
-          <button
-            onClick={handleAddProduct}
-            className="rounded-lg bg-[#dddddd] text-[#111827] border border-gray-200 text-[13px] font-semibold cursor-pointer px-4 py-2"
-          >
-            Add New Product
-          </button>
-        </header>
-
         <div className="mt-6">
           <div className="flex flex-col gap-3 items-start">
             <label className="relative inline-block">

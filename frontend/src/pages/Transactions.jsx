@@ -62,7 +62,6 @@ export default function Transactions() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#fafafa]">
-      <Navbar />
       <main className="flex-1 max-w-[1000px] w-full mx-auto px-5 py-6 pb-12">
         <h1 className="text-[28px] font-extrabold text-[#111827] mb-4">Transaction History</h1>
 

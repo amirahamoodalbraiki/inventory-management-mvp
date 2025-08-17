@@ -5,6 +5,7 @@ const links = [
   { key: "dashboard",   label: "Dashboard",   path: "/dashboard" },
   { key: "inventory",   label: "Inventory",   path: "/Inventory" },
   { key: "transactions",label: "Transactions",path: "/transactions" },
+  { key: "Users",     label: "Users",     path: "/users" },
   { key: "reports",     label: "Reports",     path: "/reports" },
 ];
 
