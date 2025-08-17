@@ -3,7 +3,8 @@ package com.team7.backend.services;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
-
+import io.jsonwebtoken.Claims;
+import java.util.function.Function;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
@@ -18,22 +19,36 @@ public class JwtService {
     return Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
   }
 
-  public String generateToken(String username) {
+  public String generateToken(String username, String role, Integer userId) {
     return Jwts.builder()
-      .setSubject(username)
+      .setSubject(username)                // still keep email/username as main identity
+      .claim("role", role)                 // custom claim
+      .claim("userId", userId)             // another custom claim
       .setIssuedAt(new Date())
-      .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 hour
-      .signWith(getSigningKey()) // Use Key instead of String
+      .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1h
+      .signWith(getSigningKey())
       .compact();
   }
 
-  public String extractUsername(String token) {
-    return Jwts.parserBuilder()
-      .setSigningKey(getSigningKey()) // Use parserBuilder in 0.11.x
+  public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    final Claims claims = Jwts.parserBuilder()
+      .setSigningKey(getSigningKey())
       .build()
       .parseClaimsJws(token)
-      .getBody()
-      .getSubject();
+      .getBody();
+    return claimsResolver.apply(claims);
+  }
+
+  public String extractUsername(String token) {
+    return extractClaim(token, Claims::getSubject);
+  }
+
+  public String extractRole(String token) {
+    return extractClaim(token, claims -> claims.get("role", String.class));
+  }
+
+  public Date extractExpiration(String token) {
+    return extractClaim(token, Claims::getExpiration);
   }
 }
 
