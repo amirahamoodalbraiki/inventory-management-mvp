@@ -6,6 +6,9 @@ import Transactions from "./pages/Transactions.jsx";
 import AdjustStock from "./pages/AdjustStock.jsx";
 import UserManagement from "./pages/UserManagement.jsx";
 import Navbar from "./components/Navbar";
+import Dashboard from "./pages/Dashboard.jsx";
+
+
 
 function Layout() {
   const location = useLocation();
@@ -24,6 +27,8 @@ function Layout() {
           <Route path="/products/:id/adjust" element={<AdjustStock />} />
           <Route path="/transactions" element={<Transactions />} />
           <Route path="/users" element={<UserManagement />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+
         </Routes>
       </main>
     </div>
