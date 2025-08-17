@@ -2,39 +2,38 @@ import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const links = [
-  { key: "dashboard",   label: "Dashboard",   path: "/dashboard" },
-  { key: "inventory",   label: "Inventory",   path: "/Inventory" },
-  { key: "transactions",label: "Transactions",path: "/transactions" },
-  { key: "Users",     label: "Users",     path: "/users" },
-  { key: "reports",     label: "Reports",     path: "/reports" },
+  { key: "dashboard",   label: "Dashboard",    path: "/dashboard" },
+  { key: "inventory",   label: "Inventory",    path: "/inventory" },
+  { key: "transactions",label: "Transactions", path: "/transactions" },
+  { key: "users",       label: "Users",        path: "/users" },
+  { key: "reports",     label: "Reports",      path: "/reports" },
 ];
 
 export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const pathname = location.pathname.toLowerCase();
 
   return (
     <div style={wrap}>
-      {/* Left: logo + brand */}
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
         <div aria-hidden style={logoMark} />
         <span style={{ fontWeight: 700, color: "#111827" }}>StockPilot</span>
       </div>
 
-      {/* Right: nav links + bell + avatar */}
       <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
         <nav aria-label="Primary" style={{ display: "flex", gap: 20 }}>
           {links.map((l) => {
             const isActive =
               l.path === "/"
-                ? location.pathname === "/"
-                : location.pathname.startsWith(l.path);
-
+                ? pathname === "/"
+                : pathname.startsWith(l.path.toLowerCase());
             return (
               <button
                 key={l.key}
                 onClick={() => navigate(l.path)}
                 style={navLink(isActive)}
+                aria-current={isActive ? "page" : undefined}
               >
                 {l.label}
               </button>
@@ -64,8 +63,6 @@ export default function Navbar() {
     </div>
   );
 }
-
-/* ── styles ─────────────────────────────────────────────────────────── */
 
 const wrap = {
   height: 56,
