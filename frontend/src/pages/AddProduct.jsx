@@ -156,7 +156,6 @@ useEffect(() => {
 
   return (
     <div className="min-h-screen bg-[#fafafa]">
-      <Navbar active="products" />
       <main className="max-w-[900px] mx-auto py-6 px-5 pb-12">
         <h1 className="text-[28px] font-extrabold my-3 mb-5 text-[#111827]">
         {isEdit ? "Edit Product" : "Add Product"}

@@ -125,6 +125,15 @@ export default function InventoryList() {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <div className="flex-1 px-6 py-8 max-w-[1000px] w-full mx-auto">
+        <header className="flex items-center justify-between">
+          <h1 className="m-0 text-[#111827] text-[28px] font-extrabold">Products</h1>
+          <button
+            onClick={handleAddProduct}
+            className="rounded-lg bg-[#dddddd] text-[#111827] border border-gray-200 text-[13px] font-semibold cursor-pointer px-4 py-2"
+          >
+            Add New Product
+          </button>
+        </header>
         <div className="mt-6">
           <div className="flex flex-col gap-3 items-start">
             <label className="relative inline-block">
