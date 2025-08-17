@@ -2,6 +2,7 @@ package com.team7.backend.controllers;
 
 import com.team7.backend.entities.StockChange;
 import com.team7.backend.services.StockChangeService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,12 +19,14 @@ public class StockChangeController {
 
   // Get all stock changes
   @GetMapping
+  @PreAuthorize("hasAnyRole('ADMIN','USER')")
   public List<StockChange> getAllStockChanges() {
     return stockChangeService.getAllStockChanges();
   }
 
   // Add stock change
   @PostMapping
+  @PreAuthorize("hasAnyRole('ADMIN','USER')")
   public StockChange addStockChange(@RequestParam Integer productId,
                                     @RequestParam Integer changeAmount,
                                     @RequestParam String reason,
@@ -33,6 +36,7 @@ public class StockChangeController {
 
   // Get changes for a specific product
   @GetMapping("/product/{productId}")
+  @PreAuthorize("hasAnyRole('ADMIN','USER')")
   public List<StockChange> getChangesForProduct(@PathVariable Integer productId) {
     return stockChangeService.getChangesForProduct(productId);
   }
