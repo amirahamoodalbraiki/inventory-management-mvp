@@ -2,6 +2,7 @@ package com.team7.backend.controllers;
 
 import com.team7.backend.entities.Product;
 import com.team7.backend.repositories.ProductRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,24 +19,28 @@ public class ProductController {
 
   // Get all products
   @GetMapping
+  @PreAuthorize("hasAnyRole('ADMIN','USER')")
   public List<Product> getAllProducts() {
     return productRepository.findAll();
   }
 
   // Get a single product by ID
   @GetMapping("/{id}")
+  @PreAuthorize("hasAnyRole('ADMIN','USER')")
   public Product getProductById(@PathVariable Integer id) {
     return productRepository.findById(id).orElse(null);
   }
 
   // Create a new product
   @PostMapping
+  @PreAuthorize("hasAnyRole('ADMIN','USER')")
   public Product createProduct(@RequestBody Product product) {
     return productRepository.save(product);
   }
 
   // Update product
   @PutMapping("/{id}")
+  @PreAuthorize("hasAnyRole('ADMIN','USER')")
   public Product updateProduct(@PathVariable Integer id, @RequestBody Product updatedProduct) {
     return productRepository.findById(id).map(product -> {
       product.setName(updatedProduct.getName());
@@ -52,6 +57,7 @@ public class ProductController {
 
   // Delete product
   @DeleteMapping("/{id}")
+  @PreAuthorize("hasAnyRole('ADMIN','USER')")
   public void deleteProduct(@PathVariable Integer id) {
     productRepository.deleteById(id);
   }

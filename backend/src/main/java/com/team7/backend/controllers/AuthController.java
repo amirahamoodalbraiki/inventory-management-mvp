@@ -50,7 +50,12 @@ public class AuthController {
     }
 
     // 4️⃣ Generate token for valid user
-    String token = jwtService.generateToken(user.getEmail());
+    String token = jwtService.generateToken(
+      user.getEmail(),       // subject (username/email)
+      user.getRole(),        // role claim
+      user.getId()           // userId claim
+    );
+
     return ResponseEntity.ok(new AuthResponse(token));
   }
 }
