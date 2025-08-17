@@ -21,7 +21,7 @@ public class ProductController {
   @GetMapping
   @PreAuthorize("hasAnyRole('ADMIN','USER')")
   public List<Product> getAllProducts() {
-    return productRepository.findAll();
+    return productRepository.findByDeletedFalse();
   }
 
   // Get a single product by ID
@@ -57,8 +57,11 @@ public class ProductController {
 
   // Delete product
   @DeleteMapping("/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN','USER')")
+  @PreAuthorize("hasRole('ADMIN')")
   public void deleteProduct(@PathVariable Integer id) {
-    productRepository.deleteById(id);
+    productRepository.findById(id).ifPresent(product -> {
+      product.setDeleted(true);
+      productRepository.save(product);
+    });
   }
 }

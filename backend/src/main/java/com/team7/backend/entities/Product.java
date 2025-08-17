@@ -38,6 +38,17 @@ public class Product {
   @Column(nullable = false)
   private LocalDateTime createdAt = LocalDateTime.now();
 
+  @Column(nullable = false)
+  private boolean deleted = false;
+
+  public boolean isDeleted() {
+    return deleted;
+  }
+
+  public void setDeleted(boolean deleted) {
+    this.deleted = deleted;
+  }
+
   // Constructors
   public Product() {}
 

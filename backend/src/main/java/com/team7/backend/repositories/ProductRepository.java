@@ -9,4 +9,5 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
   // Example custom queries
   List<Product> findByCategory(String category);
   List<Product> findByQuantityLessThanEqual(Integer quantity);
+  List<Product> findByDeletedFalse();
 }
