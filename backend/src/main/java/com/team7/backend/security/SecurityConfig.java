@@ -13,7 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableMethodSecurity(prePostEnabled = true) // 🔹 Enable @PreAuthorize
+@EnableMethodSecurity(prePostEnabled = true) // 🔹 Enable @PreAuthorize annotations
 public class SecurityConfig {
 
   private final JwtFilter jwtFilter;
@@ -25,6 +25,7 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     return http
+      // Disable CSRF and allow H2 console
       .csrf(csrf -> csrf
         .ignoringRequestMatchers("/h2-console/**")
         .disable()
@@ -33,10 +34,12 @@ public class SecurityConfig {
         .frameOptions(frame -> frame.sameOrigin()) // allow H2 console frames
       )
       .authorizeHttpRequests(auth -> auth
+        // Public endpoints
         .requestMatchers("/auth/login", "/h2-console/**").permitAll()
-        // all other endpoints require authentication
+        // All other endpoints require authentication
         .anyRequest().authenticated()
       )
+      // Stateless session (JWT)
       .sessionManagement(session -> session
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
       )
@@ -47,7 +50,7 @@ public class SecurityConfig {
 
   @Bean
   public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder(); // used for hashing passwords
+    return new BCryptPasswordEncoder(); // For hashing passwords
   }
 
   @Bean
