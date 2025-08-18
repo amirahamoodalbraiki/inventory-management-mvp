@@ -141,7 +141,9 @@ develop
 ## Roadmap (3 Weeks)
 docs/demo-data-and-readme
 - **Week 1:** Auth & roles, product CRUD (BE: user/product/category entities; FE: login, product form, basic list)
-- **Week 2:** Stock management, transaction history, low-stock highlighting
+- **Week 2:**  
+  - Backend: Stock endpoints, transaction history, low-stock check, role-based access  
+  - Frontend: Highlight low-stock items, stock adjustment page, transaction history page  
 - **Week 3:** Notifications, UI polish, deployment + demo checklist
 
 
