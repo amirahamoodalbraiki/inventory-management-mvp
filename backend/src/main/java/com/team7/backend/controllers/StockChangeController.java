@@ -17,14 +17,14 @@ public class StockChangeController {
     this.stockChangeService = stockChangeService;
   }
 
-  // Get all stock changes
+  // Get all stock changes → ADMIN and USER can view
   @GetMapping
   @PreAuthorize("hasAnyRole('ADMIN','USER')")
   public List<StockChange> getAllStockChanges() {
     return stockChangeService.getAllStockChanges();
   }
 
-  // Add stock change
+  // Add stock change → both ADMIN and USER can update
   @PostMapping
   @PreAuthorize("hasAnyRole('ADMIN','USER')")
   public StockChange addStockChange(@RequestParam Integer productId,
@@ -34,7 +34,7 @@ public class StockChangeController {
     return stockChangeService.addStockChange(productId, changeAmount, reason, userId);
   }
 
-  // Get changes for a specific product
+  // Get changes for a specific product → ADMIN and USER can view
   @GetMapping("/product/{productId}")
   @PreAuthorize("hasAnyRole('ADMIN','USER')")
   public List<StockChange> getChangesForProduct(@PathVariable Integer productId) {
