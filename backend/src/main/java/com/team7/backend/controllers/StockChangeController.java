@@ -17,27 +17,33 @@ public class StockChangeController {
     this.stockChangeService = stockChangeService;
   }
 
-  // Get all stock changes → ADMIN and USER can view
+  // 🔹 Get all stock changes → ADMIN only
   @GetMapping
-  @PreAuthorize("hasAnyRole('ADMIN','USER')")
+  @PreAuthorize("hasRole('ADMIN')")
   public List<StockChange> getAllStockChanges() {
     return stockChangeService.getAllStockChanges();
   }
 
-  // Add stock change → both ADMIN and USER can update
+  // 🔹 Add stock change → ADMIN + USER
   @PostMapping
   @PreAuthorize("hasAnyRole('ADMIN','USER')")
   public StockChange addStockChange(@RequestParam Integer productId,
                                     @RequestParam Integer changeAmount,
                                     @RequestParam String reason,
                                     @RequestParam Integer userId) {
+    if (productId == null || changeAmount == null || reason == null || userId == null) {
+      throw new IllegalArgumentException("All parameters are required");
+    }
     return stockChangeService.addStockChange(productId, changeAmount, reason, userId);
   }
 
-  // Get changes for a specific product → ADMIN and USER can view
+  // 🔹 Get changes for a specific product → ADMIN + USER
   @GetMapping("/product/{productId}")
   @PreAuthorize("hasAnyRole('ADMIN','USER')")
   public List<StockChange> getChangesForProduct(@PathVariable Integer productId) {
+    if (productId == null) {
+      throw new IllegalArgumentException("Product ID is required");
+    }
     return stockChangeService.getChangesForProduct(productId);
   }
 }

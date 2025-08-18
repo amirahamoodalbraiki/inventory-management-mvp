@@ -20,35 +20,46 @@ public class UserController {
     this.passwordEncoder = passwordEncoder;
   }
 
-  // Get all users
+  // 🔹 Only ADMIN can see all users
   @GetMapping
-  @PreAuthorize("hasAnyRole('ADMIN','USER')")
+  @PreAuthorize("hasRole('ADMIN')")
   public List<User> getAllUsers() {
     return userRepository.findAll();
   }
 
-  // Get user by ID
+  // 🔹 Only ADMIN can get user by ID
   @GetMapping("/{id}")
-  @PreAuthorize("hasAnyRole('ADMIN','USER')")
+  @PreAuthorize("hasRole('ADMIN')")
   public User getUserById(@PathVariable Integer id) {
-    return userRepository.findById(id).orElse(null);
+    return userRepository.findById(id)
+      .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
   }
 
-  // Create new user
+  // 🔹 Only ADMIN can create users
   @PostMapping
   @PreAuthorize("hasRole('ADMIN')")
   public User createUser(@RequestBody User user) {
-    // 🔹 Hash the raw password before saving
+    // Hash the raw password before saving
     String rawPassword = user.getPasswordHash();
     user.setPasswordHash(passwordEncoder.encode(rawPassword));
+
+    // Ensure role is uppercase and valid
+    String role = user.getRole().toUpperCase();
+    if (!role.equals("ADMIN") && !role.equals("USER")) {
+      throw new IllegalArgumentException("Role must be ADMIN or USER");
+    }
+    user.setRole(role);
 
     return userRepository.save(user);
   }
 
-  // Delete user
+  // 🔹 Only ADMIN can delete users
   @DeleteMapping("/{id}")
   @PreAuthorize("hasRole('ADMIN')")
   public void deleteUser(@PathVariable Integer id) {
+    if (!userRepository.existsById(id)) {
+      throw new RuntimeException("User not found with id: " + id);
+    }
     userRepository.deleteById(id);
   }
 }

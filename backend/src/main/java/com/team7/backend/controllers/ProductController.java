@@ -17,51 +17,61 @@ public class ProductController {
     this.productRepository = productRepository;
   }
 
-  // Get all products
+  // 🔹 Get all products (ADMIN + USER)
   @GetMapping
   @PreAuthorize("hasAnyRole('ADMIN','USER')")
   public List<Product> getAllProducts() {
     return productRepository.findByDeletedFalse();
   }
 
-  // Get a single product by ID
+  // 🔹 Get a single product by ID (ADMIN + USER)
   @GetMapping("/{id}")
   @PreAuthorize("hasAnyRole('ADMIN','USER')")
   public Product getProductById(@PathVariable Integer id) {
-    return productRepository.findById(id).orElse(null);
+    return productRepository.findById(id)
+      .filter(product -> !product.isDeleted())
+      .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
   }
 
-  // Create a new product
+  // 🔹 Create a new product (ADMIN + USER)
   @PostMapping
   @PreAuthorize("hasAnyRole('ADMIN','USER')")
   public Product createProduct(@RequestBody Product product) {
+    // Ensure deleted flag is false when creating
+    product.setDeleted(false);
     return productRepository.save(product);
   }
 
-  // Update product
+  // 🔹 Update a product (ADMIN + USER)
   @PutMapping("/{id}")
   @PreAuthorize("hasAnyRole('ADMIN','USER')")
   public Product updateProduct(@PathVariable Integer id, @RequestBody Product updatedProduct) {
-    return productRepository.findById(id).map(product -> {
-      product.setName(updatedProduct.getName());
-      product.setSku(updatedProduct.getSku());
-      product.setCategory(updatedProduct.getCategory());
-      product.setDescription(updatedProduct.getDescription());
-      product.setUnitPrice(updatedProduct.getUnitPrice());
-      product.setQuantity(updatedProduct.getQuantity());
-      product.setLowStockThreshold(updatedProduct.getLowStockThreshold());
-      product.setImageUrl(updatedProduct.getImageUrl());
-      return productRepository.save(product);
-    }).orElse(null);
+    return productRepository.findById(id)
+      .filter(product -> !product.isDeleted())
+      .map(product -> {
+        product.setName(updatedProduct.getName());
+        product.setSku(updatedProduct.getSku());
+        product.setCategory(updatedProduct.getCategory());
+        product.setDescription(updatedProduct.getDescription());
+        product.setUnitPrice(updatedProduct.getUnitPrice());
+        product.setQuantity(updatedProduct.getQuantity());
+        product.setLowStockThreshold(updatedProduct.getLowStockThreshold());
+        product.setImageUrl(updatedProduct.getImageUrl());
+        return productRepository.save(product);
+      })
+      .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
   }
 
-  // Delete product
+  // 🔹 Soft delete a product (ADMIN only)
   @DeleteMapping("/{id}")
   @PreAuthorize("hasRole('ADMIN')")
   public void deleteProduct(@PathVariable Integer id) {
-    productRepository.findById(id).ifPresent(product -> {
-      product.setDeleted(true);
-      productRepository.save(product);
-    });
+    productRepository.findById(id)
+      .ifPresentOrElse(product -> {
+        product.setDeleted(true);
+        productRepository.save(product);
+      }, () -> {
+        throw new RuntimeException("Product not found with id: " + id);
+      });
   }
 }

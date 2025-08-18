@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users") // optional, defaults to 'user' which can be a reserved word
+@Table(name = "users")
 public class User {
 
   @Id
@@ -21,7 +21,7 @@ public class User {
   private String name;
 
   @Column(nullable = false)
-  private String role; // should be 'USER' or 'ADMIN'
+  private String role; // 'ADMIN' or 'USER'
 
   @Column(nullable = true)
   private String phone;
@@ -63,12 +63,7 @@ public class User {
   public LocalDateTime getCreatedAt() { return createdAt; }
   public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
-  // Helper methods for role checks
-  public boolean isAdmin() {
-    return "ADMIN".equalsIgnoreCase(this.role);
-  }
-
-  public boolean isUser() {
-    return "USER".equalsIgnoreCase(this.role);
-  }
+  // Helper methods
+  public boolean isAdmin() { return "ADMIN".equalsIgnoreCase(this.role); }
+  public boolean isUser() { return "USER".equalsIgnoreCase(this.role); }
 }
