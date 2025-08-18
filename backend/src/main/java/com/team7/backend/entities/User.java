@@ -21,7 +21,7 @@ public class User {
   private String name;
 
   @Column(nullable = false)
-  private String role;
+  private String role; // should be 'USER' or 'ADMIN'
 
   @Column(nullable = true)
   private String phone;
@@ -36,7 +36,7 @@ public class User {
     this.email = email;
     this.passwordHash = passwordHash;
     this.name = name;
-    this.role = role;
+    this.role = role.toUpperCase(); // enforce uppercase
     this.phone = phone;
     this.createdAt = LocalDateTime.now();
   }
@@ -55,11 +55,20 @@ public class User {
   public void setName(String name) { this.name = name; }
 
   public String getRole() { return role; }
-  public void setRole(String role) { this.role = role; }
+  public void setRole(String role) { this.role = role.toUpperCase(); }
 
   public String getPhone() { return phone; }
   public void setPhone(String phone) { this.phone = phone; }
 
   public LocalDateTime getCreatedAt() { return createdAt; }
   public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+  // Helper methods for role checks
+  public boolean isAdmin() {
+    return "ADMIN".equalsIgnoreCase(this.role);
+  }
+
+  public boolean isUser() {
+    return "USER".equalsIgnoreCase(this.role);
+  }
 }

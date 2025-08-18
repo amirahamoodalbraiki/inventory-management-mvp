@@ -25,23 +25,33 @@ public class StockChangeService {
     this.userRepository = userRepository;
   }
 
+  // Get all stock changes
   public List<StockChange> getAllStockChanges() {
     return stockChangeRepository.findAll();
   }
 
+  // Add a stock change (USER and ADMIN can do this)
   public StockChange addStockChange(Integer productId, Integer changeAmount, String reason, Integer userId) {
-    Product product = productRepository.findById(productId).orElseThrow();
-    User user = userRepository.findById(userId).orElseThrow();
+    if (changeAmount == 0) {
+      throw new IllegalArgumentException("Change amount cannot be zero");
+    }
 
-    // Adjust product quantity
+    Product product = productRepository.findById(productId)
+      .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+
+    User user = userRepository.findById(userId)
+      .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+    // Update product quantity
     product.setQuantity(product.getQuantity() + changeAmount);
     productRepository.save(product);
 
-    // Create stock change record
+    // Create and save stock change record
     StockChange stockChange = new StockChange(product, changeAmount, reason, user);
     return stockChangeRepository.save(stockChange);
   }
 
+  // Get stock changes for a specific product
   public List<StockChange> getChangesForProduct(Integer productId) {
     return stockChangeRepository.findByProductId(productId);
   }
