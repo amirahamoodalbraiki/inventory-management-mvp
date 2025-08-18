@@ -70,11 +70,12 @@ As a staff member, I want to delete a product so that I can remove invalid or di
 
 ## INV-01 — Inventory List + Search
 **User Story:**  
-As a staff member, I want to view an inventory list and search by name, SKU, or category so that I can find products quickly.
+As a staff member, I want to view an inventory list and filter products by category and stock level so that I can easily track and manage products.
 
 **Acceptance Criteria:**  
-- I can see a table with columns: name, SKU, quantity, and category.  
-- When I type in the search bar, the list filters by matching name, SKU, or category.
+- I can see a table with columns: name, SKU, quantity, and category.
+- When I filter by category, the list only shows matching products.
+- When I filter by stock level (e.g., low stock, in stock), the list only shows matching products
 
 **Estimation:** M  
 **Labels:** feature, products, backend, frontend, size:M, week1
