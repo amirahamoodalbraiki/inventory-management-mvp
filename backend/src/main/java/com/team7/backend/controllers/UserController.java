@@ -53,6 +53,36 @@ public class UserController {
     return userRepository.save(user);
   }
 
+  // 🔹 Only ADMIN can update users
+  @PutMapping("/{id}")
+  @PreAuthorize("hasRole('ADMIN')")
+  public User updateUser(@PathVariable Integer id, @RequestBody User updatedUser) {
+    return userRepository.findById(id)
+      .map(user -> {
+        user.setEmail(updatedUser.getEmail());
+        user.setName(updatedUser.getName());
+        user.setPhone(updatedUser.getPhone());
+
+        // ✅ If password is provided, hash it before saving
+        if (updatedUser.getPasswordHash() != null && !updatedUser.getPasswordHash().isBlank()) {
+          user.setPasswordHash(passwordEncoder.encode(updatedUser.getPasswordHash()));
+        }
+
+        // ✅ Validate and set role (ADMIN or USER)
+        if (updatedUser.getRole() != null) {
+          String role = updatedUser.getRole().toUpperCase();
+          if (!role.equals("ADMIN") && !role.equals("USER")) {
+            throw new IllegalArgumentException("Role must be ADMIN or USER");
+          }
+          user.setRole(role);
+        }
+
+        return userRepository.save(user);
+      })
+      .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+  }
+
+
   // 🔹 Only ADMIN can delete users
   @DeleteMapping("/{id}")
   @PreAuthorize("hasRole('ADMIN')")
