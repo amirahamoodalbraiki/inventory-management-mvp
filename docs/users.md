@@ -14,7 +14,7 @@
 - Authorization: Bearer <JWT>
 
 **Response (200)**
-```json
+```
 [
   {
     "id": 1,
@@ -25,16 +25,17 @@
     "createdAt": "2025-08-17T10:15:00"
   }
 ]
-cURL
-curl -X GET http://localhost:8080/users \
+```
+**cURL**
+- curl -X GET http://localhost:8080/users \
   -H "Authorization: Bearer <TOKEN>"
-GET /users/{id}
-Headers
+### GET /users/{id}
 
-Authorization: Bearer <JWT>
+**Headers**
+- Authorization: Bearer <JWT>
 
-Response (200)
-
+**Response (200)**
+```
 {
   "id": 2,
   "email": "staff1@example.com",
@@ -43,18 +44,18 @@ Response (200)
   "phone": "+96811111111",
   "createdAt": "2025-08-17T10:15:00"
 }
-cURL
-curl -X GET http://localhost:8080/users/2 \
+```
+**cURL**
+- curl -X GET http://localhost:8080/users/2 \
   -H "Authorization: Bearer <TOKEN>"
-POST /users
-Headers
+  
+### POST /users
+**Headers**
+- Authorization: Bearer <JWT>
+- Content-Type: application/json
 
-Authorization: Bearer <JWT>
-
-Content-Type: application/json
-
-Request
-
+**Request**
+```
 {
   "email": "new.user@example.com",
   "password": "Strong#123",
@@ -62,8 +63,9 @@ Request
   "role": "USER",
   "phone": "+96822222222"
 }
-Response (201)
-
+```
+**Response (201)**
+```
 {
   "id": 7,
   "email": "new.user@example.com",
@@ -72,20 +74,20 @@ Response (201)
   "phone": "+96822222222",
   "createdAt": "2025-08-18T09:30:00"
 }
-cURL
-curl -X POST http://localhost:8080/users \
+```
+**cURL**
+- curl -X POST http://localhost:8080/users \
   -H "Authorization: Bearer <TOKEN>" \
   -H "Content-Type: application/json" \
   -d "{\"email\":\"new.user@example.com\",\"password\":\"Strong#123\",\"name\":\"New User\",\"role\":\"USER\",\"phone\":\"+96822222222\"}"
-DELETE /users/{id}
-Headers
+  
+### DELETE /users/{id}
+**Headers**
+- Authorization: Bearer <JWT>
 
-Authorization: Bearer <JWT>
+**Response**
+- 204 No Content
 
-Response
-
-204 No Content
-
-cURL
-curl -X DELETE http://localhost:8080/users/7 \
+**cURL**
+- curl -X DELETE http://localhost:8080/users/7 \
   -H "Authorization: Bearer <TOKEN>"
