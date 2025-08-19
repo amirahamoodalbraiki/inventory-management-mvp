@@ -1,5 +1,6 @@
 package com.team7.backend.services;
 
+import com.team7.backend.entities.Notification;
 import com.team7.backend.entities.Product;
 import com.team7.backend.entities.StockChange;
 import com.team7.backend.entities.User;
@@ -16,13 +17,16 @@ public class StockChangeService {
   private final StockChangeRepository stockChangeRepository;
   private final ProductRepository productRepository;
   private final UserRepository userRepository;
+  private final NotificationService notificationService;
 
   public StockChangeService(StockChangeRepository stockChangeRepository,
                             ProductRepository productRepository,
-                            UserRepository userRepository) {
+                            UserRepository userRepository,
+                            NotificationService notificationService) {
     this.stockChangeRepository = stockChangeRepository;
     this.productRepository = productRepository;
     this.userRepository = userRepository;
+    this.notificationService = notificationService;
   }
 
   // Get all stock changes
@@ -43,12 +47,20 @@ public class StockChangeService {
       .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
     // Update product quantity
-    product.setQuantity(product.getQuantity() + changeAmount);
+    int newQuantity = product.getQuantity() + changeAmount;
+    product.setQuantity(newQuantity);
     productRepository.save(product);
 
     // Create and save stock change record
     StockChange stockChange = new StockChange(product, changeAmount, reason, user);
-    return stockChangeRepository.save(stockChange);
+    stockChangeRepository.save(stockChange);
+
+    // 🔔 Check for low stock and create notification
+    if (newQuantity <= product.getLowStockThreshold()) {
+      notificationService.createLowStockNotification(user, product);
+    }
+
+    return stockChange;
   }
 
   // Get stock changes for a specific product
