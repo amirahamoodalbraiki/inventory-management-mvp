@@ -87,17 +87,17 @@ export default function InventoryList() {
     // go to /products/:id/adjust
     navigate(`/products/${item.id}/adjust`);
   };
-
-  function renderStatusBadge(quantity) {
-    const status = getStockStatus(quantity);
-    const text = status === "out" ? "Out-of-stock" : status === "low" ? "Low-stock" : "In-stock";
+  function renderStatusBadge(quantity, lowStockThreshold = 10) {
+    const status = getStockStatus(Number(quantity ?? 0), Number(lowStockThreshold ?? 10));
+    const text = status === "out" ? "Out-of-stock"
+               : status === "low" ? "Low-stock"
+               : "In-stock";
     return (
-      <span className="flex items-center justify-center px-3 py-1.5 rounded-lg w-[100px] text-[12px] font-medium text-black bg-[#dddddd] border border-gray-200">
+      <span className="flex items-center justify-center px-3 py-1.5 rounded-lg text-[12px] font-medium text-black bg-[#dddddd] border border-gray-200 whitespace-nowrap">
         {text}
       </span>
     );
   }
-
   if (loading && items.length === 0) {
     return (
       <div className="p-6 max-w-[1200px] mx-auto">
@@ -153,15 +153,15 @@ export default function InventoryList() {
             </label>
 
             <label className="relative inline-block">
-              <select
+                          <select
                 value={stockFilter}
                 onChange={(e) => setStockFilter(e.target.value)}
                 className="py-[10px] pl-[14px] pr-9 rounded-[8px] bg-[#dddddd] border-0 text-[#111827] text-[14px] font-semibold cursor-pointer appearance-none"
               >
                 <option value="all">Stock status</option>
-                <option value="in-stock">In-stock</option>
-                <option value="low-stock">Low-stock</option>
-                <option value="out-of-stock">Out-of-stock</option>
+                <option value="in">In-stock</option>
+                <option value="low">Low-stock</option>
+                <option value="out">Out-of-stock</option>
               </select>
               <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 inline-flex items-center justify-center text-gray-500">▾</span>
             </label>
@@ -188,7 +188,7 @@ export default function InventoryList() {
                     <td className="px-4 py-[14px] text-sm text-[#111827]">{item.sku}</td>
                     <td className="px-4 py-[14px] text-sm text-[#111827]">{item.category}</td>
                     <td className="px-4 py-[14px] text-sm text-[#111827]">{item.quantity}</td>
-                    <td className="px-4 py-[14px] text-sm text-[#111827]">{renderStatusBadge(item.quantity)}</td>
+                    <td className="px-4 py-[14px] text-sm text-[#111827]"> {renderStatusBadge(item.quantity, item.lowStockThreshold)}</td>
                     <td className="px-4 py-[14px] text-sm text-[#111827]">
                       <div className="flex gap-2">
                         <button

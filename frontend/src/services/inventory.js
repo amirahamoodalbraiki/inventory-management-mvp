@@ -2,7 +2,7 @@
 import { api } from "./api";
 
 // Helper: decide stock status based on quantity vs threshold
-export function getStockStatus(quantity = 0, lowStockThreshold = 10) {
+export function getStockStatus(quantity = 0, lowStockThreshold = 0) {
   if (quantity <= 0) return "out";
   if (quantity <= lowStockThreshold) return "low";
   return "in";
@@ -10,29 +10,47 @@ export function getStockStatus(quantity = 0, lowStockThreshold = 10) {
 
 export const inventoryService = {
   // GET /products?search=&category=
-  async getInventoryItems({ category = "all", stockStatus = "all", search = "" } = {}) {
-    const params = new URLSearchParams();
-    if (search) params.set("search", search);
-    if (category && category !== "all") params.set("category", category);
+async getInventoryItems({ category = "all", stockStatus = "all", search = "" } = {}) {
+  const params = new URLSearchParams();
+  if (search) params.set("search", search);
+  if (category && category !== "all") params.set("category", category);
 
-    const data = await api.get(`/products${params.toString() ? `?${params}` : ""}`);
+  const data = await api.get(`/products${params.toString() ? `?${params}` : ""}`);
 
-    // support either array or { content: [...] }
-    const list = Array.isArray(data) ? data : Array.isArray(data?.content) ? data.content : [];
+  // support either array or { content: [...] }
+  const list = Array.isArray(data) ? data : Array.isArray(data?.content) ? data.content : [];
 
-    // client-side stock filter (if backend doesn’t do it)
-    const filtered =
-      stockStatus === "all"
-        ? list
-        : list.filter((p) => {
-            const status = getStockStatus(p.quantity ?? 0, p.lowStockThreshold ?? 10);
-            if (stockStatus === "in-stock")  return status === "in";
-            if (stockStatus === "low-stock") return status === "low";
-            if (stockStatus === "out-of-stock") return status === "out";
-            return true;
-          });
+  // Local category filter (works even if backend ignores ?category=)
+  const byCategory =
+    category === "all"
+      ? list
+      : list.filter(p => (p.category ?? "").toLowerCase() === String(category).toLowerCase());
 
-    return filtered;
+  // Optional: local search fallback
+  const q = search.trim().toLowerCase();
+  const bySearch = q
+    ? byCategory.filter(p => {
+        const hay = `${p.name ?? ""} ${p.sku ?? ""} ${p.category ?? ""} ${p.description ?? ""}`.toLowerCase();
+        return hay.includes(q);
+      })
+    : byCategory;
+
+// Map UI values to internal status
+const map = { "in-stock": "in", "low-stock": "low", "out-of-stock": "out" };
+const desired = map[`${stockStatus}`.toLowerCase()] ?? `${stockStatus}`.toLowerCase();
+console.log("🔎 stockStatus from UI:", stockStatus);
+console.log("🔎 desired normalized value:", desired);
+const filtered =
+  desired === "all"
+    ? bySearch
+    : bySearch.filter((p) => {
+        const qty = Number(p.quantity ?? 0);
+        const thr = Number(p.lowStockThreshold);
+        const status = getStockStatus(qty, thr); // "in" | "low" | "out"
+        return status === desired;                // <-- compare to normalized value
+      });
+      console.log("🔎 returning", filtered.length, "of", bySearch.length, "items");
+return filtered;
   },
 
   // GET /categories (fallback: derive from /products)

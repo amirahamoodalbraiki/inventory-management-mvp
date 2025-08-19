@@ -21,7 +21,7 @@ export default function LoginPage() {
       const { token } = await api.login({ email: email, password: password });
       if (!token) throw new Error("No token in response");
       localStorage.setItem("token", token);
-      navigate("/transactions"); // go to inventory
+      navigate("/dashboard"); // go to dashboard
     } catch (e2) {
       setErr("Invalid credentials");
       console.error(e2);
