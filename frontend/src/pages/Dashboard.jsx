@@ -1,102 +1,159 @@
 import React, { useEffect, useState } from "react";
-import { api } from "../services/api";
-import { inventoryService } from "../services/inventory";
+import { inventoryService, getStockStatus } from "../services/inventory.js";
+import { getTransactionSummary as fetchTxSummary } from "../services/transactions.js"; // if you added it
 
 export default function Dashboard() {
-  const [stats, setStats] = useState(null);
+  const [stats, setStats] = useState({ totalProducts: 0, inStock: 0, outOfStock: 0 });
   const [lowStock, setLowStock] = useState([]);
-  const [transactions, setTransactions] = useState([]);
+  const [recentTx, setRecentTx] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [err, setErr] = useState("");
 
   useEffect(() => {
-    async function load() {
+    let alive = true;
+    (async () => {
       try {
         setLoading(true);
+        setErr("");
 
-        
-        const invStats = await api.get("/products/summary"); 
-       
-        const low = await inventoryService.getInventoryItems({ stockStatus: "low-stock" });
+        // fetch all products once
+        const products = await inventoryService.getInventoryItems({}); // uses /products under the hood
 
-        const tx = await api.get("/transactions/summary");
-       
+        // compute stats locally
+        const total = products.length;
+        let inCount = 0, outCount = 0, lowCount = 0;
+        const lowList = [];
+        for (const p of products) {
+          const qty = Number(p.quantity ?? 0);
+          const thr = Number(p.lowStockThreshold ?? 0);
+          const s = getStockStatus(qty, thr); // "in" | "low" | "out"
+          if (s === "in") inCount += 1;
+          else if (s === "low") {
+            lowCount += 1;
+            lowList.push({ id: p.id, name: p.name, sku: p.sku, qty });
+          } else outCount += 1;
+        }
 
-        setStats(invStats);
-        setLowStock(low.slice(0, 5)); 
-        setTransactions(tx.slice(0, 5));
-      } catch (err) {
-        console.error("Dashboard load failed", err);
-        setError(err.message);
+        lowList.sort((a, b) => a.qty - b.qty);
+        const lowTop = lowList.slice(0, 5);
+
+        // recent transactions summary (keep existing service if you added it)
+        let txRecent = [];
+        try {
+          const tx = await fetchTxSummary({ limit: 5 });
+          txRecent = Array.isArray(tx?.recent) ? tx.recent.slice(0, 5) : Array.isArray(tx) ? tx.slice(0, 5) : [];
+        } catch {
+          txRecent = [];
+        }
+
+        if (!alive) return;
+        setStats({ totalProducts: total, inStock: inCount, outOfStock: outCount, lowCount });
+        setLowStock(lowTop);
+        setRecentTx(txRecent);
+      } catch (e) {
+        if (!alive) return;
+        setErr("Failed to load dashboard");
       } finally {
-        setLoading(false);
+        if (alive) setLoading(false);
       }
-    }
-    load();
+    })();
+    return () => { alive = false; };
   }, []);
 
-  if (loading) return <p style={{ padding: 20 }}>Loading dashboard...</p>;
-  if (error) return <p style={{ padding: 20, color: "red" }}>Error: {error}</p>;
-
   return (
-    <div style={{ padding: 24 }}>
-      <h1 style={{ fontSize: 24, marginBottom: 20 }}>Dashboard</h1>
+    <div className="max-w-[1000px] w-full mx-auto px-5 py-6">
+      <h1 className="text-[28px] font-extrabold text-[#111827] mb-6">Dashboard</h1>
 
-      {/* Stats card */}
-      <div style={grid}>
-        <div style={card}>
-          <h2 style={title}>Inventory Stats</h2>
-          <p>Total Products: {stats?.total ?? 0}</p>
-          <p>In Stock: {stats?.inStock ?? 0}</p>
-          <p>Low Stock: {stats?.low ?? 0}</p>
-          <p>Out of Stock: {stats?.out ?? 0}</p>
+      {err && (
+        <div className="mb-4 px-4 py-3 rounded border border-red-200 text-red-700 bg-red-50">
+          {err}
         </div>
+      )}
 
-        <div style={card}>
-          <h2 style={title}>Low Stock</h2>
-          {lowStock.length === 0 ? (
-            <p>All good</p>
-          ) : (
-            <ul>
-              {lowStock.map((p) => (
-                <li key={p.id}>
-                  {p.name} — {p.quantity}
-                </li>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="border border-gray-300 rounded-lg bg-white p-5">
+          <div className="text-sm text-gray-600 font-semibold mb-2">Total Products</div>
+          <div className="text-3xl font-extrabold text-[#111827]">
+            {loading ? "—" : stats.totalProducts}
+          </div>
+        </div>
+        <div className="border border-gray-300 rounded-lg bg-white p-5">
+          <div className="text-sm text-gray-600 font-semibold mb-2">In Stock</div>
+          <div className="text-3xl font-extrabold text-[#111827]">
+            {loading ? "—" : stats.inStock}
+          </div>
+        </div>
+        <div className="border border-gray-300 rounded-lg bg-white p-5">
+          <div className="text-sm text-gray-600 font-semibold mb-2">Out of Stock</div>
+          <div className="text-3xl font-extrabold text-[#111827]">
+            {loading ? "—" : stats.outOfStock}
+          </div>
+        </div>
+      </div>
+
+      <div className="grid gap-4 mt-6 lg:grid-cols-3">
+        <section className="border border-gray-300 rounded-lg bg-white overflow-hidden lg:col-span-1">
+          <header className="px-4 py-3 border-b border-gray-300 bg-[#f9fafb]">
+            <h2 className="text-[16px] font-bold text-[#111827] m-0">Low Stock</h2>
+          </header>
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-[#f9fafb]">
+                <th className="text-left px-4 py-3 border-b border-gray-300 text-[13px] font-semibold text-[#111827]">Product</th>
+                <th className="text-left px-4 py-3 border-b border-gray-300 text-[13px] font-semibold text-[#111827]">SKU</th>
+                <th className="text-left px-4 py-3 border-b border-gray-300 text-[13px] font-semibold text-[#111827]">Qty</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(loading ? Array.from({ length: 3 }) : lowStock).map((i, idx) => (
+                <tr key={i?.id ?? idx} className="border-b border-gray-300">
+                  <td className="px-4 py-[14px] text-sm text-[#111827]">{loading ? "…" : i.name}</td>
+                  <td className="px-4 py-[14px] text-sm text-[#111827]">{loading ? "…" : i.sku}</td>
+                  <td className="px-4 py-[14px] text-sm text-[#111827]">{loading ? "…" : i.qty}</td>
+                </tr>
               ))}
-            </ul>
-          )}
-        </div>
+              {!loading && lowStock.length === 0 && (
+                <tr>
+                  <td colSpan={3} className="px-4 py-[14px] text-center text-gray-500">No low-stock items</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </section>
 
-        <div style={card}>
-          <h2 style={title}>Recent Transactions</h2>
-          {transactions.length === 0 ? (
-            <p>No transactions</p>
-          ) : (
-            <ul>
-              {transactions.map((t) => (
-                <li key={t.id}>
-                  {new Date(t.date).toLocaleDateString()} — {t.itemsCount} items — ${t.totalAmount}
-                </li>
+        <section className="border border-gray-300 rounded-lg bg-white overflow-hidden lg:col-span-2">
+          <header className="px-4 py-3 border-b border-gray-300 bg-[#f9fafb]">
+            <h2 className="text-[16px] font-bold text-[#111827] m-0">Recent Transactions</h2>
+          </header>
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-[#f9fafb]">
+                <th className="text-left px-4 py-3 border-b border-gray-300 text-[13px] font-semibold text-[#111827]">Date</th>
+                <th className="text-left px-4 py-3 border-b border-gray-300 text-[13px] font-semibold text-[#111827]">Product</th>
+                <th className="text-left px-4 py-3 border-b border-gray-300 text-[13px] font-semibold text-[#111827]">Change</th>
+                <th className="text-left px-4 py-3 border-b border-gray-300 text-[13px] font-semibold text-[#111827]">Reason</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(loading ? Array.from({ length: 3 }) : recentTx).map((t, idx) => (
+                <tr key={t?.id ?? idx} className="border-b border-gray-300">
+                  <td className="px-4 py-[14px] text-sm text-[#111827]">{loading ? "…" : t.ts}</td>
+                  <td className="px-4 py-[14px] text-sm text-[#111827]">{loading ? "…" : t.product}</td>
+                  <td className="px-4 py-[14px] text-sm text-[#111827]">
+                    {loading ? "…" : (t.delta > 0 ? `+${t.delta}` : t.delta)}
+                  </td>
+                  <td className="px-4 py-[14px] text-sm text-[#111827]">{loading ? "…" : t.reason}</td>
+                </tr>
               ))}
-            </ul>
-          )}
-        </div>
+              {!loading && recentTx.length === 0 && (
+                <tr>
+                  <td colSpan={4} className="px-4 py-[14px] text-center text-gray-500">No transactions</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </section>
       </div>
     </div>
   );
 }
-
-
-const grid = {
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-  gap: 20,
-};
-const card = {
-  background: "#fff",
-  border: "1px solid #e5e7eb",
-  borderRadius: 8,
-  padding: 16,
-  boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
-};
-const title = { fontSize: 18, marginBottom: 10 };
