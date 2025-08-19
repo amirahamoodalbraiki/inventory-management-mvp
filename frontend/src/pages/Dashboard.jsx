@@ -1,41 +1,91 @@
-import React from "react";
-
-const stats = [
-  { label: "Total Products", value: 124 },
-  { label: "In Stock", value: 109 },
-  { label: "Out of Stock", value: 15 },
-];
-
-const lowStock = [
-  { id: 1, name: "USB-C Cable", sku: "CAB-001", qty: 3 },
-  { id: 2, name: "Notebook A5", sku: "STA-144", qty: 5 },
-  { id: 3, name: "Water Bottle", sku: "OUT-220", qty: 2 },
-];
-
-const recentTx = [
-  { id: 101, ts: "2025-08-17 14:22", product: "USB-C Cable", delta: -4, reason: "Sale" },
-  { id: 102, ts: "2025-08-17 10:05", product: "Desk Lamp", delta: +10, reason: "Purchase" },
-  { id: 103, ts: "2025-08-16 18:31", product: "Notebook A5", delta: -2, reason: "Sale" },
-];
+import React, { useEffect, useState } from "react";
+import { inventoryService, getStockStatus } from "../services/inventory.js";
+import { api } from "../services/api.js";
 
 export default function Dashboard() {
+  const [stats, setStats] = useState({ total: 0, inStock: 0, out: 0 });
+  const [lowStock, setLowStock] = useState([]);
+  const [recentTx, setRecentTx] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState("");
+
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      try {
+        setLoading(true);
+        setErr("");
+
+       
+        const products = await inventoryService.getInventoryItems({});
+        let inCount = 0, outCount = 0;
+        const lowList = [];
+
+        for (const p of products) {
+          const qty = Number(p.quantity ?? 0);
+          const thr = Number(p.lowStockThreshold ?? 0);
+          const s = getStockStatus(qty, thr);
+          if (s === "in") inCount++;
+          else if (s === "out") outCount++;
+          else lowList.push({ id: p.id, name: p.name, sku: p.sku, qty });
+        }
+
+        lowList.sort((a, b) => a.qty - b.qty);
+        const lowTop = lowList.slice(0, 5);
+
+        
+        let tx = [];
+        try {
+          const raw = await api.get("/transactions?limit=5");
+          const list = Array.isArray(raw) ? raw : Array.isArray(raw?.recent) ? raw.recent : (raw?.content ?? []);
+          tx = list.slice(0, 5).map((t, idx) => ({
+            id: t.id ?? t.txId ?? idx,
+            ts: t.ts ?? t.date ?? t.timestamp ?? "",
+            product: t.product ?? t.productName ?? t.item ?? "",
+            delta: t.delta ?? t.change ?? t.changeAmount ?? 0,
+            reason: t.reason ?? t.type ?? "",
+          }));
+        } catch {
+          tx = [];
+        }
+
+        if (!alive) return;
+        setStats({ total: products.length, inStock: inCount, out: outCount });
+        setLowStock(lowTop);
+        setRecentTx(tx);
+      } catch {
+        if (!alive) return;
+        setErr("Failed to load dashboard");
+      } finally {
+        if (alive) setLoading(false);
+      }
+    })();
+    return () => { alive = false; };
+  }, []);
+
+  const statsArray = [
+    { label: "Total Products", value: loading ? "—" : stats.total },
+    { label: "In Stock", value: loading ? "—" : stats.inStock },
+    { label: "Out of Stock", value: loading ? "—" : stats.out },
+  ];
+
   return (
     <div className="max-w-[1000px] w-full mx-auto px-5 py-6">
       <h1 className="text-[28px] font-extrabold text-[#111827] mb-6">Dashboard</h1>
 
+      {err && (
+        <div className="mb-4 px-4 py-3 rounded border border-red-200 text-red-700 bg-red-50">
+          {err}
+        </div>
+      )}
+
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <div className="border border-gray-300 rounded-lg bg-white p-5">
-          <div className="text-sm text-gray-600 font-semibold mb-2">{stats[0].label}</div>
-          <div className="text-3xl font-extrabold text-[#111827]">{stats[0].value}</div>
-        </div>
-        <div className="border border-gray-300 rounded-lg bg-white p-5">
-          <div className="text-sm text-gray-600 font-semibold mb-2">{stats[1].label}</div>
-          <div className="text-3xl font-extrabold text-[#111827]">{stats[1].value}</div>
-        </div>
-        <div className="border border-gray-300 rounded-lg bg-white p-5">
-          <div className="text-sm text-gray-600 font-semibold mb-2">{stats[2].label}</div>
-          <div className="text-3xl font-extrabold text-[#111827]">{stats[2].value}</div>
-        </div>
+        {statsArray.map((s, i) => (
+          <div key={i} className="border border-gray-300 rounded-lg bg-white p-5">
+            <div className="text-sm text-gray-600 font-semibold mb-2">{s.label}</div>
+            <div className="text-3xl font-extrabold text-[#111827]">{s.value}</div>
+          </div>
+        ))}
       </div>
 
       <div className="grid gap-4 mt-6 lg:grid-cols-3">
@@ -52,14 +102,14 @@ export default function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              {lowStock.map((i) => (
-                <tr key={i.id} className="border-b border-gray-300">
-                  <td className="px-4 py-[14px] text-sm text-[#111827]">{i.name}</td>
-                  <td className="px-4 py-[14px] text-sm text-[#111827]">{i.sku}</td>
-                  <td className="px-4 py-[14px] text-sm text-[#111827]">{i.qty}</td>
+              {(loading ? Array.from({ length: 3 }) : lowStock).map((i, idx) => (
+                <tr key={i?.id ?? idx} className="border-b border-gray-300">
+                  <td className="px-4 py-[14px] text-sm text-[#111827]">{loading ? "…" : i.name}</td>
+                  <td className="px-4 py-[14px] text-sm text-[#111827]">{loading ? "…" : i.sku}</td>
+                  <td className="px-4 py-[14px] text-sm text-[#111827]">{loading ? "…" : i.qty}</td>
                 </tr>
               ))}
-              {lowStock.length === 0 && (
+              {!loading && lowStock.length === 0 && (
                 <tr>
                   <td colSpan={3} className="px-4 py-[14px] text-center text-gray-500">No low-stock items</td>
                 </tr>
@@ -82,15 +132,17 @@ export default function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              {recentTx.map((t) => (
-                <tr key={t.id} className="border-b border-gray-300">
-                  <td className="px-4 py-[14px] text-sm text-[#111827]">{t.ts}</td>
-                  <td className="px-4 py-[14px] text-sm text-[#111827]">{t.product}</td>
-                  <td className="px-4 py-[14px] text-sm text-[#111827]">{t.delta > 0 ? `+${t.delta}` : t.delta}</td>
-                  <td className="px-4 py-[14px] text-sm text-[#111827]">{t.reason}</td>
+              {(loading ? Array.from({ length: 3 }) : recentTx).map((t, idx) => (
+                <tr key={t?.id ?? idx} className="border-b border-gray-300">
+                  <td className="px-4 py-[14px] text-sm text-[#111827]">{loading ? "…" : t.ts}</td>
+                  <td className="px-4 py-[14px] text-sm text-[#111827]">{loading ? "…" : t.product}</td>
+                  <td className="px-4 py-[14px] text-sm text-[#111827]">
+                    {loading ? "…" : (t.delta > 0 ? `+${t.delta}` : t.delta)}
+                  </td>
+                  <td className="px-4 py-[14px] text-sm text-[#111827]">{loading ? "…" : t.reason}</td>
                 </tr>
               ))}
-              {recentTx.length === 0 && (
+              {!loading && recentTx.length === 0 && (
                 <tr>
                   <td colSpan={4} className="px-4 py-[14px] text-center text-gray-500">No transactions</td>
                 </tr>
@@ -102,3 +154,4 @@ export default function Dashboard() {
     </div>
   );
 }
+
