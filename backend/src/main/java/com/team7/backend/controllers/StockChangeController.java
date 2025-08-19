@@ -19,7 +19,7 @@ public class StockChangeController {
 
   // 🔹 Get all stock changes → ADMIN only
   @GetMapping
-  @PreAuthorize("hasRole('ADMIN')")
+  @PreAuthorize("hasAnyRole('ADMIN','USER')")
   public List<StockChange> getAllStockChanges() {
     return stockChangeService.getAllStockChanges();
   }

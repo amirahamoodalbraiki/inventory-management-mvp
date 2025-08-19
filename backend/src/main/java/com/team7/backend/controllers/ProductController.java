@@ -64,7 +64,7 @@ public class ProductController {
 
   // 🔹 Soft delete a product (ADMIN only)
   @DeleteMapping("/{id}")
-  @PreAuthorize("hasRole('ADMIN')")
+  @PreAuthorize("hasAnyRole('ADMIN','USER')")
   public void deleteProduct(@PathVariable Integer id) {
     productRepository.findById(id)
       .ifPresentOrElse(product -> {
