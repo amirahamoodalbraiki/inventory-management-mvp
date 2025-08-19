@@ -66,6 +66,35 @@ export default function InventoryList() {
       setCategories(data);
     } catch {}
   }
+  function exportCsv() {
+    // choose whatever list you want to export: items (all) or pagedItems (current page)
+    const rows = items.map(p => ({
+      Name: p.name ?? "",
+      SKU: p.sku ?? "",
+      Category: p.category ?? "",
+      Quantity: p.quantity ?? 0,
+      "Low Stock Threshold": p.lowStockThreshold ?? "",
+      "Unit Price": p.unitPrice ?? "",
+    }));
+  
+    const headers = Object.keys(rows[0] || {Name:"",SKU:"",Category:"",Quantity:"","Low Stock Threshold":"", "Unit Price":""});
+    const escape = (v) => {
+      const s = String(v ?? "");
+      return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+    };
+  
+    const csv =
+      headers.join(",") + "\n" +
+      rows.map(r => headers.map(h => escape(r[h])).join(",")).join("\n");
+  
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `inventory-${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 
   const handleAddProduct = () => navigate("/products/new");
   //const handleEdit = (item) => alert(`Edit product: ${item.name} (SKU: ${item.sku ?? "n/a"})`);
@@ -124,16 +153,24 @@ export default function InventoryList() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      <div className="flex-1 px-6 py-8 max-w-[1000px] w-full mx-auto">
-        <header className="flex items-center justify-between">
-          <h1 className="m-0 text-[#111827] text-[28px] font-extrabold">Products</h1>
-          <button
-            onClick={handleAddProduct}
-            className="rounded-lg bg-[#dddddd] text-[#111827] border border-gray-200 text-[13px] font-semibold cursor-pointer px-4 py-2"
-          >
-            Add New Product
-          </button>
-        </header>
+          <div className="flex-1 px-6 py-8 max-w-[1000px] w-full mx-auto">
+          <header className="flex items-center justify-between">
+      <h1 className="m-0 text-[#111827] text-[28px] font-extrabold">Products</h1>
+      <div className="flex gap-2">
+        <button
+          onClick={exportCsv}
+          className="rounded-lg bg-[#dddddd] text-[#111827] border border-gray-200 text-[13px] font-semibold cursor-pointer px-4 py-2"
+        >
+          Export CSV
+        </button>
+        <button
+          onClick={handleAddProduct}
+          className="rounded-lg bg-[#dddddd] text-[#111827] border border-gray-200 text-[13px] font-semibold cursor-pointer px-4 py-2"
+        >
+          Add New Product
+    </button>
+  </div>
+</header>
         <div className="mt-6">
           <div className="flex flex-col gap-3 items-start">
             <label className="relative inline-block">
