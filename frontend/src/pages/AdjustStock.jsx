@@ -8,10 +8,12 @@ export default function AdjustStock() {
   const navigate = useNavigate();
 
   const [product, setProduct] = useState(null);
+  const [mode, setMode] = useState("increase"); // increase or decrease
   const [qty, setQty] = useState("");
   const [reason, setReason] = useState("");
   const [saving, setSaving] = useState(false);
   const [err, setErr] = useState("");
+
 
   useEffect(() => {
     (async () => {
@@ -25,8 +27,14 @@ export default function AdjustStock() {
     })();
   }, [id]);
 
-  const canSubmit = product && qty !== "" && Number(qty) > 0 && reason && !saving;
-
+  const canSubmit =
+  product &&
+  qty !== "" &&
+  Number(qty) > 0 &&
+  reason &&
+  !saving &&
+  (mode === "increase" || (product?.quantity ?? 0) - Number(qty) >= 0); // don't go below 0 on decrease
+  
   const onConfirm = async () => {
     if (!canSubmit) return;
     setSaving(true);
@@ -34,7 +42,7 @@ export default function AdjustStock() {
     try {
       await inventoryService.adjustStock({
         productId: product.id,
-        delta: Number(qty),
+        delta: mode === "decrease" ? -Number(qty) : Number(qty),
         reason,
         userId: 1,
       });
@@ -46,6 +54,7 @@ export default function AdjustStock() {
       setSaving(false);
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-[#fafafa]">
@@ -54,12 +63,37 @@ export default function AdjustStock() {
         <h1 className="text-[32px] font-extrabold text-[#111827] my-2 mb-7">
           {product ? product.name : "Product Name"}
         </h1>
-
         <div className="grid gap-6 max-w-[540px]">
+        <Field label="Change type">
+            <div className="inline-flex gap-2">
+              <button
+                type="button"
+                onClick={() => setMode("increase")}
+                className={`px-3 py-2 rounded-lg border text-sm ${
+                  mode === "increase"
+                    ? "bg-[#0d2b8d] text-white border-[#0d2b8d]"
+                    : "bg-white text-[#111827] border-gray-200"
+                }`}
+              >
+                Increase
+              </button>
+              <button
+                type="button"
+                onClick={() => setMode("decrease")}
+                className={`px-3 py-2 rounded-lg border text-sm ${
+                  mode === "decrease"
+                    ? "bg-[#0d2b8d] text-white border-[#0d2b8d]"
+                    : "bg-white text-[#111827] border-gray-200"
+                }`}
+              >
+                Decrease
+              </button>
+            </div>
+          </Field>
           <Field label="Quantity">
             <input
               type="number"
-              min="0"
+              min="1"
               placeholder=""
               value={qty}
               onChange={(e) => setQty(e.target.value)}
