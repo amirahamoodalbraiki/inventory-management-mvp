@@ -1,26 +1,35 @@
 import { api } from "./api";
 
-// TEMP: if your backend isn’t ready, return mock data
-const MOCK = [
-  { id: 1, name: "Admin User", email: "admin@example.com", role: "ADMIN" },
-  { id: 2, name: "John Doe",  email: "john@example.com",  role: "STAFF"  },
-  { id: 3, name: "Sara Park", email: "sara@example.com",  role: "STAFF"  },
-];
-
 export const usersService = {
   async list() {
-    try {
-      return await api.get("/users"); // expects [{id,name,email,role},...]
-    } catch {
-      return MOCK; // fallback for now
-    }
+    return api.get("/users"); // expects [{id,name,email,role},...]
   },
+
+  async create({ name, email, role, password }) {
+    const body = {
+      name,
+      email,
+      role: (role || "USER").toUpperCase(),  // ADMIN or USER
+      passwordHash: password,                // backend expects raw password here
+    };
+    return api.postJson("/users", body);
+  },
+
   async remove(id) {
-    try {
-      await api.del(`/users/${id}`);
-    } catch (e) {
-      // if backend isn’t ready, just pretend
-      return true;
-    }
+    return api.del(`/users/${id}`);
+  },
+
+  async getById(id) {
+    return api.get(`/users/${id}`);
+  },
+
+  async update(id, payload) {
+    const body = {
+      name: payload.name,
+      email: payload.email,
+      role: (payload.role || "USER").toUpperCase(),
+      // don't send password unless backend supports password updates
+    };
+    return api.putJson(`/users/${id}`, body);
   },
 };

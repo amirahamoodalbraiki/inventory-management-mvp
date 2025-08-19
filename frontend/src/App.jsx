@@ -7,6 +7,7 @@ import AdjustStock from "./pages/AdjustStock.jsx";
 import UserManagement from "./pages/UserManagement.jsx";
 import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard.jsx";
+import AddUser from "./pages/AddUser.jsx";
 
 
 
@@ -28,6 +29,8 @@ function Layout() {
           <Route path="/transactions" element={<Transactions />} />
           <Route path="/users" element={<UserManagement />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/users/new" element={<AddUser />} />
+          <Route path="/users/:id/edit" element={<AddUser />} />
 
         </Routes>
       </main>
