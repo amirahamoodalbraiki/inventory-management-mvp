@@ -178,3 +178,10 @@ docs/demo-data-and-readme
 - **Week 2:** Stock management, transaction history, low-stock highlighting.
 - **Week 3:** Notifications, UI polish, deployment + demo checklist.
  develop
+
+## Documentation
+- [Authentication](docs/auth.md)
+- [Users](docs/users.md)
+- [Stock Changes](docs/stock_changes.md)
+- [api](docs/api-products.md)
+
