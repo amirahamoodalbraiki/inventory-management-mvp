@@ -1,11 +1,12 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { getUserRole } from "../services/auth";
 
 const links = [
   { key: "dashboard",   label: "Dashboard",    path: "/dashboard" },
   { key: "inventory",   label: "Inventory",    path: "/inventory" },
   { key: "transactions",label: "Transactions", path: "/transactions" },
-  { key: "users",       label: "Users",        path: "/users" },
+  { key: "users", label: "Users", path: "/users", role: "ADMIN" },
   { key: "reports",     label: "Reports",      path: "/reports" },
 ];
 
@@ -13,6 +14,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const pathname = location.pathname.toLowerCase();
+  const role = getUserRole();
 
   return (
     <div style={wrap}>
@@ -23,20 +25,22 @@ export default function Navbar() {
 
       <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
         <nav aria-label="Primary" style={{ display: "flex", gap: 20 }}>
-          {links.map((l) => {
-            const isActive =
-              l.path === "/"
-                ? pathname === "/"
-                : pathname.startsWith(l.path.toLowerCase());
-            return (
-              <button
-                key={l.key}
-                onClick={() => navigate(l.path)}
-                style={navLink(isActive)}
-                aria-current={isActive ? "page" : undefined}
-              >
-                {l.label}
-              </button>
+          {links
+            .filter((l) => !l.role || l.role === role) // 👈 filter by role
+            .map((l) => {
+              const isActive =
+                l.path === "/"
+                  ? pathname === "/"
+                  : pathname.startsWith(l.path.toLowerCase());
+              return (
+                <button
+                  key={l.key}
+                  onClick={() => navigate(l.path)}
+                  style={navLink(isActive)}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  {l.label}
+                </button>
             );
           })}
         </nav>
