@@ -8,6 +8,7 @@ function authHeaders(extraHeaders = {}) {
   };
 }
 
+
 export const api = {
   async login({ email, password }) {
     const res = await fetch('/auth/login', {
