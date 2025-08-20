@@ -35,7 +35,7 @@ It provides a clear summary of products, stock levels, and recent activities.
 
 Below is an example of the **Dashboard view** in the system:
 
-![Dashboard Screenshot](./Dashboard.png)
+![Dashboard Screenshot](Screenshots/Dashboard.png)
 
 
 ##  Purpose of the Dashboard
