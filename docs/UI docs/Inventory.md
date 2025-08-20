@@ -4,7 +4,7 @@
 
 Browse, filter, and manage all products.
 
-![Inventory](../screenshots/Inventory.png)
+![Inventory](../Screenshots/Inventory.png)
 
 ## Features
 - **Filters** – by **Category** and **Stock status** (In-stock / Low-stock / Out-of-stock)
