@@ -11,27 +11,25 @@ public class Notification {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  // The user who should see the notification (e.g., Admin/Staff)
   @ManyToOne
-  @JoinColumn(name = "user_id")
+  @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
   @ManyToOne
-  @JoinColumn(name = "product_id")
+  @JoinColumn(name = "product_id", nullable = false)
   private Product product;
 
   @Column(nullable = false)
-  private String type; // e.g., "LOW_STOCK"
+  private String type;
 
   @Column(nullable = false)
   private String message;
 
   @Column(nullable = false)
-  private LocalDateTime sentAt;
+  private LocalDateTime sentAt = LocalDateTime.now();
 
-  private boolean read = false; // for frontend (optional)
+  private boolean read = false;
 
-  // Constructors
   public Notification() {}
 
   public Notification(User user, Product product, String type, String message) {
@@ -43,6 +41,25 @@ public class Notification {
     this.read = false;
   }
 
-  // Getters & Setters ...
-}
+  // Getters and setters
+  public Long getId() { return id; }
+  public void setId(Long id) { this.id = id; }
 
+  public User getUser() { return user; }
+  public void setUser(User user) { this.user = user; }
+
+  public Product getProduct() { return product; }
+  public void setProduct(Product product) { this.product = product; }
+
+  public String getType() { return type; }
+  public void setType(String type) { this.type = type; }
+
+  public String getMessage() { return message; }
+  public void setMessage(String message) { this.message = message; }
+
+  public LocalDateTime getSentAt() { return sentAt; }
+  public void setSentAt(LocalDateTime sentAt) { this.sentAt = sentAt; }
+
+  public boolean isRead() { return read; }
+  public void setRead(boolean read) { this.read = read; }
+}
