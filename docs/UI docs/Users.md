@@ -4,7 +4,7 @@
 
 Manage system users and roles.
 
-![Users](../screenshots/Users.png)
+![Users](../Screenshots/Users.png)
 
 ## Features
 - **Search** by name/email
