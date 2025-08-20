@@ -7,7 +7,6 @@ const links = [
   { key: "inventory",   label: "Inventory",    path: "/inventory" },
   { key: "transactions",label: "Transactions", path: "/transactions" },
   { key: "users", label: "Users", path: "/users", role: "ADMIN" },
-  { key: "reports",     label: "Reports",      path: "/reports" },
 ];
 
 export default function Navbar() {
