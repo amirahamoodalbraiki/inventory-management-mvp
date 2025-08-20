@@ -34,18 +34,22 @@ export default function Dashboard() {
 
         let tx = [];
         try {
-          const raw = await api.get("/transactions?limit=5");
-          const list = Array.isArray(raw) ? raw : Array.isArray(raw?.recent) ? raw.recent : (raw?.content ?? []);
-          tx = list.slice(0, 5).map((t, idx) => ({
-            id: t.id ?? t.txId ?? idx,
-            ts: t.ts ?? t.date ?? t.timestamp ?? "",
-            product: t.product ?? t.productName ?? t.item ?? "",
-            delta: t.delta ?? t.change ?? t.changeAmount ?? 0,
-            reason: t.reason ?? t.type ?? "",
-          }));
+          const raw = await api.get("/stock-changes"); // backend returns plain list
+          const sorted = [...raw].sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          );
+          tx = sorted.slice(0, 3).map((t, idx) => ({
+            id: t.id ?? idx,
+            ts: new Date(t.createdAt).toLocaleString(), // format nicely
+            product: t.product?.name ?? `#${t.productId}`, // fallback if product not populated
+            delta: t.changeAmount ?? 0,
+            reason: t.reason ?? "",
+            }));
         } catch {
           tx = [];
         }
+
+
 
         if (!alive) return;
         setStats({ total: products.length, inStock: inCount, out: outCount });
