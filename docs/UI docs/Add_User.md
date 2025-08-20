@@ -4,7 +4,7 @@
 
 Admins can create new users and assign roles.
 
-![Add User](../screenshots/Add_user.png)
+![Add User](../Screenshots/Add_user.png)
 
 ## Fields
 - **Name** – full name (required)
