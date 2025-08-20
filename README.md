@@ -46,10 +46,6 @@ src/main/java/com/example/backend/BackendApplication.java
 - This will start the Spring Boot server.
 - By default it runs on [http://localhost:8080](http://localhost:8080).
 
-### Notes
-- Make sure **Java 17+** is configured as the SDK in IntelliJ (File > Project Structure > Project SDK).
-- If Maven dependencies do not load automatically, right-click `pom.xml` and select **Add as Maven Project**.
-- To stop the app, press the red **Stop button ⏹** in IntelliJ.
   
 ### Frontend
 1. Install Node.js (v18+)
