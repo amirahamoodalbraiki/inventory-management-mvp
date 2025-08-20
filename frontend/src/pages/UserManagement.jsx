@@ -75,7 +75,7 @@ export default function UserManagement() {
 
   if (loading && users.length === 0) {
     return (
-      <div className="min-h-screen bg-[#C0E0FF]">
+      <div className="min-h-screen bg-white">
         <div className="max-w-[1000px] mx-auto px-6 py-8 text-center text-[#253A82]">
           Loading users…
         </div>
@@ -85,7 +85,7 @@ export default function UserManagement() {
 
   if (err) {
     return (
-      <div className="min-h-screen bg-[#C0E0FF]">
+      <div className="min-h-screen bg-white">
         <div className="max-w-[1000px] mx-auto px-6 py-8 text-center">
           <div className="text-[#B42318] mb-3">{err}</div>
           <button
