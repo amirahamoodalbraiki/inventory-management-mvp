@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { useNavigate, useParams } from "react-router-dom";
 import { inventoryService } from "../services/inventory.js";
+import { getUserId } from "../services/auth";
 
 export default function AdjustStock() {
   const { id } = useParams();
@@ -43,7 +44,7 @@ export default function AdjustStock() {
         productId: product.id,
         delta: mode === "decrease" ? -Number(qty) : Number(qty),
         reason,
-        userId: 1,
+        userId: getUserId(),
       });
       navigate("/transactions");
     } catch (e) {
