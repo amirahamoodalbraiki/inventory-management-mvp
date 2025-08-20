@@ -139,10 +139,6 @@ Use curl or your browser to check the seeded data:
 docs/demo-data-and-readme
 - **Scrum Master:** Amira 
 - GitHub: [@amirahamoodalbraiki](https://github.com/amirahamoodalbraiki) 
-
-- **Scrum Master:** Amira
-- GitHub: [@amirahamoodalbraiki](https://github.com/amirahamoodalbraiki)
-develop
 - Email: albraikiam2@gmail.com
 - **Team:** Team7
 
