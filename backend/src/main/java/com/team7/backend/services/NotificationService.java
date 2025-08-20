@@ -34,7 +34,7 @@ public class NotificationService {
   }
 
   // 🔹 Scheduled check every 1 minute
-  @Scheduled(fixedRate = 60000) // runs every 60 seconds
+  @Scheduled(fixedRate = 10000) // runs every 60 seconds
   public void periodicLowStockCheck() {
     List<Product> products = productRepository.findAll();
 
