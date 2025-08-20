@@ -81,7 +81,7 @@ export default function AddUser() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#C0E0FF]">
+    <div className="min-h-screen flex flex-col bg-#ffffff">
       <main className="flex-1 max-w=[800px] w-full mx-auto px-5 py-6 pb-12">
         <header className="flex items-center justify-between mb-4">
           <h1 className="text-[28px] font-extrabold text-[#253A82]">

@@ -55,9 +55,9 @@ export default function AdjustStock() {
   };
 
   return (
-    <div className="min-h-screen bg-[#C0E0FF]">
+    <div className="min-h-screen bg-#ffffff">
       {/* Navbar */}
-      <main className="max-w-[1180px] mx-auto py-[40px] px-[28px] pb-[64px] bg-[#C0E0FF]">
+      <main className="max-w-[1180px] mx-auto py-[40px] px-[28px] pb-[64px] bg-#ffffff">
         <h1 className="text-[32px] font-extrabold text-[#253A82] my-2 mb-7">
           {product ? product.name : "Product Name"}
         </h1>

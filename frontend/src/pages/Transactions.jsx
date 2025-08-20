@@ -50,7 +50,7 @@ export default function Transactions() {
   const pagedItems = useMemo(() => items.slice(start, start + rowsPerPage), [items, start, rowsPerPage]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#C0E0FF]">
+    <div className="min-h-screen flex flex-col bg-white">
       <main className="flex-1 max-w-[1000px] w-full mx-auto px-5 py-6 pb-12">
         <h1 className="text-[28px] font-extrabold text-[#253A82] mb-4">
           Transaction History
@@ -162,7 +162,7 @@ export default function Transactions() {
                       key={p}
                       onClick={() => setPage(p)}
                       className={`w-12 h-12 rounded-full border-0 text-[15px] font-medium cursor-pointer ${
-                        p === page ? "bg-[#88A2FF] text-white" : "bg-transparent text-[#253A82]"
+                        p === page ? "bg-[#253A82] text-white" : "bg-transparent text-[#253A82]"
                       }`}
                     >
                       {p}

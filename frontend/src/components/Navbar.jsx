@@ -20,7 +20,7 @@ export default function Navbar() {
     <div style={wrap}>
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
         <div aria-hidden style={logoMark} />
-        <span style={{ fontWeight: 700, color: "#253A82" }}>StockPilot</span>
+        <span style={{ fontWeight: 700, color: "#ffffffff" }}>StockPilot</span>
       </div>
 
       <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
@@ -74,7 +74,7 @@ const wrap = {
   alignItems: "center",
   justifyContent: "space-between",
   padding: "0 24px",
-  background: "#ffffff",
+  background: "#253A82",
   borderBottom: "1px solid #88A2FF",
   position: "sticky",
   top: 0,
@@ -84,7 +84,7 @@ const wrap = {
 const logoMark = {
   width: 14,
   height: 14,
-  background: "#253A82",
+  background: "#ffffffff",
   borderRadius: 3,
   transform: "skewX(-10deg)",
 };
@@ -97,7 +97,7 @@ const navLink = (active) => ({
   borderRadius: 8,
   fontSize: 13,
   fontWeight: active ? 700 : 500,
-  color: active ? "#253A82" : "#6b7280",
+  color: active ? "#253A82" : "#ffffffff",
   cursor: "pointer",
   transition: "background 120ms ease",
   ...(active

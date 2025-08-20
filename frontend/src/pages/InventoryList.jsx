@@ -148,20 +148,20 @@ export default function InventoryList() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#C0E0FF]">
+    <div className="min-h-screen flex flex-col bg-#ffffff">
       <div className="flex-1 px-6 py-8 max-w-[1000px] w-full mx-auto">
         <header className="flex items-center justify-between">
           <h1 className="m-0 text-[#253A82] text-[28px] font-extrabold">Products</h1>
           <div className="flex gap-2">
             <button
               onClick={exportCsv}
-              className="rounded-lg bg-[#88A2FF] text-white border border-[#88A2FF] text-[13px] font-semibold cursor-pointer px-4 py-2"
+              className="rounded-lg bg-[#253A82] text-white border border-[#88A2FF] text-[13px] font-semibold cursor-pointer px-4 py-2"
             >
               Export CSV
             </button>
             <button
               onClick={handleAddProduct}
-              className="rounded-lg bg-[#88A2FF] text-white border border-[#88A2FF] text-[13px] font-semibold cursor-pointer px-4 py-2"
+              className="rounded-lg bg-[#253A82] text-white border border-[#88A2FF] text-[13px] font-semibold cursor-pointer px-4 py-2"
             >
               Add New Product
             </button>
@@ -174,7 +174,7 @@ export default function InventoryList() {
               <select
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                className="py[10px] pl-[14px] pr-9 rounded-[10px] bg-white border border-[#88A2FF] text-[#253A82] text-[14px] font-semibold cursor-pointer appearance-none"
+                className="py-[10px] pl-[14px] pr-9 rounded-[8px] bg-white border border-[#88A2FF] text-[#253A82] text-[14px] font-semibold cursor-pointer appearance-none"
               >
                 <option value="all">Category</option>
                 {categories.map((c) => (
@@ -233,7 +233,7 @@ export default function InventoryList() {
                         <span className="text-[#88A2FF]">|</span>
                         <button onClick={() => handleEdit(item)} className="bg-transparent border-0 p-0 cursor-pointer text-[#253A82] font-bold">Edit</button>
                         <span className="text-[#88A2FF]">|</span>
-                        <button onClick={() => handleDelete(item.id)} className="bg-transparent border-0 p-0 cursor-pointer text-[#253A2E] font-bold">Delete</button>
+                        <button onClick={() => handleDelete(item.id)} className="bg-transparent border-0 p-0 cursor-pointer text-[#253A82] font-bold">Delete</button>
                       </div>
                     </td>
                   </tr>
@@ -265,7 +265,7 @@ export default function InventoryList() {
                   <button
                     key={p}
                     onClick={() => setPage(p)}
-                    className={`w-12 h-12 rounded-full border-0 text-[15px] font-medium cursor-pointer ${p === page ? "bg-[#88A2FF] text-white" : "bg-transparent text-[#253A82]"}`}
+                    className={`w-12 h-12 rounded-full border-0 text-[15px] font-medium cursor-pointer ${p === page ? "bg-[#253A82] text-white" : "bg-transparent text-[#253A82]"}`}
                   >
                     {p}
                   </button>
