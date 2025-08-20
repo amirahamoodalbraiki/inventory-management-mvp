@@ -7,19 +7,19 @@ export default defineConfig({
   server: {
     proxy: {
       '/auth/login': { 
-        target: 'https://inventory-management-mvp.onrender.com',
+        target: 'http://localhost:8080',
         changeOrigin: true,
       },
       '/products': {
-        target: 'https://inventory-management-mvp.onrender.com',
+        target: 'http://localhost:8080',
         changeOrigin: true,
       },
       '/stock-changes': { 
-        target: 'https://inventory-management-mvp.onrender.com',
+        target: 'http://localhost:8080',
         changeOrigin: true,
       },
       '/users': { 
-        target: 'https://inventory-management-mvp.onrender.com',
+        target: 'http://localhost:8080',
         changeOrigin: true,
       },
     },
