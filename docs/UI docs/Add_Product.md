@@ -4,7 +4,7 @@
 
 This screen lets an Admin/Staff create a new product and set its initial stock.
 
-![Add Product](../screenshots/Add_product.png)
+![Add Product](./Screenshots/Add_product.png)
 
 ## Fields
 - **Name** – product name (required)
