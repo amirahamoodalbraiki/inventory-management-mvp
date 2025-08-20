@@ -3,21 +3,13 @@ import Navbar from "../components/Navbar";
 import { useNavigate, useParams } from "react-router-dom";
 import { inventoryService } from "../services/inventory.js";
 
-const categories = [
-  "Personal Care",
-  "Home Goods",
-  "Outdoor Gear",
-  "Stationery",
-  "Home & Garden",
-  "Electronics",
-  "Fashion",
-  "Kitchen",
-];
 
 export default function AddProduct() {
   const { id } = useParams();                 // <-- if present => edit mode
   const isEdit = Boolean(id);
   const navigate = useNavigate();
+  const [categories, setCategories] = useState([]);
+  const [catErr, setCatErr] = useState("");
   const [form, setForm] = useState({
     name: "",
     sku: "",
@@ -26,12 +18,27 @@ export default function AddProduct() {
     unitPrice: "",
     quantity: "",
     lowStockThreshold: "",
+    //imageUrl: "",
   });
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
   const [saving, setSaving] = useState(false);
   const fileInputRef = useRef(null);
   const [errors, setErrors] = useState({});
+  // Load categories once
+  useEffect(() => {
+    (async () => {
+      try {
+        setCatErr("");
+        const cats = await inventoryService.getCategories(); // expects ["Electronics", ...]
+        setCategories(Array.isArray(cats) ? cats : []);
+      } catch (e) {
+        console.error(e);
+        setCatErr("Failed to load categories");
+        setCategories([]); // fallback empty list
+      }
+    })();
+  }, []);
 // Load existing product in edit mode
 useEffect(() => {
   if (!isEdit) return;
@@ -46,6 +53,7 @@ useEffect(() => {
         unitPrice: p.unitPrice ?? "",
         quantity: p.quantity ?? "",
         lowStockThreshold: p.lowStockThreshold ?? "",
+        //imageUrl: p.imageUrl ?? "",
       });
       if (p.imageUrl) setImagePreview(p.imageUrl);
     } catch (e) {
