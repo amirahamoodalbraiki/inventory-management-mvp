@@ -3,8 +3,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../services/api";
 
-
-
 export default function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -17,11 +15,10 @@ export default function LoginPage() {
     setErr("");
     setLoading(true);
     try {
-      // backend expects "username" (not email) — pass email in that field
       const { token } = await api.login({ email: email, password: password });
       if (!token) throw new Error("No token in response");
       localStorage.setItem("token", token);
-      navigate("/dashboard"); // go to dashboard
+      navigate("/dashboard");
     } catch (e2) {
       setErr("Invalid credentials");
       console.error(e2);
@@ -31,16 +28,16 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen w-full bg-[#f5f5f5] flex items-center justify-center p-5">
+    <div className="min-h-screen w-full bg-[#C0E0FF] flex items-center justify-center p-5">
       <div className="w-full max-w-sm p-8 rounded-lg bg-white shadow-md">
-        <h1 className="m-0 text-2xl font-bold text-center mb-6 text-black">
+        <h1 className="m-0 text-2xl font-bold text-center mb-6 text-[#253A82]">
           Login
         </h1>
 
         <form onSubmit={handleSubmit} className="grid gap-4">
           {/* Email */}
           <label className="grid gap-2">
-            <span className="text-sm font-semibold text-black">Email</span>
+            <span className="text-sm font-semibold text-[#253A82]">Email</span>
             <input
               type="email"
               name="email"
@@ -48,13 +45,13 @@ export default function LoginPage() {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="p-3 rounded border border-gray-300 bg-white text-black outline-none text-sm w-full"
+              className="p-3 rounded border border-[#88A2FF] bg-white text-[#253A82] outline-none text-sm w-full"
             />
           </label>
 
           {/* Password */}
           <label className="grid gap-2">
-            <span className="text-sm font-semibold text-black">Password</span>
+            <span className="text-sm font-semibold text-[#253A82]">Password</span>
             <input
               type="password"
               name="password"
@@ -62,14 +59,19 @@ export default function LoginPage() {
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="p-3 rounded border border-gray-300 bg-white text-black outline-none text-sm w-full"
+              className="p-3 rounded border border-[#88A2FF] bg-white text-[#253A82] outline-none text-sm w-full"
             />
           </label>
+
+          {/* Error */}
+          {err && (
+            <div className="text-[#B42318] text-sm">{err}</div>
+          )}
 
           {/* Submit */}
           <button
             type="submit"
-            className="mt-2 p-3 rounded bg-blue-500 text-white border-0 cursor-pointer text-sm font-semibold w-full"
+            className="mt-2 p-3 rounded bg-[#253A82] text-white border-0 cursor-pointer text-sm font-semibold w-full"
           >
             Log in
           </button>
