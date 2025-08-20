@@ -2,6 +2,7 @@ package com.team7.backend.entities;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "stock_changes")
@@ -25,7 +26,8 @@ public class StockChange {
   @JoinColumn(name = "changed_by", nullable = false)
   private User changedBy;
 
-  private LocalDateTime createdAt = LocalDateTime.now();
+  private String createdAt = LocalDateTime.now()
+    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
   public StockChange() {}
 
@@ -34,7 +36,8 @@ public class StockChange {
     this.changeAmount = changeAmount;
     this.reason = reason;
     this.changedBy = changedBy;
-    this.createdAt = LocalDateTime.now();
+    this.createdAt =LocalDateTime.now()
+      .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
   }
 
   // Getters & Setters
@@ -53,6 +56,6 @@ public class StockChange {
   public User getChangedBy() { return changedBy; }
   public void setChangedBy(User changedBy) { this.changedBy = changedBy; }
 
-  public LocalDateTime getCreatedAt() { return createdAt; }
-  public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+  public String getCreatedAt() { return createdAt; }
+  public void setCreatedAt(String createdAt) { this.createdAt = createdAt; }
 }
