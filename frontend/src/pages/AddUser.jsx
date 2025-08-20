@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { usersService } from "../services/users";
 
-const ROLES = ["ADMIN", "USER"]; 
+const ROLES = ["ADMIN", "USER"];
 
 export default function AddUser() {
   const navigate = useNavigate();
@@ -81,10 +81,10 @@ export default function AddUser() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
-      <main className="flex-1 max-w-[800px] w-full mx-auto px-5 py-6 pb-12">
+    <div className="min-h-screen flex flex-col bg-[#C0E0FF]">
+      <main className="flex-1 max-w=[800px] w-full mx-auto px-5 py-6 pb-12">
         <header className="flex items-center justify-between mb-4">
-          <h1 className="text-[28px] font-extrabold text-[#111827]">
+          <h1 className="text-[28px] font-extrabold text-[#253A82]">
             {isEdit ? "Edit User" : "Add User"}
           </h1>
         </header>
@@ -96,7 +96,7 @@ export default function AddUser() {
             <input
               value={form.name}
               onChange={update("name")}
-              className="w-full px-3 py-2.5 rounded-lg border border-gray-200 bg-white text-[14px] text-[#111827] outline-none"
+              className="w-full px-3 py-2.5 rounded-lg border border-[#88A2FF] bg-white text-[14px] text-[#253A82] outline-none"
               placeholder="User full name"
             />
           </Field>
@@ -106,7 +106,7 @@ export default function AddUser() {
               type="email"
               value={form.email}
               onChange={update("email")}
-              className="w-full px-3 py-2.5 rounded-lg border border-gray-200 bg-white text-[14px] text-[#111827] outline-none"
+              className="w-full px-3 py-2.5 rounded-lg border border-[#88A2FF] bg-white text-[14px] text-[#253A82] outline-none"
               placeholder="email@example.com"
             />
           </Field>
@@ -117,7 +117,7 @@ export default function AddUser() {
                 type="password"
                 value={form.password}
                 onChange={update("password")}
-                className="w-full px-3 py-2.5 rounded-lg border border-gray-200 bg-white text-[14px] text-[#111827] outline-none"
+                className="w-full px-3 py-2.5 rounded-lg border border-[#88A2FF] bg-white text-[14px] text-[#253A82] outline-none"
                 placeholder="Minimum 8 characters"
               />
             </Field>
@@ -127,7 +127,7 @@ export default function AddUser() {
             <select
               value={form.role}
               onChange={update("role")}
-              className="w-full px-3 py-2.5 rounded-lg border border-gray-200 bg-white text-[14px] text-[#111827] outline-none"
+              className="w-full px-3 py-2.5 rounded-lg border border-[#88A2FF] bg-white text-[14px] text-[#253A82] outline-none"
             >
               {ROLES.map((r) => (
                 <option key={r} value={r}>{r}</option>
@@ -139,14 +139,14 @@ export default function AddUser() {
           <div className="flex gap-2.5 justify-end mt-2">
             <button
               onClick={() => navigate("/users")}
-              className="px-[14px] py-[10px] rounded-lg border border-gray-300 bg-[#dddddd] text-[#111827] text-[13px] font-semibold cursor-pointer"
+              className="px-[14px] py-[10px] rounded-lg border border-[#88A2FF] bg-white text-[#253A82] text-[13px] font-semibold cursor-pointer"
             >
               Cancel
             </button>
             <button
               onClick={onSave}
               disabled={saving}
-              className={`px-[14px] py-[10px] rounded-lg border border-[#1f2937] bg-[#0d2b8d] text-white text-[13px] font-bold ${
+              className={`px-[14px] py-[10px] rounded-lg border border-[#253A82] bg-[#253A82] text-white text-[13px] font-bold ${
                 saving ? "opacity-70 cursor-not-allowed" : "cursor-pointer"
               }`}
             >
@@ -162,7 +162,7 @@ export default function AddUser() {
 function Field({ label, error, children }) {
   return (
     <label className="grid gap-2">
-      <span className="text-[14px] font-semibold text-[#111827]">{label}</span>
+      <span className="text-[14px] font-semibold text-[#253A82]">{label}</span>
       {children}
       {error ? <span className="text-red-600 text-[12px]">{error}</span> : null}
     </label>
