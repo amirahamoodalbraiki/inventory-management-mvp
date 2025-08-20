@@ -20,13 +20,13 @@ export default function Navbar() {
     <div style={wrap}>
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
         <div aria-hidden style={logoMark} />
-        <span style={{ fontWeight: 700, color: "#111827" }}>StockPilot</span>
+        <span style={{ fontWeight: 700, color: "#253A82" }}>StockPilot</span>
       </div>
 
       <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
         <nav aria-label="Primary" style={{ display: "flex", gap: 20 }}>
           {links
-            .filter((l) => !l.role || l.role === role) // 👈 filter by role
+            .filter((l) => !l.role || l.role === role)
             .map((l) => {
               const isActive =
                 l.path === "/"
@@ -41,8 +41,8 @@ export default function Navbar() {
                 >
                   {l.label}
                 </button>
-            );
-          })}
+              );
+            })}
         </nav>
 
         <button aria-label="Notifications" style={iconBtn}>
@@ -75,7 +75,7 @@ const wrap = {
   justifyContent: "space-between",
   padding: "0 24px",
   background: "#ffffff",
-  borderBottom: "1px solid #e5e7eb",
+  borderBottom: "1px solid #88A2FF",
   position: "sticky",
   top: 0,
   zIndex: 100,
@@ -84,7 +84,7 @@ const wrap = {
 const logoMark = {
   width: 14,
   height: 14,
-  background: "#111827",
+  background: "#253A82",
   borderRadius: 3,
   transform: "skewX(-10deg)",
 };
@@ -97,19 +97,19 @@ const navLink = (active) => ({
   borderRadius: 8,
   fontSize: 13,
   fontWeight: active ? 700 : 500,
-  color: active ? "#111827" : "#6b7280",
+  color: active ? "#253A82" : "#6b7280",
   cursor: "pointer",
   transition: "background 120ms ease",
   ...(active
-    ? { background: "#f3f4f6", border: "1px solid #e5e7eb" }
+    ? { background: "#C0E0FF", border: "1px solid #88A2FF" }
     : { background: "transparent" }),
 });
 
 const iconBtn = {
   appearance: "none",
-  background: "#f3f4f6",
-  color: "#111827",
-  border: "1px solid #e5e7eb",
+  background: "#C0E0FF",
+  color: "#253A82",
+  border: "1px solid #88A2FF",
   width: 35,
   height: 32,
   display: "flex",
@@ -126,5 +126,5 @@ const avatar = {
   borderRadius: "50%",
   display: "block",
   objectFit: "cover",
-  border: "1px solid #e5e7eb",
+  border: "1px solid #88A2FF",
 };
