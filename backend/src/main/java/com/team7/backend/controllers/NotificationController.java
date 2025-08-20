@@ -23,12 +23,27 @@ public class NotificationController {
     this.userRepository = userRepository;
   }
 
+  // 🔹 Get all notifications for the logged-in user (ADMIN + USER)
   @GetMapping
   @PreAuthorize("hasAnyRole('ADMIN','USER')")
   public List<Notification> getMyNotifications(Principal principal) {
-    User user = userRepository.findByEmail(principal.getName())
-      .orElseThrow(() -> new RuntimeException("User not found"));
+    // get email from JWT token
+    String email = principal.getName();
+
+    User user = userRepository.findByEmail(email)
+      .orElseThrow(() -> new RuntimeException("User not found: " + email));
+
     return notificationService.getUserNotifications(user);
   }
-}
 
+  // 🔹 Mark notification as read (ADMIN + USER)
+  @PutMapping("/{id}/read")
+  @PreAuthorize("hasAnyRole('ADMIN','USER')")
+  public Notification markAsRead(@PathVariable Long id, Principal principal) {
+    String email = principal.getName();
+    User user = userRepository.findByEmail(email)
+      .orElseThrow(() -> new RuntimeException("User not found: " + email));
+
+    return notificationService.markNotificationAsRead(id, user);
+  }
+}
