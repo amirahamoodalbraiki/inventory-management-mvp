@@ -188,7 +188,7 @@ docs/demo-data-and-readme
  develop
 
 ## Documentation
-- [Authentication](docs/auth.md)
+- [Authentication](docs/api-products.md)
 - [Users](docs/users.md)
 - [Stock Changes](docs/stock_changes.md)
 - [api](docs/api-products.md)
