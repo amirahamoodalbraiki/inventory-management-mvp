@@ -24,3 +24,20 @@ export function getUserId() {
     return null;
   }
 }
+export function getUser() {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+  
+    try {
+      const decoded = jwtDecode(token);
+      return {
+        id: decoded.userId || null,
+        role: decoded.role || null,
+        email: decoded.sub || decoded.email || null, // your backend sets email in sub
+        name: decoded.name || decoded.sub?.split("@")[0] || "User", // fallback if name not in token
+      };
+    } catch (err) {
+      console.error("Invalid token:", err);
+      return null;
+    }
+}

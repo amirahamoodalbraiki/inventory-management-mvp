@@ -1,6 +1,10 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getUserRole } from "../services/auth";
+import NotificationBell from "./NotificationBell";
+import ProfileDropdown from "./ProfileDropdown";
+
+
 
 const links = [
   { key: "dashboard",   label: "Dashboard",    path: "/dashboard" },
@@ -44,24 +48,9 @@ export default function Navbar() {
             })}
         </nav>
 
-        <button aria-label="Notifications" style={iconBtn}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ display: "block" }}>
-            <path d="M10 20a2 2 0 0 0 4 0" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            <path
-              d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 7h18s-3 0-3-7Z"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
-
-        <img
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIG34_9Mgmzn08YzxUu5iB-u5k-yElEiTnzEQKUcYjStBLFBG0SGsj-DGk4fWOuAe7lbX9YTdEAWY_URfDFRoMV_jqYIHR8ZTBeOIi_hPIXY7OtGw0_Y0h8AB4Uz8OniBEKKGnS4ja5m7F3dtMu5-uUS7uIgNfAehnVlp-g0ZbEDJIjeof7OTq_k-EgpiU1T_9HfcWikIBzNy03GiKhnWWb6QtSjSjcDZXG53WDMs0RoZIn6tuke561tXXz8jynIFy-a1HdSznRRSr"
-          alt="User avatar"
-          style={avatar}
-        />
+        <NotificationBell />
+        <ProfileDropdown />
+        
       </div>
     </div>
   );
@@ -119,11 +108,3 @@ const iconBtn = {
   padding: 0,
 };
 
-const avatar = {
-  width: 32,
-  height: 32,
-  borderRadius: "50%",
-  display: "block",
-  objectFit: "cover",
-  border: "1px solid #88A2FF",
-};
