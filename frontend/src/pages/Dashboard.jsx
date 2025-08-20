@@ -16,7 +16,6 @@ export default function Dashboard() {
         setLoading(true);
         setErr("");
 
-       
         const products = await inventoryService.getInventoryItems({});
         let inCount = 0, outCount = 0;
         const lowList = [];
@@ -33,7 +32,6 @@ export default function Dashboard() {
         lowList.sort((a, b) => a.qty - b.qty);
         const lowTop = lowList.slice(0, 5);
 
-        
         let tx = [];
         try {
           const raw = await api.get("/transactions?limit=5");
@@ -71,7 +69,7 @@ export default function Dashboard() {
 
   return (
     <div className="max-w-[1000px] w-full mx-auto px-5 py-6">
-      <h1 className="text-[28px] font-extrabold text-[#111827] mb-6">Dashboard</h1>
+      <h1 className="text-[28px] font-extrabold text-[#253A82] mb-6">Dashboard</h1>
 
       {err && (
         <div className="mb-4 px-4 py-3 rounded border border-red-200 text-red-700 bg-red-50">
@@ -81,70 +79,70 @@ export default function Dashboard() {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {statsArray.map((s, i) => (
-          <div key={i} className="border border-gray-300 rounded-lg bg-white p-5">
-            <div className="text-sm text-gray-600 font-semibold mb-2">{s.label}</div>
-            <div className="text-3xl font-extrabold text-[#111827]">{s.value}</div>
+          <div key={i} className="border border-[#88A2FF] rounded-lg bg-white p-5">
+            <div className="text-sm text-[#253A82] font-semibold mb-2 opacity-80">{s.label}</div>
+            <div className="text-3xl font-extrabold text-[#253A82]">{s.value}</div>
           </div>
         ))}
       </div>
 
       <div className="grid gap-4 mt-6 lg:grid-cols-3">
-        <section className="border border-gray-300 rounded-lg bg-white overflow-hidden lg:col-span-1">
-          <header className="px-4 py-3 border-b border-gray-300 bg-[#f9fafb]">
-            <h2 className="text-[16px] font-bold text-[#111827] m-0">Low Stock</h2>
+        <section className="border border-[#88A2FF] rounded-lg bg-white overflow-hidden lg:col-span-1">
+          <header className="px-4 py-3 border-b border-[#88A2FF] bg-[#88A2FF]/20">
+            <h2 className="text-[16px] font-bold text-[#253A82] m-0">Low Stock</h2>
           </header>
           <table className="w-full border-collapse">
             <thead>
-              <tr className="bg-[#f9fafb]">
-                <th className="text-left px-4 py-3 border-b border-gray-300 text-[13px] font-semibold text-[#111827]">Product</th>
-                <th className="text-left px-4 py-3 border-b border-gray-300 text-[13px] font-semibold text-[#111827]">SKU</th>
-                <th className="text-left px-4 py-3 border-b border-gray-300 text-[13px] font-semibold text-[#111827]">Qty</th>
+              <tr className="bg-[#88A2FF]/20">
+                <th className="text-left px-4 py-3 border-b border-[#88A2FF] text-[13px] font-semibold text-[#253A82]">Product</th>
+                <th className="text-left px-4 py-3 border-b border-[#88A2FF] text-[13px] font-semibold text-[#253A82]">SKU</th>
+                <th className="text-left px-4 py-3 border-b border-[#88A2FF] text-[13px] font-semibold text-[#253A82]">Qty</th>
               </tr>
             </thead>
             <tbody>
               {(loading ? Array.from({ length: 3 }) : lowStock).map((i, idx) => (
-                <tr key={i?.id ?? idx} className="border-b border-gray-300">
-                  <td className="px-4 py-[14px] text-sm text-[#111827]">{loading ? "…" : i.name}</td>
-                  <td className="px-4 py-[14px] text-sm text-[#111827]">{loading ? "…" : i.sku}</td>
-                  <td className="px-4 py-[14px] text-sm text-[#111827]">{loading ? "…" : i.qty}</td>
+                <tr key={i?.id ?? idx} className="border-b border-[#88A2FF]">
+                  <td className="px-4 py-[14px] text-sm text-[#253A82]">{loading ? "…" : i.name}</td>
+                  <td className="px-4 py-[14px] text-sm text-[#253A82]">{loading ? "…" : i.sku}</td>
+                  <td className="px-4 py-[14px] text-sm text-[#253A82]">{loading ? "…" : i.qty}</td>
                 </tr>
               ))}
               {!loading && lowStock.length === 0 && (
                 <tr>
-                  <td colSpan={3} className="px-4 py-[14px] text-center text-gray-500">No low-stock items</td>
+                  <td colSpan={3} className="px-4 py-[14px] text-center text-[#253A82]">No low-stock items</td>
                 </tr>
               )}
             </tbody>
           </table>
         </section>
 
-        <section className="border border-gray-300 rounded-lg bg-white overflow-hidden lg:col-span-2">
-          <header className="px-4 py-3 border-b border-gray-300 bg-[#f9fafb]">
-            <h2 className="text-[16px] font-bold text-[#111827] m-0">Recent Transactions</h2>
+        <section className="border border-[#88A2FF] rounded-lg bg-white overflow-hidden lg:col-span-2">
+          <header className="px-4 py-3 border-b border-[#88A2FF] bg-[#88A2FF]/20">
+            <h2 className="text-[16px] font-bold text-[#253A82] m-0">Recent Transactions</h2>
           </header>
           <table className="w-full border-collapse">
             <thead>
-              <tr className="bg-[#f9fafb]">
-                <th className="text-left px-4 py-3 border-b border-gray-300 text-[13px] font-semibold text-[#111827]">Date</th>
-                <th className="text-left px-4 py-3 border-b border-gray-300 text-[13px] font-semibold text-[#111827]">Product</th>
-                <th className="text-left px-4 py-3 border-b border-gray-300 text-[13px] font-semibold text-[#111827]">Change</th>
-                <th className="text-left px-4 py-3 border-b border-gray-300 text-[13px] font-semibold text-[#111827]">Reason</th>
+              <tr className="bg-[#88A2FF]/20">
+                <th className="text-left px-4 py-3 border-b border-[#88A2FF] text-[13px] font-semibold text-[#253A82]">Date</th>
+                <th className="text-left px-4 py-3 border-b border-[#88A2FF] text-[13px] font-semibold text-[#253A82]">Product</th>
+                <th className="text-left px-4 py-3 border-b border-[#88A2FF] text-[13px] font-semibold text-[#253A82]">Change</th>
+                <th className="text-left px-4 py-3 border-b border-[#88A2FF] text-[13px] font-semibold text-[#253A82]">Reason</th>
               </tr>
             </thead>
             <tbody>
               {(loading ? Array.from({ length: 3 }) : recentTx).map((t, idx) => (
-                <tr key={t?.id ?? idx} className="border-b border-gray-300">
-                  <td className="px-4 py-[14px] text-sm text-[#111827]">{loading ? "…" : t.ts}</td>
-                  <td className="px-4 py-[14px] text-sm text-[#111827]">{loading ? "…" : t.product}</td>
-                  <td className="px-4 py-[14px] text-sm text-[#111827]">
+                <tr key={t?.id ?? idx} className="border-b border-[#88A2FF]">
+                  <td className="px-4 py-[14px] text-sm text-[#253A82]">{loading ? "…" : t.ts}</td>
+                  <td className="px-4 py-[14px] text-sm text-[#253A82]">{loading ? "…" : t.product}</td>
+                  <td className="px-4 py-[14px] text-sm text-[#253A82]">
                     {loading ? "…" : (t.delta > 0 ? `+${t.delta}` : t.delta)}
                   </td>
-                  <td className="px-4 py-[14px] text-sm text-[#111827]">{loading ? "…" : t.reason}</td>
+                  <td className="px-4 py-[14px] text-sm text-[#253A82]">{loading ? "…" : t.reason}</td>
                 </tr>
               ))}
               {!loading && recentTx.length === 0 && (
                 <tr>
-                  <td colSpan={4} className="px-4 py-[14px] text-center text-gray-500">No transactions</td>
+                  <td colSpan={4} className="px-4 py-[14px] text-center text-[#253A82]">No transactions</td>
                 </tr>
               )}
             </tbody>
@@ -154,4 +152,3 @@ export default function Dashboard() {
     </div>
   );
 }
-
