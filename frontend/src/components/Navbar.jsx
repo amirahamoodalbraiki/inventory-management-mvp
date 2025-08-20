@@ -1,10 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getUserRole } from "../services/auth";
 import NotificationBell from "./NotificationBell";
 import ProfileDropdown from "./ProfileDropdown";
-
-
 
 const links = [
   { key: "dashboard",   label: "Dashboard",    path: "/dashboard" },
@@ -12,6 +10,33 @@ const links = [
   { key: "transactions",label: "Transactions", path: "/transactions" },
   { key: "users", label: "Users", path: "/users", role: "ADMIN" },
 ];
+
+// 🔹 Reusable Error Boundary
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error("ErrorBoundary caught an error:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ color: "red", fontSize: 13 }}>
+          ⚠️ Failed to load {this.props.name || "component"}.
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -48,9 +73,12 @@ export default function Navbar() {
             })}
         </nav>
 
-        <NotificationBell />
+        {/* 🔹 Protect NotificationBell with ErrorBoundary */}
+        <ErrorBoundary name="notifications">
+          <NotificationBell />
+        </ErrorBoundary>
+
         <ProfileDropdown />
-        
       </div>
     </div>
   );
@@ -107,4 +135,3 @@ const iconBtn = {
   cursor: "pointer",
   padding: 0,
 };
-
