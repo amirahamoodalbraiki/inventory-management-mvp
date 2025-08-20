@@ -94,11 +94,11 @@ public class DataInitializer implements CommandLineRunner {
       Product mouse = productRepository.findBySku("SKU002").orElseThrow();
       Product chair = productRepository.findBySku("SKU003").orElseThrow();
 
-      StockChange change1 = new StockChange(laptop, 5, "Initial stock", admin);
-      StockChange change2 = new StockChange(mouse, 50, "Purchase from supplier", staff1);
-      StockChange change3 = new StockChange(chair, -1, "Sold one chair", staff2);
-      StockChange change4 = new StockChange(laptop, -3, "Customer order", staff1);
-      StockChange change5 = new StockChange(mouse, -2, "Correction (damaged items)", admin);
+      StockChange change1 = new StockChange(laptop, 5, "Correction", admin);
+      StockChange change2 = new StockChange(mouse, 50, "Purchase", staff1);
+      StockChange change3 = new StockChange(chair, -1, "Sale", staff2);
+      StockChange change4 = new StockChange(laptop, -3, "Purchase", staff1);
+      StockChange change5 = new StockChange(mouse, -2, "Correction", admin);
 
       stockChangeRepository.save(change1);
       stockChangeRepository.save(change2);
