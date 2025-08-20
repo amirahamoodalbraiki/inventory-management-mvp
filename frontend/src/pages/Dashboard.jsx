@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { inventoryService, getStockStatus } from "../services/inventory.js";
-import { api } from "../services/api.js";
 
 export default function Dashboard() {
   const [stats, setStats] = useState({ total: 0, inStock: 0, out: 0 });
@@ -16,7 +15,7 @@ export default function Dashboard() {
         setLoading(true);
         setErr("");
 
-       
+        
         const products = await inventoryService.getInventoryItems({});
         let inCount = 0, outCount = 0;
         const lowList = [];
@@ -36,15 +35,8 @@ export default function Dashboard() {
         
         let tx = [];
         try {
-          const raw = await api.get("/transactions?limit=5");
-          const list = Array.isArray(raw) ? raw : Array.isArray(raw?.recent) ? raw.recent : (raw?.content ?? []);
-          tx = list.slice(0, 5).map((t, idx) => ({
-            id: t.id ?? t.txId ?? idx,
-            ts: t.ts ?? t.date ?? t.timestamp ?? "",
-            product: t.product ?? t.productName ?? t.item ?? "",
-            delta: t.delta ?? t.change ?? t.changeAmount ?? 0,
-            reason: t.reason ?? t.type ?? "",
-          }));
+          const { getRecentTransactions } = await import("../services/transactions.js");
+          tx = await getRecentTransactions(5);
         } catch {
           tx = [];
         }
@@ -154,4 +146,3 @@ export default function Dashboard() {
     </div>
   );
 }
-
