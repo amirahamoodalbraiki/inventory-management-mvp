@@ -4,7 +4,7 @@
 
 A chronological log of stock changes.
 
-![Transactions](../screenshots/Transactions.png)
+![Transactions](../Screenshots/Transactions.png)
 
 ## Features
 - **Search** by product name/SKU
