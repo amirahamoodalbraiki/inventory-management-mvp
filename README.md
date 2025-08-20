@@ -27,23 +27,35 @@ A lightweight web application for small businesses to track stock levels, manage
 ## How to Run Locally
 
 ### Backend
-The backend is implemented as a Spring Boot application.  
-To run locally:
-1. Install Java 17+ and Maven  
-2.  
-```bash
-cd backend
-mvn spring-boot:run
-```
+If you prefer to run the backend directly from **IntelliJ IDEA** instead of using Maven commands:
+
+1. **Open IntelliJ IDEA**.
+2. From the menu, choose **File > Open...**.
+3. Navigate to the project folder:  
+inventory-management-mvp/backend
+
+Select the **`backend`** folder and click **Open**.
+4. Wait until IntelliJ finishes indexing and downloading dependencies.
+5. In the **Project Explorer**, open:  
+src/main/java/com/example/backend/BackendApplication.java
+
+
+6. At the top-right of IntelliJ, click the **green Run button ▶**.  
+- This will start the Spring Boot server.
+- By default it runs on [http://localhost:8080](http://localhost:8080).
+
+### Notes
+- Make sure **Java 17+** is configured as the SDK in IntelliJ (File > Project Structure > Project SDK).
+- If Maven dependencies do not load automatically, right-click `pom.xml` and select **Add as Maven Project**.
+- To stop the app, press the red **Stop button ⏹** in IntelliJ.
+  
 ### Frontend
 1. Install Node.js (v18+)
  docs/demo-data-and-readme
 2. 
-=======
-2.
 develop
 
-```bash
+```
 cd frontend
 npm install
 npm run dev
@@ -53,13 +65,13 @@ npm run dev
 - **ClickUp Board:** [View tasks on ClickUp](https://app.clickup.com/90181582807/v/l/li/901810440494)
 
 ## Environment Variables (to be finalized)
-```ini
+```
 DATABASE_URL=<connection-string>
 ```
 Other keys (email provider / S3) if notifications/images are enabled.
 
 ## Project Structure
-```bash
+```
 backend/   # Spring Boot app
 frontend/  # React app
 docs/      # ERD, API contracts, deployment notes
@@ -76,14 +88,14 @@ This project includes scripts to populate the database with demo data for testin
 
 ### 1. Start the Backend
 Make sure the backend server is running locally:
-```bash
+```
 ./mvnw spring-boot:run
 It should be available at: https://localhost:8080
 ```
 ### 2. Seed Demo Data
 Navigate to the docs/api folder and run the seeding scripts in this order:
 
-```bash
+```
 ./seed_users.sh
 ./seed_products.sh
 ./seed_stock_changes_simple.sh
@@ -94,9 +106,7 @@ Use curl or your browser to check the seeded data:
 - [Products](http://localhost:8080/products)
 - [Stock Changes](http://localhost:8080/stock-changes)
 - You should see JSON output containing the demo records.
-=======
- develop
-
+  
 ## Contributing
 - **Default branch:** develop
 - Protect main branch (PRs only, ≥1 approval, passing CI)
@@ -108,14 +118,14 @@ This project includes scripts to populate the database with demo data for testin
 
 ### 1. Start the Backend
 Make sure the backend server is running locally:
-```bash
+```
 ./mvnw spring-boot:run
 It should be available at: https://localhost:8080
 ```
 ### 2. Seed Demo Data
 Navigate to the docs/api folder and run the seeding scripts in this order:
 
-```bash
+```
 ./seed_users.sh
 ./seed_products.sh
 ./seed_stock_changes_simple.sh
@@ -131,7 +141,7 @@ Use curl or your browser to check the seeded data:
 docs/demo-data-and-readme
 - **Scrum Master:** Amira 
 - GitHub: [@amirahamoodalbraiki](https://github.com/amirahamoodalbraiki) 
-=======
+
 - **Scrum Master:** Amira
 - GitHub: [@amirahamoodalbraiki](https://github.com/amirahamoodalbraiki)
 develop
