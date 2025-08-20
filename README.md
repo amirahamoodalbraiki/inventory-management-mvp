@@ -35,12 +35,14 @@ If you prefer to run the backend directly from **IntelliJ IDEA** instead of usin
 inventory-management-mvp/backend
 
 Select the **`backend`** folder and click **Open**. 
+
 4. Wait until IntelliJ finishes indexing and downloading dependencies.
+   
 5. In the **Project Explorer**, open:  
 src/main/java/com/example/backend/BackendApplication.java
 
 
-6. At the top-right of IntelliJ, click the **green Run button ▶**.  
+7. At the top-right of IntelliJ, click the **green Run button ▶**.  
 - This will start the Spring Boot server.
 - By default it runs on [http://localhost:8080](http://localhost:8080).
 
