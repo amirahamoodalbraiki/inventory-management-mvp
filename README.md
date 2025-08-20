@@ -34,7 +34,7 @@ If you prefer to run the backend directly from **IntelliJ IDEA** instead of usin
 3. Navigate to the project folder:  
 inventory-management-mvp/backend
 
-Select the **`backend`** folder and click **Open**.
+Select the **`backend`** folder and click **Open**. 
 4. Wait until IntelliJ finishes indexing and downloading dependencies.
 5. In the **Project Explorer**, open:  
 src/main/java/com/example/backend/BackendApplication.java
