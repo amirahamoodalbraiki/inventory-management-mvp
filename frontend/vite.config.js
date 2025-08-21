@@ -7,23 +7,23 @@ export default defineConfig({
   server: {
     proxy: {
       '/auth/login': { 
-        target: process.env.VITE_BACKEND_URL,
+        target: 'http://localhost:8080',
         changeOrigin: true,
       },
       '/products': {
-        target: process.env.VITE_BACKEND_URL,
+        target: 'http://localhost:8080',
         changeOrigin: true,
       },
       '/stock-changes': { 
-        target: process.env.VITE_BACKEND_URL,
+        target: 'http://localhost:8080',
         changeOrigin: true,
       },
       '/users': { 
-        target: process.env.VITE_BACKEND_URL,
+        target: 'http://localhost:8080',
         changeOrigin: true,
       },
       '/notifications': { 
-        target: process.env.VITE_BACKEND_URL,
+        target: 'http://localhost:8080',
         changeOrigin: true,
       },
     },
