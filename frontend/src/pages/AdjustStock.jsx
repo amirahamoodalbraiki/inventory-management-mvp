@@ -14,7 +14,11 @@ export default function AdjustStock() {
   const [reason, setReason] = useState("");
   const [saving, setSaving] = useState(false);
   const [err, setErr] = useState("");
-
+  const increaseReasons = ["Purchase", "Return", "Correction"];
+  const decreaseReasons = ["Sale", "Damage", "Correction"];
+    useEffect(() => {
+      setReason(""); // reset when switching increase/decrease
+    }, [mode]);
   useEffect(() => {
     (async () => {
       try {
@@ -62,6 +66,9 @@ export default function AdjustStock() {
         <h1 className="text-[32px] font-extrabold text-[#253A82] my-2 mb-7">
           {product ? product.name : "Product Name"}
         </h1>
+        <p className="text-sm text-gray-500 mb-2">
+          Choose whether you want to increase or decrease stock, then select a reason.
+        </p>
         <div className="grid gap-6 max-w-[540px]">
           <Field label="Change type">
             <div className="inline-flex gap-2">
@@ -102,18 +109,19 @@ export default function AdjustStock() {
           </Field>
 
           <Field label="Reason">
-            <select
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}
-              className="w-full h-10 px-3 rounded-lg border border-[#88A2FF] bg-white text-[#253A82] text-[14px] outline-none"
-            >
-              <option value="">Select reason</option>
-              <option value="purchase">Purchase</option>
-              <option value="sale">Sale</option>
-              <option value="return">Return</option>
-              <option value="correction">Correction</option>
-            </select>
-          </Field>
+              <select
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+                className="w-full h-10 px-3 rounded-lg border border-[#88A2FF] bg-white text-[#253A82] text-[14px] outline-none"
+              >
+                <option value="">Select reason</option>
+                {(mode === "increase" ? increaseReasons : decreaseReasons).map((r) => (
+                  <option key={r} value={r.toLowerCase()}>
+                    {r}
+                  </option>
+                ))}
+              </select>
+            </Field>
         </div>
 
         {err && <div className="text-[#B42318] mt-4">{err}</div>}
