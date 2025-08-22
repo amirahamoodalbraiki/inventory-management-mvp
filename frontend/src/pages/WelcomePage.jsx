@@ -33,7 +33,7 @@ export default function Welcome() {
                 from the administrator.
                 </p>
               <div className="wh-cta-row">
-                <button className="wh-btn wh-btn--xl" onClick={() => navigate("/")}>
+                <button className="wh-btn wh-btn--xl" onClick={() => navigate("/login")}>
                   Login
                 </button>
               </div>

@@ -14,7 +14,7 @@ import WelcomePage from "./pages/WelcomePage.jsx";
 
 function Layout() {
   const location = useLocation();
-  const hideNavbarOn = ["/welcome","/"]; // Login and welcome only
+  const hideNavbarOn = ["/","/login"]; // Login and welcome only
   const showNavbar = !hideNavbarOn.includes(location.pathname);
 
   return (
@@ -22,8 +22,8 @@ function Layout() {
       {showNavbar && <Navbar />}
       <main className={showNavbar ? "pt-14 min-h-screen bg-white" : "min-h-screen bg-white"}>
         <Routes>
-        <Route path="/welcome" element={<WelcomePage />} />
-          <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<WelcomePage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/inventory" element={<InventoryList />} />
           <Route path="/products/new" element={<AddProduct />} />
           <Route path="/products/:id/edit" element={<AddProduct />} />
@@ -33,8 +33,6 @@ function Layout() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/users/new" element={<AddUser />} />
           <Route path="/users/:id/edit" element={<AddUser />} />
-
-
         </Routes>
       </main>
     </div>
