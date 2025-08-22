@@ -10,6 +10,7 @@ export default function AddProduct() {
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [catErr, setCatErr] = useState("");
+  const [isOther, setIsOther] = useState(false);
   const [form, setForm] = useState({
     name: "",
     sku: "",
@@ -188,18 +189,45 @@ useEffect(() => {
             />
           </Field>
 
-          <Field label="Category" error={errors.category}>
-            <select
-              value={form.category}
-              onChange={update("category")}
-              className="w-full px-3 py-2.5 rounded-lg border border-gray-200 bg-white text-[14px] text-[#111827] outline-none"
-            >
-              <option value="">Select</option>
-              {categories.map((c) => (
-                <option key={c} value={c}>{c}</option>
-              ))}
-            </select>
-          </Field>
+        <Field label="Category" error={errors.category}>
+          <select
+            value={isOther ? "Other" : form.category}
+            onChange={(e) => {
+              const val = e.target.value;
+              if (val === "Other") {
+                setIsOther(true);
+                update("category")({ target: { value: "" } }); // clear form.category for input
+              } else {
+                setIsOther(false);
+                update("category")(e);
+              }
+            }}
+            className="w-full px-3 py-2.5 rounded-lg border border-gray-200 bg-white text-[14px] text-[#111827] outline-none"
+          >
+          <option value="">Select</option>
+          {categories.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+          <option value="Other">Other</option>
+        </select>
+
+        {/* Only show input if Other is selected */}
+        {isOther && (
+          <input
+            type="text"
+            placeholder="Enter new category"
+            className="mt-2 w-full px-3 py-2.5 rounded-lg border border-gray-200 text-[14px] text-[#111827] outline-none"
+            onChange={(e) => {
+              const input = e.target.value;
+              const formatted =
+                input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
+              update("category")({ target: { value: formatted } });
+            }}
+          />
+        )}
+        </Field>
 
           <Field label="Description">
             <textarea
