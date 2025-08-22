@@ -1,4 +1,5 @@
 import { api } from "./api";
+import { getUserId } from "./auth";
 
 export const usersService = {
   async list() {
@@ -16,6 +17,10 @@ export const usersService = {
   },
 
   async remove(id) {
+    const myId = getUserId();
+    if (myId && String(id) === String(myId)) {
+      throw new Error("You can't delete your own account.");
+    }
     return api.del(`/users/${id}`);
   },
 
