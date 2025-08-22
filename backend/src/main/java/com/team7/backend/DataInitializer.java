@@ -7,12 +7,14 @@ import com.team7.backend.repositories.ProductRepository;
 import com.team7.backend.repositories.StockChangeRepository;
 import com.team7.backend.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
 @Component
+@Profile("dev")  // Only run in development profile
 public class DataInitializer implements CommandLineRunner {
 
   private final UserRepository userRepository;

@@ -1,6 +1,5 @@
 package com.team7.backend.services;
 
-import com.team7.backend.entities.Notification;
 import com.team7.backend.entities.Product;
 import com.team7.backend.entities.StockChange;
 import com.team7.backend.entities.User;
@@ -17,16 +16,13 @@ public class StockChangeService {
   private final StockChangeRepository stockChangeRepository;
   private final ProductRepository productRepository;
   private final UserRepository userRepository;
-  private final NotificationService notificationService;
 
   public StockChangeService(StockChangeRepository stockChangeRepository,
                             ProductRepository productRepository,
-                            UserRepository userRepository,
-                            NotificationService notificationService) {
+                            UserRepository userRepository) {
     this.stockChangeRepository = stockChangeRepository;
     this.productRepository = productRepository;
     this.userRepository = userRepository;
-    this.notificationService = notificationService;
   }
 
   // Get all stock changes
@@ -54,11 +50,6 @@ public class StockChangeService {
     // Create and save stock change record
     StockChange stockChange = new StockChange(product, changeAmount, reason, user);
     stockChangeRepository.save(stockChange);
-
-    // 🔔 Check for low stock and create notification
-    if (newQuantity <= product.getLowStockThreshold()) {
-      notificationService.createLowStockNotification(user, product);
-    }
 
     return stockChange;
   }
