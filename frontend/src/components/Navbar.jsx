@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getUserRole } from "../services/auth";
 import NotificationBell from "./NotificationBell";
@@ -43,10 +43,18 @@ export default function Navbar() {
   const location = useLocation();
   const pathname = location.pathname.toLowerCase();
   const role = getUserRole();
+  const [openMenu, setOpenMenu] = useState(null);
+
+  useEffect(() => {
+    const onKey = (e) => e.key === "Escape" && setOpenMenu(null);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
 
   return (
     <div style={wrap}>
-      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <div aria-hidden style={logoMark} />
         <span style={{ fontWeight: 700, color: "#ffffffff" }}>StockPilot</span>
       </div>
@@ -75,10 +83,22 @@ export default function Navbar() {
 
         {/* 🔹 Protect NotificationBell with ErrorBoundary */}
         <ErrorBoundary name="notifications">
-          <NotificationBell />
+        <NotificationBell
+        open={openMenu === "bell"}
+        onToggle={() =>
+          setOpenMenu((m) => (m === "bell" ? null : "bell"))
+        }
+        closeAll={() => setOpenMenu(null)}
+      />
         </ErrorBoundary>
 
-        <ProfileDropdown />
+        <ProfileDropdown
+        open={openMenu === "profile"}
+        onToggle={() =>
+          setOpenMenu((m) => (m === "profile" ? null : "profile"))
+        }
+        closeAll={() => setOpenMenu(null)}
+      />
       </div>
     </div>
   );
