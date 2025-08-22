@@ -218,7 +218,7 @@ useEffect(() => {
           <input
             type="text"
             placeholder="Enter new category"
-            className="mt-2 w-full px-3 py-2.5 rounded-lg border border-gray-200 text-[14px] text-[#111827] outline-none"
+            className="mt-2 w-full px-3 py-2.5 rounded-lg border border-gray-200 bg-gray-100 text-[14px] text-[#111827] outline-none"
             onChange={(e) => {
               const input = e.target.value;
               const formatted =

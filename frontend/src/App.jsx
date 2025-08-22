@@ -8,12 +8,13 @@ import UserManagement from "./pages/UserManagement.jsx";
 import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard.jsx";
 import AddUser from "./pages/AddUser.jsx";
+import WelcomePage from "./pages/WelcomePage.jsx";
 
 
 
 function Layout() {
   const location = useLocation();
-  const hideNavbarOn = ["/"]; // Login only
+  const hideNavbarOn = ["/welcome","/"]; // Login and welcome only
   const showNavbar = !hideNavbarOn.includes(location.pathname);
 
   return (
@@ -21,6 +22,7 @@ function Layout() {
       {showNavbar && <Navbar />}
       <main className={showNavbar ? "pt-14 min-h-screen bg-white" : "min-h-screen bg-white"}>
         <Routes>
+        <Route path="/welcome" element={<WelcomePage />} />
           <Route path="/" element={<LoginPage />} />
           <Route path="/inventory" element={<InventoryList />} />
           <Route path="/products/new" element={<AddProduct />} />
@@ -31,6 +33,7 @@ function Layout() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/users/new" element={<AddUser />} />
           <Route path="/users/:id/edit" element={<AddUser />} />
+
 
         </Routes>
       </main>
