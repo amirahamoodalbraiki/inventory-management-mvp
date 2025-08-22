@@ -33,23 +33,22 @@ public class NotificationService {
     notificationRepository.save(notification);
   }
 
-  // 🔹 Scheduled check every 1 minute
-  @Scheduled(fixedRate = 10000) // runs every 60 seconds
+  // 🔹 Scheduled check every 10 seconds
+  @Scheduled(fixedRate = 10000)
   public void periodicLowStockCheck() {
     List<Product> products = productRepository.findAll();
-
-    // For simplicity, notify ADMIN when stock is low
-    User admin = userRepository.findByEmail("admin@example.com")
-      .orElseThrow(() -> new RuntimeException("Admin user not found"));
+    List<User> users = userRepository.findAll(); // ✅ Fetch all users
 
     for (Product product : products) {
       if (product.getQuantity() <= product.getLowStockThreshold()) {
-        // avoid spamming: check if notification already exists for this product and is unread
-        boolean alreadyNotified = notificationRepository.findByUserAndReadFalse(admin).stream()
-          .anyMatch(n -> n.getProduct().getId().equals(product.getId()) && n.getType().equals("LOW_STOCK"));
+        for (User user : users) {
+          // avoid spamming: check if notification already exists for this product and user
+          boolean alreadyNotified = notificationRepository.findByUserAndReadFalse(user).stream()
+            .anyMatch(n -> n.getProduct().getId().equals(product.getId()) && n.getType().equals("LOW_STOCK"));
 
-        if (!alreadyNotified) {
-          createLowStockNotification(admin, product);
+          if (!alreadyNotified) {
+            createLowStockNotification(user, product); // ✅ Send to each user
+          }
         }
       }
     }
