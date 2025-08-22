@@ -81,7 +81,7 @@ export default function ProfileDropdown({ open, onToggle, closeAll }) {
           <button
             onClick={() => {
               localStorage.removeItem("token");
-              window.location.href = "/welcome";
+              window.location.href = "/";
             }}
             style={{
               margin: "14px",
