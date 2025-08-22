@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import { usersService } from "../services/users";
+import { getUser,getUserId } from "../services/auth";
 
 function getDisplayPages(current, total) {
   if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
@@ -25,6 +26,9 @@ export default function UserManagement() {
   const [roleFilter, setRoleFilter] = useState("all");
   const [page, setPage] = useState(1);
   const rowsPerPage = 10;
+
+    const myId = getUserId();
+
 
   useEffect(() => {
     (async () => {
@@ -63,12 +67,21 @@ export default function UserManagement() {
   const handleAdd = () => navigate("/users/new");
   const handleEdit = (u) => navigate(`/users/${u.id}/edit`);
   const handleDelete = async (u) => {
+    // self-delete guard on UI
+    if (myId && String(u.id) === String(myId)) {
+      alert("You can’t delete your own account.");
+      return;
+    }
     if (!confirm(`Delete user "${u.name || u.email}"?`)) return;
     try {
       await usersService.remove(u.id);
       setUsers((cur) => cur.filter((x) => x.id !== u.id));
     } catch (e) {
-      alert("Delete failed.");
+      const msg =
+        e?.status === 403
+          ? "You can’t delete your own account."
+          : "Delete failed.";
+      alert(msg);
       console.error(e);
     }
   };
@@ -155,7 +168,9 @@ export default function UserManagement() {
                 </tr>
               </thead>
               <tbody>
-                {paged.map((u) => (
+                {paged.map((u) => {
+                  const isMe = myId && String(u.id) === String(myId);
+                  return(
                   <tr key={u.id} className="border-b border-[#88A2FF]">
                     <td className="px-4 py-[14px] text-sm text-[#253A82]">{u.name || "—"}</td>
                     <td className="px-4 py-[14px] text-sm text-[#253A82]">{u.email}</td>
@@ -171,13 +186,21 @@ export default function UserManagement() {
                           Edit
                         </button>
                         <span className="text-[#88A2FF]">|</span>
-                        <button onClick={() => handleDelete(u)} className="bg-transparent border-0 p-0 cursor-pointer text-[#253A82] font-bold">
-                          Delete
-                        </button>
+                        <button
+                            onClick={() => handleDelete(u)}
+                            className={`bg-transparent border-0 p-0 font-bold ${
+                              isMe ? "text-[#253A82]/40 cursor-not-allowed" : "text-[#253A82] cursor-pointer"
+                            }`}
+                            title={isMe ? "You can’t delete your own account" : "Delete user"}
+                            disabled={!!isMe}
+                          >
+                            Delete
+                          </button>
                       </div>
                     </td>
                   </tr>
-                ))}
+                  );
+                })}
                 {paged.length === 0 && (
                   <tr>
                     <td colSpan={4} className="px-4 py-[14px] text-center text-[#253A82]">No users found</td>
