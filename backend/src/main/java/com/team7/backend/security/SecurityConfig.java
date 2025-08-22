@@ -26,11 +26,12 @@ public class SecurityConfig {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     return http
       .csrf(csrf -> csrf.disable())
-      .cors().and() // 🔹 enable CORS support
+      .cors().and()
       .authorizeHttpRequests(auth -> auth
         .requestMatchers("/auth/login", "/h2-console/**").permitAll()
         .anyRequest().authenticated()
       )
+      .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin())) // 🔹 allow H2 console frames
       .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
       .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
       .build();
