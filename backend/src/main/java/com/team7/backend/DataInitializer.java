@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 
 @Component
-@Profile("dev")  // Only run in development profile
+@Profile({"dev", "prod"})  // Will run in both dev and prod profiles
 public class DataInitializer implements CommandLineRunner {
 
   private final UserRepository userRepository;
