@@ -9,7 +9,7 @@ It welcomes the user and provides a button to log in.
 
 ## Screenshot
 
-![Welcome Page](../Screenshots/welcome.png)
+![Welcome Page](../Screenshots/Welcome.png)
 
 ---
 
