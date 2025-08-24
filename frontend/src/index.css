@@ -70,4 +70,18 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+  /* Navbar responsiveness */
+.desktopNav { display: flex; gap: 20px; }
+.mobileToggle { display: none; }
+
+/* <= 768px (tablets/phones) */
+@media (max-width: 768px) {
+  .desktopNav { display: none; }      /* hide desktop links */
+  .mobileToggle { display: flex; }    /* show hamburger */
+}
+
+/* Optional: small tweaks on very small phones */
+@media (max-width: 380px) {
+  .brandText { font-size: 14px; }
+}
 }
