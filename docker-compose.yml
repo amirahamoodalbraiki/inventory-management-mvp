@@ -8,6 +8,7 @@ services:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
     environment:
+      TZ: Asia/Muscat   # this will use mucat time zone
       MYSQL_DATABASE: ${MYSQL_DATABASE:-appdb}
       MYSQL_USER: ${MYSQL_USER:-appuser}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-apppass}
@@ -41,6 +42,7 @@ services:
       APP_IMAGES_DIR: /opt/app/images
       SERVER_PORT: 8080
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - images:/opt/app/images
     depends_on:
       db:
