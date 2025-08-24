@@ -124,7 +124,8 @@ export default function Dashboard() {
           <header className="px-4 py-3 border-b border-[#88A2FF] bg-[#88A2FF]/20">
             <h2 className="text-[16px] font-bold text-[#253A82] m-0">Recent Transactions</h2>
           </header>
-          <table className="w-full border-collapse">
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[520px] border-collapse">
             <thead>
               <tr className="bg-[#88A2FF]/20">
                 <th className="text-left px-4 py-3 border-b border-[#88A2FF] text-[13px] font-semibold text-[#253A82]">Date</th>
@@ -151,6 +152,7 @@ export default function Dashboard() {
               )}
             </tbody>
           </table>
+          </div>
         </section>
       </div>
     </div>
