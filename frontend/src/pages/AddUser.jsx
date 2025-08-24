@@ -14,6 +14,7 @@ export default function AddUser() {
     name: "",
     email: "",
     password: "",     // only required in create
+    phone: "", 
     role: "USER",
   });
   const [saving, setSaving] = useState(false);
@@ -30,6 +31,7 @@ export default function AddUser() {
           name: u.name ?? "",
           email: u.email ?? "",
           password: "",      // blank; only update if you choose to support it
+          phone: u.phone ?? "", 
           role: (u.role ?? "USER").toUpperCase(),
         });
       } catch (e) {
@@ -47,6 +49,9 @@ export default function AddUser() {
     if (!form.email.trim()) e.email = "Email is required";
     if (!isEdit && !form.password.trim()) e.password = "Password is required";
     if (!form.role) e.role = "Role is required";
+    if (form.phone && !String(form.phone).replace(/\D/g, "").match(/^\d{7,}$/)) {
+      e.phone = "Enter a valid phone number";
+    }
     return e;
   };
 
@@ -60,6 +65,7 @@ export default function AddUser() {
       const payload = {
         name: form.name.trim(),
         email: form.email.trim(),
+        phone: form.phone.trim() || null,
         role: form.role,
         ...(isEdit ? {} : { password: form.password }), // only send password on create
       };
@@ -108,6 +114,17 @@ export default function AddUser() {
               onChange={update("email")}
               className="w-full px-3 py-2.5 rounded-lg border border-[#88A2FF] bg-white text-[14px] text-[#253A82] outline-none"
               placeholder="email@example.com"
+            />
+          </Field>
+           {/* Phone Number (optional) */}
+           <Field label="Phone Number" error={errors.phone}>
+            <input
+              type="tel"
+              inputMode="tel"
+              value={form.phone}
+              onChange={update("phone")}
+              className="w-full px-3 py-2.5 rounded-lg border border-[#88A2FF] bg-white text-[14px] text-[#253A82] outline-none"
+              placeholder="e.g. +968 555 123 4567"
             />
           </Field>
 
