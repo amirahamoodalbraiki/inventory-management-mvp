@@ -148,20 +148,22 @@ export default function InventoryList() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-#ffffff">
-      <div className="flex-1 px-6 py-8 max-w-[1000px] w-full mx-auto">
-        <header className="flex items-center justify-between">
-          <h1 className="m-0 text-[#253A82] text-[28px] font-extrabold">Products</h1>
+    <div className="min-h-screen flex flex-col bg-white">
+      <div className="w-full max-w-[1200px] mx-auto px-3 sm:px-6 lg:px-8 py-6">
+      <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#253A82]">
+            Products
+          </h1>
           <div className="flex gap-2">
             <button
               onClick={exportCsv}
-              className="rounded-lg bg-[#253A82] text-white border border-[#88A2FF] text-[13px] font-semibold cursor-pointer px-4 py-2"
+              className="rounded-lg bg-[#253A82] text-white border border-[#88A2FF] text-sm sm:text-base font-semibold cursor-pointer px-3 sm:px-4 py-2"
             >
               Export CSV
             </button>
             <button
               onClick={handleAddProduct}
-              className="rounded-lg bg-[#253A82] text-white border border-[#88A2FF] text-[13px] font-semibold cursor-pointer px-4 py-2"
+              className="rounded-lg bg-[#253A82] text-white border border-[#88A2FF] text-sm sm:text-base font-semibold cursor-pointer px-3 sm:px-4 py-2"
             >
               Add New Product
             </button>
@@ -203,8 +205,8 @@ export default function InventoryList() {
         </div>
 
         <section className="mt-4">
-          <div className="border border-[#88A2FF] rounded-lg bg-white shadow-sm overflow-hidden">
-            <table className="w-full border-collapse">
+        <div className="border border-[#88A2FF] rounded-lg bg-white shadow-sm overflow-x-auto">
+            <table className="min-w-full text-sm sm:text-base">
               <thead>
                 <tr className="bg-[#88A2FF]/20">
                   <th className="text-left px-4 py-3 border-b border-[#88A2FF] font-semibold text-[13px] text-[#253A82]">Product Name</th>
@@ -218,12 +220,12 @@ export default function InventoryList() {
               <tbody>
                 {pagedItems.map((item) => (
                   <tr key={item.id} className="border-b border-[#88A2FF]">
-                    <td className="px-4 py-[14px] text-sm text-[#253A82]">{item.name}</td>
-                    <td className="px-4 py-[14px] text-sm text-[#253A82]">{item.sku}</td>
-                    <td className="px-4 py-[14px] text-sm text-[#253A82]">{item.category}</td>
-                    <td className="px-4 py-[14px] text-sm text-[#253A82]">{item.quantity}</td>
-                    <td className="px-4 py-[14px] text-sm text-[#253A82]">{renderStatusBadge(item.quantity, item.lowStockThreshold)}</td>
-                    <td className="px-4 py-[14px] text-sm text-[#253A82]">
+                    <td className="px-2 sm:px-4 py-2 sm:py-[14px] text-sm text-[#253A82]">{item.name}</td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-[14px] text-sm text-[#253A82]">{item.sku}</td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-[14px] text-sm text-[#253A82]">{item.category}</td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-[14px] text-sm text-[#253A82]">{item.quantity}</td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-[14px] text-sm text-[#253A82]">{renderStatusBadge(item.quantity, item.lowStockThreshold)}</td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-[14px] text-sm text-[#253A82]">
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleAdjust(item)}
