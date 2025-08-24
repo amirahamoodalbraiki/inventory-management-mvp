@@ -7,23 +7,23 @@ export default defineConfig(({ mode }) => ({
   server: mode === 'development' ? {
     proxy: {
       '/auth/login': { 
-        target: process.env.VITE_API_BASE || 'http://localhost:8080',
+        target:'http://localhost:8080',
         changeOrigin: true,
       },
       '/products': {
-        target: process.env.VITE_API_BASE || 'http://localhost:8080',
+        target:'http://localhost:8080',
         changeOrigin: true,
       },
       '/stock-changes': { 
-        target: process.env.VITE_API_BASE || 'http://localhost:8080',
+        target:'http://localhost:8080',
         changeOrigin: true,
       },
       '/users': { 
-        target: process.env.VITE_API_BASE || 'http://localhost:8080',
+        target:'http://localhost:8080',
         changeOrigin: true,
       },
       '/notifications': { 
-        target: process.env.VITE_API_BASE || 'http://localhost:8080',
+        target:'http://localhost:8080',
         changeOrigin: true,
       },
     },
