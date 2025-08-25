@@ -46,11 +46,24 @@ export default function AddUser() {
   const validate = () => {
     const e = {};
     if (!form.name.trim()) e.name = "Name is required";
-    if (!form.email.trim()) e.email = "Email is required";
-    if (!isEdit && !form.password.trim()) e.password = "Password is required";
+    if (!form.email.trim()) {
+      e.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
+      e.email = "Enter a valid email address email@example.com";
+    }
+    if (!isEdit) {
+      if (!form.password.trim()) {
+        e.password = "Password is required";
+      } else if (form.password.trim().length < 8) {
+        e.password = "Password must be at least 8 characters long";
+      }
+    }
     if (!form.role) e.role = "Role is required";
-    if (form.phone && !String(form.phone).replace(/\D/g, "").match(/^\d{7,}$/)) {
-      e.phone = "Enter a valid phone number";
+    const digits = form.phone.replace(/\D/g, ""); // keep only digits
+    if (!digits) {
+      e.phone = "Phone number is required";
+    } else if (!/^[79]\d{7}$/.test(digits)) {
+      e.phone = "Phone must start with 7 or 9 and be exactly 8 digits";
     }
     return e;
   };
