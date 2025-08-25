@@ -16,7 +16,7 @@ function getDisplayPages(current, total) {
 
 export default function InventoryList() {
   const navigate = useNavigate();
-
+  const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [stockFilter, setStockFilter] = useState("all");
   const [items, setItems] = useState([]);
@@ -38,11 +38,29 @@ export default function InventoryList() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryFilter, stockFilter]);
 
-  const total = items.length;
+  // client-side search just resets to page 1
+  useEffect(() => {
+    setPage(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search]);
+
+  const filteredBySearch = search.trim()
+  ? items.filter((p) => {
+     const q = search.trim().toLowerCase();
+      return (
+      (p.name ?? "").toLowerCase().includes(q) ||
+      (p.sku ?? "").toLowerCase().includes(q) ||
+      (p.category ?? "").toLowerCase().includes(q)
+     );
+  })
+ : items;
+
+  const total = filteredBySearch.length;
   const pageCount = Math.max(1, Math.ceil(total / rowsPerPage));
   const start = (page - 1) * rowsPerPage;
   const end = start + rowsPerPage;
-  const pagedItems = items.slice(start, end);
+  const pagedItems = filteredBySearch.slice(start, end);
+
 
   async function loadData() {
     try {
@@ -126,6 +144,7 @@ export default function InventoryList() {
   // Placeholder image URL - you can replace this with your own placeholder
   const placeholderImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%23f3f4f6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-size='14' fill='%236b7280'%3ENo Image%3C/text%3E%3C/svg%3E";
 
+
   if (loading && items.length === 0) {
     return (
       <div className="p-6 max-w-[1400px] mx-auto">
@@ -172,6 +191,21 @@ export default function InventoryList() {
             </button>
           </div>
         </header>
+          {/* Search */}
+          <div className="mt-6">
+          <div className="flex items-center gap-2 sm:gap-[10px] border border-[#88A2FF] bg-white rounded-lg px-3 py-2">
+            <svg width="18" height="16" viewBox="0 0 24 24" fill="none" className="shrink-0">
+              <circle cx="11" cy="11" r="7" stroke="#253A82" strokeWidth="2" />
+              <path d="M20 20L17 17" stroke="#253A82" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+            <input
+              placeholder="Search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="flex-1 border-0 outline-none bg-white text-sm sm:text-[14px] text-[#253A82] min-w-0"
+            />
+          </div>
+          </div>
 
         <div className="mt-6">
           <div className="flex flex-col gap-3 items-start">
