@@ -1,7 +1,7 @@
 import React, { useRef, useState,useEffect } from "react";
-import Navbar from "../components/Navbar";
 import { useNavigate, useParams } from "react-router-dom";
 import { inventoryService } from "../services/inventory.js";
+import { uploadImage } from "../services/images.js";
 
 
 export default function AddProduct() {
@@ -26,6 +26,12 @@ export default function AddProduct() {
   const [saving, setSaving] = useState(false);
   const fileInputRef = useRef(null);
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+      return () => {
+         if (imagePreview?.startsWith("blob:")) URL.revokeObjectURL(imagePreview);
+       };
+     }, [imagePreview]);
   // Load categories once
   useEffect(() => {
     (async () => {
@@ -91,15 +97,16 @@ useEffect(() => {
     if (file) handleFile(file);
   };
   const handleFile = (file) => {
+   if (imagePreview?.startsWith("blob:")) URL.revokeObjectURL(imagePreview); // revoke old blob
     setImageFile(file);
-    const url = URL.createObjectURL(file);
-    setImagePreview(url);
+    setImagePreview(URL.createObjectURL(file)); 
   };
 
   const clearImage = () => {
-    setImageFile(null);
-    setImagePreview("");
-    if (fileInputRef.current) fileInputRef.current.value = "";
+      if (imagePreview?.startsWith("blob:")) URL.revokeObjectURL(imagePreview);
+      setImageFile(null);
+      setImagePreview("");
+      if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   const canSave =
@@ -115,6 +122,10 @@ useEffect(() => {
 
     setSaving(true);
     try {
+      let uploadedUrl = null;
+        if (imageFile) {
+        uploadedUrl = await uploadImage(imageFile);
+        }
       const payload = {
         name: form.name.trim(),
         sku: form.sku.trim(),
@@ -123,6 +134,7 @@ useEffect(() => {
         unitPrice: Number(form.unitPrice || 0),
         quantity: Number.parseInt(form.quantity || "0", 10),
         lowStockThreshold: Number.parseInt(form.lowStockThreshold || "0", 10),
+        ...(uploadedUrl ? { imageUrl: uploadedUrl } : {}),
       };
 
       if (isEdit) {
@@ -131,7 +143,7 @@ useEffect(() => {
         alert("Product updated!");
       } else {
         // CREATE: supports optional image upload
-        await inventoryService.createProduct(payload, imageFile);
+        await inventoryService.createProduct(payload);
         alert("Product created!");
         // reset only after create
         setForm({

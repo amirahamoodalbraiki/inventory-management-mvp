@@ -26,6 +26,10 @@ export default defineConfig(({ mode }) => ({
         target:'http://localhost:8080',
         changeOrigin: true,
       },
+      '/images': { 
+        target:'http://localhost:8080',
+        changeOrigin: true,
+      },
     },
   } : {},
   build: {
