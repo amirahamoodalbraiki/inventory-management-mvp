@@ -64,20 +64,24 @@ return filtered;
     }
   },
 
-  // POST /products  (multipart if image, else JSON)
+  // POST /products - Now uses FormData for both cases
   async createProduct(payload, imageFile) {
-    // If your backend expects snake_case keys, map them here instead.
+    const fd = new FormData();
+    Object.entries(payload).forEach(([k, v]) => fd.append(k, v));
     if (imageFile) {
-      const fd = new FormData();
-      Object.entries(payload).forEach(([k, v]) => fd.append(k, v));
       fd.append("image", imageFile);
-      return api.postFormData("/products", fd);
     }
-    return api.postJson("/products", payload);
+    return api.postFormData("/products", fd);
   },
 
-  async updateProduct(id, payload) {
-    return api.putJson(`/products/${id}`, payload);
+  // PUT /products/:id - Now uses FormData for updates too
+  async updateProduct(id, payload, imageFile) {
+    const fd = new FormData();
+    Object.entries(payload).forEach(([k, v]) => fd.append(k, v));
+    if (imageFile) {
+      fd.append("image", imageFile);
+    }
+    return api.putFormData(`/products/${id}`, fd);
   },
 
   async deleteProduct(id) {

@@ -14,6 +14,10 @@ export default defineConfig(({ mode }) => ({
         target:'http://localhost:8080',
         changeOrigin: true,
       },
+      '/images': {
+        target:'http://localhost:8080',
+        changeOrigin: true,
+      },
       '/stock-changes': { 
         target:'http://localhost:8080',
         changeOrigin: true,
@@ -29,6 +33,7 @@ export default defineConfig(({ mode }) => ({
     },
   } : {},
   build: {
+    sourcemap: mode === 'development',
     sourcemap: mode === 'development',
     outDir: 'dist',
     minify: mode === 'production',
