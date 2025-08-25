@@ -8,7 +8,6 @@ function authHeaders(extraHeaders = {}) {
   };
 }
 
-
 export const api = {
   async login({ email, password }) {
     const res = await fetch(`${BASE}/auth/login`, {
@@ -30,7 +29,7 @@ export const api = {
     return data;
   },
 
-  async get(path) { // ✅ added this
+  async get(path) {
     const res = await fetch(`${BASE}${path}`, {
       method: 'GET',
       headers: authHeaders(),
@@ -82,6 +81,19 @@ export const api = {
     if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
     return res.json();
   },
+
+  // Add PUT FormData method for updates
+  async putFormData(path, fd) {
+    const res = await fetch(`${BASE}${path}`, {
+      method: 'PUT',
+      body: fd,
+      credentials: 'include',
+      headers: authHeaders()
+    });
+    if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+    return res.json();
+  },
+
   async postUrlEncoded(path, urlSearchParams) {
     const res = await fetch(`${BASE}${path}`, {
       method: 'POST',

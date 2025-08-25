@@ -3,7 +3,6 @@ import Navbar from "../components/Navbar";
 import { useNavigate, useParams } from "react-router-dom";
 import { inventoryService } from "../services/inventory.js";
 
-
 export default function AddProduct() {
   const { id } = useParams();                 // <-- if present => edit mode
   const isEdit = Boolean(id);
@@ -19,13 +18,13 @@ export default function AddProduct() {
     unitPrice: "",
     quantity: "",
     lowStockThreshold: "",
-    //imageUrl: "",
   });
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
   const [saving, setSaving] = useState(false);
   const fileInputRef = useRef(null);
   const [errors, setErrors] = useState({});
+  
   // Load categories once
   useEffect(() => {
     (async () => {
@@ -40,30 +39,30 @@ export default function AddProduct() {
       }
     })();
   }, []);
-// Load existing product in edit mode
-useEffect(() => {
-  if (!isEdit) return;
-  (async () => {
-    try {
-      const p = await inventoryService.getProductById(id);
-      setForm({
-        name: p.name ?? "",
-        sku: p.sku ?? "",
-        category: p.category ?? "",
-        description: p.description ?? "",
-        unitPrice: p.unitPrice ?? "",
-        quantity: p.quantity ?? "",
-        lowStockThreshold: p.lowStockThreshold ?? "",
-        //imageUrl: p.imageUrl ?? "",
-      });
-      if (p.imageUrl) setImagePreview(p.imageUrl);
-    } catch (e) {
-      console.error(e);
-      alert("Failed to load product for editing.");
-      navigate("/inventory");
-    }
-  })();
-}, [id, isEdit, navigate]);
+
+  // Load existing product in edit mode
+  useEffect(() => {
+    if (!isEdit) return;
+    (async () => {
+      try {
+        const p = await inventoryService.getProductById(id);
+        setForm({
+          name: p.name ?? "",
+          sku: p.sku ?? "",
+          category: p.category ?? "",
+          description: p.description ?? "",
+          unitPrice: p.unitPrice ?? "",
+          quantity: p.quantity ?? "",
+          lowStockThreshold: p.lowStockThreshold ?? "",
+        });
+        if (p.imageUrl) setImagePreview(p.imageUrl);
+      } catch (e) {
+        console.error(e);
+        alert("Failed to load product for editing.");
+        navigate("/inventory");
+      }
+    })();
+  }, [id, isEdit, navigate]);
 
   const validate = (f) => {
     const e = {};
@@ -126,11 +125,11 @@ useEffect(() => {
       };
 
       if (isEdit) {
-        // EDIT: update only fields (image update depends on your backend)
-        await inventoryService.updateProduct(id, payload);
+        // EDIT: update with optional image
+        await inventoryService.updateProduct(id, payload, imageFile);
         alert("Product updated!");
       } else {
-        // CREATE: supports optional image upload
+        // CREATE: create with optional image
         await inventoryService.createProduct(payload, imageFile);
         alert("Product created!");
         // reset only after create
@@ -155,11 +154,6 @@ useEffect(() => {
   };
 
   const handleCancel = () => {
-    /*setForm({
-      name: "", sku: "", category: "", description: "",
-      unitPrice: "", quantity: "", lowStockThreshold: "",
-    });
-    clearImage();*/
     navigate("/inventory");
   };
 

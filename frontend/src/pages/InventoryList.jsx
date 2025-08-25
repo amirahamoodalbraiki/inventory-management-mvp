@@ -117,15 +117,18 @@ export default function InventoryList() {
                : status === "low" ? "Low-stock"
                : "In-stock";
     return (
-      <span className="flex items-center justify-center px-3 py-1.5 rounded-lg text-[12px] font-medium text-[#253A82] bg-[#88A2FF]/20 border border-[#88A2FF] whitespace-nowrap">
+      <span className="flex items-center justify-center px-4 py-2 rounded-lg text-[14px] font-medium text-[#253A82] bg-[#88A2FF]/20 border border-[#88A2FF] whitespace-nowrap">
         {text}
       </span>
     );
   }
 
+  // Placeholder image URL - you can replace this with your own placeholder
+  const placeholderImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%23f3f4f6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-size='14' fill='%236b7280'%3ENo Image%3C/text%3E%3C/svg%3E";
+
   if (loading && items.length === 0) {
     return (
-      <div className="p-6 max-w-[1200px] mx-auto">
+      <div className="p-6 max-w-[1400px] mx-auto">
         <div className="text-center py-10 text-[#253A82]">Loading inventory…</div>
       </div>
     );
@@ -133,7 +136,7 @@ export default function InventoryList() {
 
   if (error) {
     return (
-      <div className="p-6 max-w-[1200px] mx-auto">
+      <div className="p-6 max-w-[1400px] mx-auto">
         <div className="text-center py-10">
           <div className="text-[#B42318] mb-3">{error}</div>
           <button
@@ -149,7 +152,7 @@ export default function InventoryList() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      <div className="w-full max-w-[1200px] mx-auto px-3 sm:px-6 lg:px-8 py-6">
+      <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-6 lg:px-8 py-6">
       <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#253A82]">
             Products
@@ -206,43 +209,54 @@ export default function InventoryList() {
 
         <section className="mt-4">
         <div className="border border-[#88A2FF] rounded-lg bg-white shadow-sm overflow-x-auto">
-            <table className="min-w-full text-sm sm:text-base">
+            <table className="min-w-full text-base">
               <thead>
                 <tr className="bg-[#88A2FF]/20">
-                  <th className="text-left px-4 py-3 border-b border-[#88A2FF] font-semibold text-[13px] text-[#253A82]">Product Name</th>
-                  <th className="text-left px-4 py-3 border-b border-[#88A2FF] font-semibold text-[13px] text-[#253A82]">SKU</th>
-                  <th className="text-left px-4 py-3 border-b border-[#88A2FF] font-semibold text-[13px] text-[#253A82]">Category</th>
-                  <th className="text-left px-4 py-3 border-b border-[#88A2FF] font-semibold text-[13px] text-[#253A82]">Quantity</th>
-                  <th className="text-left px-4 py-3 border-b border-[#88A2FF] font-semibold text-[13px] text-[#253A82]">Low Stock Status</th>
-                  <th className="text-left px-4 py-3 border-b border-[#88A2FF] font-semibold text-[13px] text-[#253A82]">Actions</th>
+                  <th className="text-left px-6 py-4 border-b border-[#88A2FF] font-semibold text-[15px] text-[#253A82]">Image</th>
+                  <th className="text-left px-6 py-4 border-b border-[#88A2FF] font-semibold text-[15px] text-[#253A82]">Product Name</th>
+                  <th className="text-left px-6 py-4 border-b border-[#88A2FF] font-semibold text-[15px] text-[#253A82]">SKU</th>
+                  <th className="text-left px-6 py-4 border-b border-[#88A2FF] font-semibold text-[15px] text-[#253A82]">Category</th>
+                  <th className="text-left px-6 py-4 border-b border-[#88A2FF] font-semibold text-[15px] text-[#253A82]">Quantity</th>
+                  <th className="text-left px-6 py-4 border-b border-[#88A2FF] font-semibold text-[15px] text-[#253A82]">Low Stock Status</th>
+                  <th className="text-left px-6 py-4 border-b border-[#88A2FF] font-semibold text-[15px] text-[#253A82]">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {pagedItems.map((item) => (
-                  <tr key={item.id} className="border-b border-[#88A2FF]">
-                    <td className="px-2 sm:px-4 py-2 sm:py-[14px] text-sm text-[#253A82]">{item.name}</td>
-                    <td className="px-2 sm:px-4 py-2 sm:py-[14px] text-sm text-[#253A82]">{item.sku}</td>
-                    <td className="px-2 sm:px-4 py-2 sm:py-[14px] text-sm text-[#253A82]">{item.category}</td>
-                    <td className="px-2 sm:px-4 py-2 sm:py-[14px] text-sm text-[#253A82]">{item.quantity}</td>
-                    <td className="px-2 sm:px-4 py-2 sm:py-[14px] text-sm text-[#253A82]">{renderStatusBadge(item.quantity, item.lowStockThreshold)}</td>
-                    <td className="px-2 sm:px-4 py-2 sm:py-[14px] text-sm text-[#253A82]">
-                      <div className="flex gap-2">
+                  <tr key={item.id} className="border-b border-[#88A2FF] hover:bg-[#88A2FF]/5">
+                    <td className="px-6 py-5 text-[#253A82]">
+                      <img 
+                        src={item.imageUrl || placeholderImage}
+                        alt={item.name || 'Product'}
+                        className="w-20 h-20 object-cover rounded-lg border border-[#88A2FF] shadow-sm"
+                        onError={(e) => {
+                          e.target.src = placeholderImage;
+                        }}
+                      />
+                    </td>
+                    <td className="px-6 py-5 text-[16px] text-[#253A82] font-medium">{item.name}</td>
+                    <td className="px-6 py-5 text-[16px] text-[#253A82]">{item.sku}</td>
+                    <td className="px-6 py-5 text-[16px] text-[#253A82]">{item.category}</td>
+                    <td className="px-6 py-5 text-[16px] text-[#253A82] font-semibold">{item.quantity}</td>
+                    <td className="px-6 py-5 text-[#253A82]">{renderStatusBadge(item.quantity, item.lowStockThreshold)}</td>
+                    <td className="px-6 py-5 text-[#253A82]">
+                      <div className="flex gap-3 items-center">
                         <button
                           onClick={() => handleAdjust(item)}
-                          className="bg-transparent border-0 p-0 cursor-pointer text-[#253A82] font-bold">
+                          className="bg-transparent border-0 p-0 cursor-pointer text-[#253A82] font-bold text-[15px] hover:text-[#1d2951]">
                           Adjust
                         </button>
                         <span className="text-[#88A2FF]">|</span>
-                        <button onClick={() => handleEdit(item)} className="bg-transparent border-0 p-0 cursor-pointer text-[#253A82] font-bold">Edit</button>
+                        <button onClick={() => handleEdit(item)} className="bg-transparent border-0 p-0 cursor-pointer text-[#253A82] font-bold text-[15px] hover:text-[#1d2951]">Edit</button>
                         <span className="text-[#88A2FF]">|</span>
-                        <button onClick={() => handleDelete(item.id)} className="bg-transparent border-0 p-0 cursor-pointer text-[#253A82] font-bold">Delete</button>
+                        <button onClick={() => handleDelete(item.id)} className="bg-transparent border-0 p-0 cursor-pointer text-[#253A82] font-bold text-[15px] hover:text-[#1d2951]">Delete</button>
                       </div>
                     </td>
                   </tr>
                 ))}
                 {pagedItems.length === 0 && (
                   <tr>
-                    <td colSpan={6} className="px-4 py-[14px] text-center text-[#253A82]">No items found</td>
+                    <td colSpan={7} className="px-6 py-8 text-center text-[#253A82] text-[16px]">No items found</td>
                   </tr>
                 )}
               </tbody>

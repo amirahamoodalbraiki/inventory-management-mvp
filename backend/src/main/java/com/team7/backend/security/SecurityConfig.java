@@ -28,7 +28,7 @@ public class SecurityConfig {
       .csrf(csrf -> csrf.disable())
       .cors().and()
       .authorizeHttpRequests(auth -> auth
-        .requestMatchers("/auth/login", "/h2-console/**").permitAll()
+        .requestMatchers("/auth/login", "/h2-console/**", "/images/**").permitAll() // Added /images/**
         .anyRequest().authenticated()
       )
       .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin())) // 🔹 allow H2 console frames
